@@ -5,9 +5,11 @@ publish-wheel:
     image: cds-ops/ubuntu-18.04-python3.8:stable
     flavor: b1.large
   commands:
+    - echo -m "\n" >> .pypirc
     - echo -n "username:" >> .pypirc
     - echo -n " " >> .pypirc
     - echo $IT_ARTIFACTORY_USER >> .pypirc
+    - echo -m "\n" >> .pypirc
     - echo -n "password:" >> .pypirc
     - echo -n " " >> .pypirc
     - echo $IT_ARTIFACTORY_PASSWORD >> .pypirc
