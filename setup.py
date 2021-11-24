@@ -1,4 +1,4 @@
-import setuptools
+from setuptools import setup
 import io
 import os
 
@@ -34,12 +34,12 @@ else:
 with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
 
-setuptools.setup(
+setup(
     name=NAME,
     version=about["__version__"],
     description=DESCRIPTION,
     long_description=long_description,
-    long_description_content_type="text/markdown",
+    # long_description_content_type="text/markdown",
     author=AUTHOR,
     author_email=EMAIL,
     python_requires=REQUIRES_PYTHON,
