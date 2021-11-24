@@ -1,0 +1,85 @@
+syntax = "proto3";
+
+import "google/protobuf/any.proto";
+
+package unity.solo;
+
+
+/*
+captures:
+    - type.unity.com/unity.solo.RGBCamera
+annotations:
+    - type.unity.com/unity.solo.BoundingBox2DAnnotation
+    - type.unity.com/unity.solo.BoundingBox3DAnnotation
+    - type.unity.com/unity.solo.InstanceSegmentationAnnotation
+ */
+
+message Frame {
+    uint32 frame = 1;
+    uint32 sequence = 2;
+    uint32 step = 3;
+    repeated google.protobuf.Any captures = 4;
+}
+
+message Metric {}
+
+message RGBCamera {
+    string Id = 2;
+    string sensorType = 3;
+    repeated double  position = 4;
+    repeated double  rotation = 5;
+    repeated float  velocity = 6;
+    repeated float  acceleration = 7;
+    string fileName = 8;
+    string imageFormat = 9;
+    repeated float dimension = 10;
+    repeated google.protobuf.Any annotations = 11;
+}
+
+message BoundingBox2DAnnotation {
+    string Id = 1;
+    string definition = 2;
+    int32 sequence = 3;
+    int32 step = 4;
+    string sensor = 5;
+    string imageFormat = 6;
+    repeated BoundingBox2DLabel values = 7;
+}
+
+message BoundingBox2DLabel {
+    uint32 frame = 1;
+    string label_name = 2;
+    uint32 instance_id = 3;
+    repeated double origin = 4;
+    repeated double dimension = 5;
+}
+
+message BoundingBox3DAnnotation {
+    string Id = 1;
+    repeated BoundingBox3DLabel values = 4;
+}
+
+message BoundingBox3DLabel {
+    string label_name = 1;
+    repeated double translation = 2;
+    repeated double size = 3;
+    repeated double rotation = 4;
+}
+
+
+message InstanceSegmentationAnnotation {
+    string Id = 1;
+    string definition = 2;
+    int32 sequence = 3;
+    int32 step = 4;
+    string sensor = 5;
+    optional string imageFormat = 6;
+    repeated int32 dimension = 7;
+    string imagePath = 8;
+    repeated InstanceSegmentationLabel values = 9;
+}
+
+message InstanceSegmentationLabel {
+    int32 instance_id = 1;
+    repeated uint32 rgba = 2;
+}
