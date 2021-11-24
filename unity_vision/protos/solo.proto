@@ -12,6 +12,8 @@ annotations:
     - type.unity.com/unity.solo.BoundingBox2DAnnotation
     - type.unity.com/unity.solo.BoundingBox3DAnnotation
     - type.unity.com/unity.solo.InstanceSegmentationAnnotation
+    - type.unity.com/unity.solo.SemanticSegmentationAnnotation
+    - type.unity.com/unity.solo.KeypointAnnotation
  */
 
 message Frame {
@@ -24,62 +26,101 @@ message Frame {
 message Metric {}
 
 message RGBCamera {
-    string Id = 2;
-    string sensorType = 3;
-    repeated double  position = 4;
+    string id = 2;
+    string description = 3;
+    repeated double position = 4;
     repeated double  rotation = 5;
     repeated float  velocity = 6;
     repeated float  acceleration = 7;
-    string fileName = 8;
+    string filename = 8;
     string imageFormat = 9;
     repeated float dimension = 10;
-    repeated google.protobuf.Any annotations = 11;
+    string projection = 11;
+    repeated float matrix = 12;
+    repeated google.protobuf.Any annotations = 13;
 }
 
 message BoundingBox2DAnnotation {
-    string Id = 1;
-    string definition = 2;
-    int32 sequence = 3;
-    int32 step = 4;
-    string sensor = 5;
-    string imageFormat = 6;
-    repeated BoundingBox2DLabel values = 7;
+    string id = 1;
+    string sensorId = 2;
+    string description = 3;
+    repeated BoundingBox2DLabel values = 4;
 }
 
 message BoundingBox2DLabel {
-    uint32 frame = 1;
-    string label_name = 2;
-    uint32 instance_id = 3;
+    uint32 instanceId = 1;
+    uint32 labelId = 2;
+    string labelName = 3;
     repeated double origin = 4;
     repeated double dimension = 5;
 }
 
 message BoundingBox3DAnnotation {
-    string Id = 1;
+    string id = 1;
+    string sensorId = 2;
+    string description = 3;
     repeated BoundingBox3DLabel values = 4;
 }
 
 message BoundingBox3DLabel {
-    string label_name = 1;
-    repeated double translation = 2;
-    repeated double size = 3;
-    repeated double rotation = 4;
+    uint32 instanceId = 1;
+    uint32 labelId = 2;
+    string labelName = 3;
+    repeated double translation = 4;
+    repeated double size = 5;
+    repeated double rotation = 6;
 }
 
 
 message InstanceSegmentationAnnotation {
-    string Id = 1;
-    string definition = 2;
-    int32 sequence = 3;
-    int32 step = 4;
-    string sensor = 5;
-    optional string imageFormat = 6;
-    repeated int32 dimension = 7;
-    string imagePath = 8;
-    repeated InstanceSegmentationLabel values = 9;
+    string id = 1;
+    string sensorId = 2;
+    string description = 3;
+    string imageFormat = 4;
+    repeated int32 dimension = 5;
+    string filename = 6;
+    repeated InstanceSegmentationLabel instances = 7;
 }
 
 message InstanceSegmentationLabel {
-    int32 instance_id = 1;
-    repeated uint32 rgba = 2;
+    int32 instanceId = 1;
+    int32 labelId = 2;
+    string labelName = 3;
+    repeated uint32 color = 4;
+}
+
+message SemanticSegmentationAnnotation {
+    string id = 1;
+    string sensorId = 2;
+    string description = 3;
+    optional string imageFormat = 4;
+    repeated int32 dimension = 5;
+    string filename = 6;
+    repeated SemanticSegmentationLabel instances = 7;
+}
+
+message SemanticSegmentationLabel {
+    string labelName = 1;
+    repeated uint32 pixelValue = 2;
+}
+
+message KeypointAnnotation {
+    string id = 1;
+    string sensorId = 2;
+    string description = 3;
+    string templateId = 4;
+    repeated KeypointLabel values = 5;
+}
+
+message KeypointLabel {
+    uint32 instanceId = 1;
+    uint32 labelId = 2;
+    string pose = 3;
+    repeated KeypointValue keypoints = 4;
+}
+
+message KeypointValue {
+    uint32 index = 1;
+    repeated double location = 2;
+    int32 state = 3;
 }

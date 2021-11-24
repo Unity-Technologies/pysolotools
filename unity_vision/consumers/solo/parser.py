@@ -20,12 +20,14 @@ from typing import Iterable
 
 from google.protobuf.json_format import MessageToDict, Parse
 
-from unity_vision.protos.solo_pb2 import (
+from UnityVisionHub.tools.consumers.protos.solo_pb2 import (
     BoundingBox2DAnnotation,
     BoundingBox3DAnnotation,
     Frame,
     InstanceSegmentationAnnotation,
+    SemanticSegmentationAnnotation,
     RGBCamera,
+    KeypointAnnotation,
 )
 
 __SENSORS__ = [
@@ -35,6 +37,8 @@ __SENSORS__ = [
             BoundingBox2DAnnotation,
             BoundingBox3DAnnotation,
             InstanceSegmentationAnnotation,
+            SemanticSegmentationAnnotation,
+            KeypointAnnotation,
         ],
     }
 ]
@@ -104,8 +108,11 @@ class SoloBase(ABC):
         sensors = self._unpack_sensors(frame.captures)
         return sensors
 
+        #return json.load(f)
+
     def sensors(self):
-        return list(self.sensor_pool.keys())
+        return list(self.sensor_pool.values())
+        #return list(self.sensor_pool.keys())
 
     @abstractmethod
     def register_annotation_to_sensor(self, sensor, annotation):
@@ -137,7 +144,16 @@ class Solo(SoloBase):
         super().__init__()
         self.frame_pool = list()
         self.path = path
-        self.sequence_idx = start
+        self.frame_idx = start
+
+        # read in the metadata file. That will get us the total number of frames, sequences, and steps per seq
+        metadata_file = open(f"{self.path}/metadata.json")
+        metadata = json.load(metadata_file)
+
+        self.total_frames = metadata["totalFrames"]
+        self.total_sequences = metadata["totalSequences"]
+        self.steps_per_sequence = (int)(self.total_frames / self.total_sequences)
+
         if not end:
             self.end = self.__len__()
         else:
@@ -160,6 +176,24 @@ class Solo(SoloBase):
         if annotation.DESCRIPTOR.full_name not in sensor_data["annotations"].keys():
             sensor_data["annotations"][annotation.DESCRIPTOR.full_name] = annotation()
 
+    def __load_frame__(self, frame):
+        self.frame_idx = frame;
+        sequence = (int)(frame / self.steps_per_sequence)
+        step = frame % self.steps_per_sequence
+        self.sequence_path = f"{self.path}/sequence.{sequence}/"
+        filename = f"{self.sequence_path}/step{step}.frame_data.json"
+        return self.parse_frame(filename)
+
+    def __load_sequence_step__(self, sequence, step):
+        frame = (sequence * self.steps_per_sequence) + step
+        return self.__load_frame__(frame)
+
+    def jump_to_seq_step(self, sequence, step):
+        return self.__load_sequence_step__(sequence, step)
+
+    def jump_to(self, index):
+        return self.__load_frame__(index)
+
     def __iter__(self):
         return self
 
@@ -167,10 +201,12 @@ class Solo(SoloBase):
         if self.sequence_idx >= self.end:
             raise StopIteration
 
+        return self.__load_frame__(self.frame_idx + 1)
+
         # TODO: Add some validations to check if there are more frames in a sequence.
-        frame_file = f"{self.path}/sequence.{self.sequence_idx}/step0.frame_data.json"
-        self.sequence_idx += 1
-        return self.parse_frame(frame_file)
+#        frame_file = f"{self.path}/sequence.{self.sequence_idx}/step0.frame_data.json"
+#        self.sequence_idx += 1
+#        return self.parse_frame(frame_file)
 
         # data = dict()
         # for s in sensors.values():
@@ -181,7 +217,7 @@ class Solo(SoloBase):
         # return data
 
     def __len__(self):
-        return len(glob.glob(f"{self.path}/sequence.*"))
+        return self.total_frames
 
 
 class SoloSequence(SoloBase):
