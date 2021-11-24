@@ -13,6 +13,7 @@ publish-wheel:
     - echo -n "password:" >> .pypirc
     - echo -n " " >> .pypirc
     - echo $IT_ARTIFACTORY_PASSWORD >> .pypirc
+    - cat .pypirc
     - sudo cp .pypirc $HOME
     - python3 setup.py sdist bdist_wheel upload -r local
   triggers:
