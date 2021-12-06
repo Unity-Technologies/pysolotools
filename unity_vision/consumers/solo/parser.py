@@ -20,7 +20,7 @@ from typing import Iterable
 
 from google.protobuf.json_format import MessageToDict, Parse
 
-from UnityVisionHub.tools.consumers.protos.solo_pb2 import (
+from unity_vision.protos.solo_pb2 import (
     BoundingBox2DAnnotation,
     BoundingBox3DAnnotation,
     Frame,
