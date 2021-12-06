@@ -20,7 +20,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto3',
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\x11protos/solo.proto\x12\nunity.solo\x1a\x19google/protobuf/any.proto\"^\n\x05\x46rame\x12\r\n\x05\x66rame\x18\x01 \x01(\r\x12\x10\n\x08sequence\x18\x02 \x01(\r\x12\x0c\n\x04step\x18\x03 \x01(\r\x12&\n\x08\x63\x61ptures\x18\x04 \x03(\x0b\x32\x14.google.protobuf.Any\"\x08\n\x06Metric\"\xdc\x01\n\tRGBCamera\x12\n\n\x02Id\x18\x02 \x01(\t\x12\x12\n\nsensorType\x18\x03 \x01(\t\x12\x10\n\x08position\x18\x04 \x03(\x01\x12\x10\n\x08rotation\x18\x05 \x03(\x01\x12\x10\n\x08velocity\x18\x06 \x03(\x02\x12\x14\n\x0c\x61\x63\x63\x65leration\x18\x07 \x03(\x02\x12\x10\n\x08\x66ileName\x18\x08 \x01(\t\x12\x13\n\x0bimageFormat\x18\t \x01(\t\x12\x11\n\tdimension\x18\n \x03(\x02\x12)\n\x0b\x61nnotations\x18\x0b \x03(\x0b\x32\x14.google.protobuf.Any\"\xae\x01\n\x17\x42oundingBox2DAnnotation\x12\n\n\x02Id\x18\x01 \x01(\t\x12\x12\n\ndefinition\x18\x02 \x01(\t\x12\x10\n\x08sequence\x18\x03 \x01(\x05\x12\x0c\n\x04step\x18\x04 \x01(\x05\x12\x0e\n\x06sensor\x18\x05 \x01(\t\x12\x13\n\x0bimageFormat\x18\x06 \x01(\t\x12.\n\x06values\x18\x07 \x03(\x0b\x32\x1e.unity.solo.BoundingBox2DLabel\"o\n\x12\x42oundingBox2DLabel\x12\r\n\x05\x66rame\x18\x01 \x01(\r\x12\x12\n\nlabel_name\x18\x02 \x01(\t\x12\x13\n\x0binstance_id\x18\x03 \x01(\r\x12\x0e\n\x06origin\x18\x04 \x03(\x01\x12\x11\n\tdimension\x18\x05 \x03(\x01\"U\n\x17\x42oundingBox3DAnnotation\x12\n\n\x02Id\x18\x01 \x01(\t\x12.\n\x06values\x18\x04 \x03(\x0b\x32\x1e.unity.solo.BoundingBox3DLabel\"]\n\x12\x42oundingBox3DLabel\x12\x12\n\nlabel_name\x18\x01 \x01(\t\x12\x13\n\x0btranslation\x18\x02 \x03(\x01\x12\x0c\n\x04size\x18\x03 \x03(\x01\x12\x10\n\x08rotation\x18\x04 \x03(\x01\"\xf7\x01\n\x1eInstanceSegmentationAnnotation\x12\n\n\x02Id\x18\x01 \x01(\t\x12\x12\n\ndefinition\x18\x02 \x01(\t\x12\x10\n\x08sequence\x18\x03 \x01(\x05\x12\x0c\n\x04step\x18\x04 \x01(\x05\x12\x0e\n\x06sensor\x18\x05 \x01(\t\x12\x18\n\x0bimageFormat\x18\x06 \x01(\tH\x00\x88\x01\x01\x12\x11\n\tdimension\x18\x07 \x03(\x05\x12\x11\n\timagePath\x18\x08 \x01(\t\x12\x35\n\x06values\x18\t \x03(\x0b\x32%.unity.solo.InstanceSegmentationLabelB\x0e\n\x0c_imageFormat\">\n\x19InstanceSegmentationLabel\x12\x13\n\x0binstance_id\x18\x01 \x01(\x05\x12\x0c\n\x04rgba\x18\x02 \x03(\rb\x06proto3'
+  serialized_pb=b'\n\x11protos/solo.proto\x12\nunity.solo\x1a\x19google/protobuf/any.proto\"^\n\x05\x46rame\x12\r\n\x05\x66rame\x18\x01 \x01(\r\x12\x10\n\x08sequence\x18\x02 \x01(\r\x12\x0c\n\x04step\x18\x03 \x01(\r\x12&\n\x08\x63\x61ptures\x18\x04 \x03(\x0b\x32\x14.google.protobuf.Any\"\x08\n\x06Metric\"\x81\x02\n\tRGBCamera\x12\n\n\x02id\x18\x02 \x01(\t\x12\x13\n\x0b\x64\x65scription\x18\x03 \x01(\t\x12\x10\n\x08position\x18\x04 \x03(\x01\x12\x10\n\x08rotation\x18\x05 \x03(\x01\x12\x10\n\x08velocity\x18\x06 \x03(\x02\x12\x14\n\x0c\x61\x63\x63\x65leration\x18\x07 \x03(\x02\x12\x10\n\x08\x66ilename\x18\x08 \x01(\t\x12\x13\n\x0bimageFormat\x18\t \x01(\t\x12\x11\n\tdimension\x18\n \x03(\x02\x12\x12\n\nprojection\x18\x0b \x01(\t\x12\x0e\n\x06matrix\x18\x0c \x03(\x02\x12)\n\x0b\x61nnotations\x18\r \x03(\x0b\x32\x14.google.protobuf.Any\"|\n\x17\x42oundingBox2DAnnotation\x12\n\n\x02id\x18\x01 \x01(\t\x12\x10\n\x08sensorId\x18\x02 \x01(\t\x12\x13\n\x0b\x64\x65scription\x18\x03 \x01(\t\x12.\n\x06values\x18\x04 \x03(\x0b\x32\x1e.unity.solo.BoundingBox2DLabel\"o\n\x12\x42oundingBox2DLabel\x12\x12\n\ninstanceId\x18\x01 \x01(\r\x12\x0f\n\x07labelId\x18\x02 \x01(\r\x12\x11\n\tlabelName\x18\x03 \x01(\t\x12\x0e\n\x06origin\x18\x04 \x03(\x01\x12\x11\n\tdimension\x18\x05 \x03(\x01\"|\n\x17\x42oundingBox3DAnnotation\x12\n\n\x02id\x18\x01 \x01(\t\x12\x10\n\x08sensorId\x18\x02 \x01(\t\x12\x13\n\x0b\x64\x65scription\x18\x03 \x01(\t\x12.\n\x06values\x18\x04 \x03(\x0b\x32\x1e.unity.solo.BoundingBox3DLabel\"\x81\x01\n\x12\x42oundingBox3DLabel\x12\x12\n\ninstanceId\x18\x01 \x01(\r\x12\x0f\n\x07labelId\x18\x02 \x01(\r\x12\x11\n\tlabelName\x18\x03 \x01(\t\x12\x13\n\x0btranslation\x18\x04 \x03(\x01\x12\x0c\n\x04size\x18\x05 \x03(\x01\x12\x10\n\x08rotation\x18\x06 \x03(\x01\"\xc7\x01\n\x1eInstanceSegmentationAnnotation\x12\n\n\x02id\x18\x01 \x01(\t\x12\x10\n\x08sensorId\x18\x02 \x01(\t\x12\x13\n\x0b\x64\x65scription\x18\x03 \x01(\t\x12\x13\n\x0bimageFormat\x18\x04 \x01(\t\x12\x11\n\tdimension\x18\x05 \x03(\x05\x12\x10\n\x08\x66ilename\x18\x06 \x01(\t\x12\x38\n\tinstances\x18\x07 \x03(\x0b\x32%.unity.solo.InstanceSegmentationLabel\"b\n\x19InstanceSegmentationLabel\x12\x12\n\ninstanceId\x18\x01 \x01(\x05\x12\x0f\n\x07labelId\x18\x02 \x01(\x05\x12\x11\n\tlabelName\x18\x03 \x01(\t\x12\r\n\x05\x63olor\x18\x04 \x03(\r\"\xdc\x01\n\x1eSemanticSegmentationAnnotation\x12\n\n\x02id\x18\x01 \x01(\t\x12\x10\n\x08sensorId\x18\x02 \x01(\t\x12\x13\n\x0b\x64\x65scription\x18\x03 \x01(\t\x12\x18\n\x0bimageFormat\x18\x04 \x01(\tH\x00\x88\x01\x01\x12\x11\n\tdimension\x18\x05 \x03(\x05\x12\x10\n\x08\x66ilename\x18\x06 \x01(\t\x12\x38\n\tinstances\x18\x07 \x03(\x0b\x32%.unity.solo.SemanticSegmentationLabelB\x0e\n\x0c_imageFormat\"B\n\x19SemanticSegmentationLabel\x12\x11\n\tlabelName\x18\x01 \x01(\t\x12\x12\n\npixelValue\x18\x02 \x03(\r\"\x86\x01\n\x12KeypointAnnotation\x12\n\n\x02id\x18\x01 \x01(\t\x12\x10\n\x08sensorId\x18\x02 \x01(\t\x12\x13\n\x0b\x64\x65scription\x18\x03 \x01(\t\x12\x12\n\ntemplateId\x18\x04 \x01(\t\x12)\n\x06values\x18\x05 \x03(\x0b\x32\x19.unity.solo.KeypointLabel\"p\n\rKeypointLabel\x12\x12\n\ninstanceId\x18\x01 \x01(\r\x12\x0f\n\x07labelId\x18\x02 \x01(\r\x12\x0c\n\x04pose\x18\x03 \x01(\t\x12,\n\tkeypoints\x18\x04 \x03(\x0b\x32\x19.unity.solo.KeypointValue\"?\n\rKeypointValue\x12\r\n\x05index\x18\x01 \x01(\r\x12\x10\n\x08location\x18\x02 \x03(\x01\x12\r\n\x05state\x18\x03 \x01(\x05\x62\x06proto3'
   ,
   dependencies=[google_dot_protobuf_dot_any__pb2.DESCRIPTOR,])
 
@@ -114,14 +114,14 @@ _RGBCAMERA = _descriptor.Descriptor(
   create_key=_descriptor._internal_create_key,
   fields=[
     _descriptor.FieldDescriptor(
-      name='Id', full_name='unity.solo.RGBCamera.Id', index=0,
+      name='id', full_name='unity.solo.RGBCamera.id', index=0,
       number=2, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='sensorType', full_name='unity.solo.RGBCamera.sensorType', index=1,
+      name='description', full_name='unity.solo.RGBCamera.description', index=1,
       number=3, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
@@ -156,7 +156,7 @@ _RGBCAMERA = _descriptor.Descriptor(
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='fileName', full_name='unity.solo.RGBCamera.fileName', index=6,
+      name='filename', full_name='unity.solo.RGBCamera.filename', index=6,
       number=8, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
@@ -177,8 +177,22 @@ _RGBCAMERA = _descriptor.Descriptor(
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='annotations', full_name='unity.solo.RGBCamera.annotations', index=9,
-      number=11, type=11, cpp_type=10, label=3,
+      name='projection', full_name='unity.solo.RGBCamera.projection', index=9,
+      number=11, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='matrix', full_name='unity.solo.RGBCamera.matrix', index=10,
+      number=12, type=2, cpp_type=6, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='annotations', full_name='unity.solo.RGBCamera.annotations', index=11,
+      number=13, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
@@ -196,7 +210,7 @@ _RGBCAMERA = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=167,
-  serialized_end=387,
+  serialized_end=424,
 )
 
 
@@ -209,50 +223,29 @@ _BOUNDINGBOX2DANNOTATION = _descriptor.Descriptor(
   create_key=_descriptor._internal_create_key,
   fields=[
     _descriptor.FieldDescriptor(
-      name='Id', full_name='unity.solo.BoundingBox2DAnnotation.Id', index=0,
+      name='id', full_name='unity.solo.BoundingBox2DAnnotation.id', index=0,
       number=1, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='definition', full_name='unity.solo.BoundingBox2DAnnotation.definition', index=1,
+      name='sensorId', full_name='unity.solo.BoundingBox2DAnnotation.sensorId', index=1,
       number=2, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='sequence', full_name='unity.solo.BoundingBox2DAnnotation.sequence', index=2,
-      number=3, type=5, cpp_type=1, label=1,
-      has_default_value=False, default_value=0,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-    _descriptor.FieldDescriptor(
-      name='step', full_name='unity.solo.BoundingBox2DAnnotation.step', index=3,
-      number=4, type=5, cpp_type=1, label=1,
-      has_default_value=False, default_value=0,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-    _descriptor.FieldDescriptor(
-      name='sensor', full_name='unity.solo.BoundingBox2DAnnotation.sensor', index=4,
-      number=5, type=9, cpp_type=9, label=1,
+      name='description', full_name='unity.solo.BoundingBox2DAnnotation.description', index=2,
+      number=3, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='imageFormat', full_name='unity.solo.BoundingBox2DAnnotation.imageFormat', index=5,
-      number=6, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=b"".decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-    _descriptor.FieldDescriptor(
-      name='values', full_name='unity.solo.BoundingBox2DAnnotation.values', index=6,
-      number=7, type=11, cpp_type=10, label=3,
+      name='values', full_name='unity.solo.BoundingBox2DAnnotation.values', index=3,
+      number=4, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
@@ -269,8 +262,8 @@ _BOUNDINGBOX2DANNOTATION = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=390,
-  serialized_end=564,
+  serialized_start=426,
+  serialized_end=550,
 )
 
 
@@ -283,23 +276,23 @@ _BOUNDINGBOX2DLABEL = _descriptor.Descriptor(
   create_key=_descriptor._internal_create_key,
   fields=[
     _descriptor.FieldDescriptor(
-      name='frame', full_name='unity.solo.BoundingBox2DLabel.frame', index=0,
+      name='instanceId', full_name='unity.solo.BoundingBox2DLabel.instanceId', index=0,
       number=1, type=13, cpp_type=3, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='label_name', full_name='unity.solo.BoundingBox2DLabel.label_name', index=1,
-      number=2, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=b"".decode('utf-8'),
+      name='labelId', full_name='unity.solo.BoundingBox2DLabel.labelId', index=1,
+      number=2, type=13, cpp_type=3, label=1,
+      has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='instance_id', full_name='unity.solo.BoundingBox2DLabel.instance_id', index=2,
-      number=3, type=13, cpp_type=3, label=1,
-      has_default_value=False, default_value=0,
+      name='labelName', full_name='unity.solo.BoundingBox2DLabel.labelName', index=2,
+      number=3, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
@@ -329,8 +322,8 @@ _BOUNDINGBOX2DLABEL = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=566,
-  serialized_end=677,
+  serialized_start=552,
+  serialized_end=663,
 )
 
 
@@ -343,14 +336,28 @@ _BOUNDINGBOX3DANNOTATION = _descriptor.Descriptor(
   create_key=_descriptor._internal_create_key,
   fields=[
     _descriptor.FieldDescriptor(
-      name='Id', full_name='unity.solo.BoundingBox3DAnnotation.Id', index=0,
+      name='id', full_name='unity.solo.BoundingBox3DAnnotation.id', index=0,
       number=1, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='values', full_name='unity.solo.BoundingBox3DAnnotation.values', index=1,
+      name='sensorId', full_name='unity.solo.BoundingBox3DAnnotation.sensorId', index=1,
+      number=2, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='description', full_name='unity.solo.BoundingBox3DAnnotation.description', index=2,
+      number=3, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='values', full_name='unity.solo.BoundingBox3DAnnotation.values', index=3,
       number=4, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
@@ -368,8 +375,8 @@ _BOUNDINGBOX3DANNOTATION = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=679,
-  serialized_end=764,
+  serialized_start=665,
+  serialized_end=789,
 )
 
 
@@ -382,29 +389,43 @@ _BOUNDINGBOX3DLABEL = _descriptor.Descriptor(
   create_key=_descriptor._internal_create_key,
   fields=[
     _descriptor.FieldDescriptor(
-      name='label_name', full_name='unity.solo.BoundingBox3DLabel.label_name', index=0,
-      number=1, type=9, cpp_type=9, label=1,
+      name='instanceId', full_name='unity.solo.BoundingBox3DLabel.instanceId', index=0,
+      number=1, type=13, cpp_type=3, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='labelId', full_name='unity.solo.BoundingBox3DLabel.labelId', index=1,
+      number=2, type=13, cpp_type=3, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='labelName', full_name='unity.solo.BoundingBox3DLabel.labelName', index=2,
+      number=3, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='translation', full_name='unity.solo.BoundingBox3DLabel.translation', index=1,
-      number=2, type=1, cpp_type=5, label=3,
-      has_default_value=False, default_value=[],
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-    _descriptor.FieldDescriptor(
-      name='size', full_name='unity.solo.BoundingBox3DLabel.size', index=2,
-      number=3, type=1, cpp_type=5, label=3,
-      has_default_value=False, default_value=[],
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-    _descriptor.FieldDescriptor(
-      name='rotation', full_name='unity.solo.BoundingBox3DLabel.rotation', index=3,
+      name='translation', full_name='unity.solo.BoundingBox3DLabel.translation', index=3,
       number=4, type=1, cpp_type=5, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='size', full_name='unity.solo.BoundingBox3DLabel.size', index=4,
+      number=5, type=1, cpp_type=5, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='rotation', full_name='unity.solo.BoundingBox3DLabel.rotation', index=5,
+      number=6, type=1, cpp_type=5, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
@@ -421,8 +442,8 @@ _BOUNDINGBOX3DLABEL = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=766,
-  serialized_end=859,
+  serialized_start=792,
+  serialized_end=921,
 )
 
 
@@ -435,64 +456,177 @@ _INSTANCESEGMENTATIONANNOTATION = _descriptor.Descriptor(
   create_key=_descriptor._internal_create_key,
   fields=[
     _descriptor.FieldDescriptor(
-      name='Id', full_name='unity.solo.InstanceSegmentationAnnotation.Id', index=0,
+      name='id', full_name='unity.solo.InstanceSegmentationAnnotation.id', index=0,
       number=1, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='definition', full_name='unity.solo.InstanceSegmentationAnnotation.definition', index=1,
+      name='sensorId', full_name='unity.solo.InstanceSegmentationAnnotation.sensorId', index=1,
       number=2, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='sequence', full_name='unity.solo.InstanceSegmentationAnnotation.sequence', index=2,
-      number=3, type=5, cpp_type=1, label=1,
-      has_default_value=False, default_value=0,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-    _descriptor.FieldDescriptor(
-      name='step', full_name='unity.solo.InstanceSegmentationAnnotation.step', index=3,
-      number=4, type=5, cpp_type=1, label=1,
-      has_default_value=False, default_value=0,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-    _descriptor.FieldDescriptor(
-      name='sensor', full_name='unity.solo.InstanceSegmentationAnnotation.sensor', index=4,
-      number=5, type=9, cpp_type=9, label=1,
+      name='description', full_name='unity.solo.InstanceSegmentationAnnotation.description', index=2,
+      number=3, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='imageFormat', full_name='unity.solo.InstanceSegmentationAnnotation.imageFormat', index=5,
+      name='imageFormat', full_name='unity.solo.InstanceSegmentationAnnotation.imageFormat', index=3,
+      number=4, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='dimension', full_name='unity.solo.InstanceSegmentationAnnotation.dimension', index=4,
+      number=5, type=5, cpp_type=1, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='filename', full_name='unity.solo.InstanceSegmentationAnnotation.filename', index=5,
       number=6, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='dimension', full_name='unity.solo.InstanceSegmentationAnnotation.dimension', index=6,
-      number=7, type=5, cpp_type=1, label=3,
+      name='instances', full_name='unity.solo.InstanceSegmentationAnnotation.instances', index=6,
+      number=7, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=924,
+  serialized_end=1123,
+)
+
+
+_INSTANCESEGMENTATIONLABEL = _descriptor.Descriptor(
+  name='InstanceSegmentationLabel',
+  full_name='unity.solo.InstanceSegmentationLabel',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
     _descriptor.FieldDescriptor(
-      name='imagePath', full_name='unity.solo.InstanceSegmentationAnnotation.imagePath', index=7,
-      number=8, type=9, cpp_type=9, label=1,
+      name='instanceId', full_name='unity.solo.InstanceSegmentationLabel.instanceId', index=0,
+      number=1, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='labelId', full_name='unity.solo.InstanceSegmentationLabel.labelId', index=1,
+      number=2, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='labelName', full_name='unity.solo.InstanceSegmentationLabel.labelName', index=2,
+      number=3, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='values', full_name='unity.solo.InstanceSegmentationAnnotation.values', index=8,
-      number=9, type=11, cpp_type=10, label=3,
+      name='color', full_name='unity.solo.InstanceSegmentationLabel.color', index=3,
+      number=4, type=13, cpp_type=3, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=1125,
+  serialized_end=1223,
+)
+
+
+_SEMANTICSEGMENTATIONANNOTATION = _descriptor.Descriptor(
+  name='SemanticSegmentationAnnotation',
+  full_name='unity.solo.SemanticSegmentationAnnotation',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='id', full_name='unity.solo.SemanticSegmentationAnnotation.id', index=0,
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='sensorId', full_name='unity.solo.SemanticSegmentationAnnotation.sensorId', index=1,
+      number=2, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='description', full_name='unity.solo.SemanticSegmentationAnnotation.description', index=2,
+      number=3, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='imageFormat', full_name='unity.solo.SemanticSegmentationAnnotation.imageFormat', index=3,
+      number=4, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='dimension', full_name='unity.solo.SemanticSegmentationAnnotation.dimension', index=4,
+      number=5, type=5, cpp_type=1, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='filename', full_name='unity.solo.SemanticSegmentationAnnotation.filename', index=5,
+      number=6, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='instances', full_name='unity.solo.SemanticSegmentationAnnotation.instances', index=6,
+      number=7, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
@@ -509,33 +643,33 @@ _INSTANCESEGMENTATIONANNOTATION = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
     _descriptor.OneofDescriptor(
-      name='_imageFormat', full_name='unity.solo.InstanceSegmentationAnnotation._imageFormat',
+      name='_imageFormat', full_name='unity.solo.SemanticSegmentationAnnotation._imageFormat',
       index=0, containing_type=None,
       create_key=_descriptor._internal_create_key,
     fields=[]),
   ],
-  serialized_start=862,
-  serialized_end=1109,
+  serialized_start=1226,
+  serialized_end=1446,
 )
 
 
-_INSTANCESEGMENTATIONLABEL = _descriptor.Descriptor(
-  name='InstanceSegmentationLabel',
-  full_name='unity.solo.InstanceSegmentationLabel',
+_SEMANTICSEGMENTATIONLABEL = _descriptor.Descriptor(
+  name='SemanticSegmentationLabel',
+  full_name='unity.solo.SemanticSegmentationLabel',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   create_key=_descriptor._internal_create_key,
   fields=[
     _descriptor.FieldDescriptor(
-      name='instance_id', full_name='unity.solo.InstanceSegmentationLabel.instance_id', index=0,
-      number=1, type=5, cpp_type=1, label=1,
-      has_default_value=False, default_value=0,
+      name='labelName', full_name='unity.solo.SemanticSegmentationLabel.labelName', index=0,
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='rgba', full_name='unity.solo.InstanceSegmentationLabel.rgba', index=1,
+      name='pixelValue', full_name='unity.solo.SemanticSegmentationLabel.pixelValue', index=1,
       number=2, type=13, cpp_type=3, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
@@ -553,18 +687,180 @@ _INSTANCESEGMENTATIONLABEL = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1111,
-  serialized_end=1173,
+  serialized_start=1448,
+  serialized_end=1514,
+)
+
+
+_KEYPOINTANNOTATION = _descriptor.Descriptor(
+  name='KeypointAnnotation',
+  full_name='unity.solo.KeypointAnnotation',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='id', full_name='unity.solo.KeypointAnnotation.id', index=0,
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='sensorId', full_name='unity.solo.KeypointAnnotation.sensorId', index=1,
+      number=2, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='description', full_name='unity.solo.KeypointAnnotation.description', index=2,
+      number=3, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='templateId', full_name='unity.solo.KeypointAnnotation.templateId', index=3,
+      number=4, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='values', full_name='unity.solo.KeypointAnnotation.values', index=4,
+      number=5, type=11, cpp_type=10, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=1517,
+  serialized_end=1651,
+)
+
+
+_KEYPOINTLABEL = _descriptor.Descriptor(
+  name='KeypointLabel',
+  full_name='unity.solo.KeypointLabel',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='instanceId', full_name='unity.solo.KeypointLabel.instanceId', index=0,
+      number=1, type=13, cpp_type=3, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='labelId', full_name='unity.solo.KeypointLabel.labelId', index=1,
+      number=2, type=13, cpp_type=3, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='pose', full_name='unity.solo.KeypointLabel.pose', index=2,
+      number=3, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='keypoints', full_name='unity.solo.KeypointLabel.keypoints', index=3,
+      number=4, type=11, cpp_type=10, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=1653,
+  serialized_end=1765,
+)
+
+
+_KEYPOINTVALUE = _descriptor.Descriptor(
+  name='KeypointValue',
+  full_name='unity.solo.KeypointValue',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='index', full_name='unity.solo.KeypointValue.index', index=0,
+      number=1, type=13, cpp_type=3, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='location', full_name='unity.solo.KeypointValue.location', index=1,
+      number=2, type=1, cpp_type=5, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='state', full_name='unity.solo.KeypointValue.state', index=2,
+      number=3, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=1767,
+  serialized_end=1830,
 )
 
 _FRAME.fields_by_name['captures'].message_type = google_dot_protobuf_dot_any__pb2._ANY
 _RGBCAMERA.fields_by_name['annotations'].message_type = google_dot_protobuf_dot_any__pb2._ANY
 _BOUNDINGBOX2DANNOTATION.fields_by_name['values'].message_type = _BOUNDINGBOX2DLABEL
 _BOUNDINGBOX3DANNOTATION.fields_by_name['values'].message_type = _BOUNDINGBOX3DLABEL
-_INSTANCESEGMENTATIONANNOTATION.fields_by_name['values'].message_type = _INSTANCESEGMENTATIONLABEL
-_INSTANCESEGMENTATIONANNOTATION.oneofs_by_name['_imageFormat'].fields.append(
-  _INSTANCESEGMENTATIONANNOTATION.fields_by_name['imageFormat'])
-_INSTANCESEGMENTATIONANNOTATION.fields_by_name['imageFormat'].containing_oneof = _INSTANCESEGMENTATIONANNOTATION.oneofs_by_name['_imageFormat']
+_INSTANCESEGMENTATIONANNOTATION.fields_by_name['instances'].message_type = _INSTANCESEGMENTATIONLABEL
+_SEMANTICSEGMENTATIONANNOTATION.fields_by_name['instances'].message_type = _SEMANTICSEGMENTATIONLABEL
+_SEMANTICSEGMENTATIONANNOTATION.oneofs_by_name['_imageFormat'].fields.append(
+  _SEMANTICSEGMENTATIONANNOTATION.fields_by_name['imageFormat'])
+_SEMANTICSEGMENTATIONANNOTATION.fields_by_name['imageFormat'].containing_oneof = _SEMANTICSEGMENTATIONANNOTATION.oneofs_by_name['_imageFormat']
+_KEYPOINTANNOTATION.fields_by_name['values'].message_type = _KEYPOINTLABEL
+_KEYPOINTLABEL.fields_by_name['keypoints'].message_type = _KEYPOINTVALUE
 DESCRIPTOR.message_types_by_name['Frame'] = _FRAME
 DESCRIPTOR.message_types_by_name['Metric'] = _METRIC
 DESCRIPTOR.message_types_by_name['RGBCamera'] = _RGBCAMERA
@@ -574,6 +870,11 @@ DESCRIPTOR.message_types_by_name['BoundingBox3DAnnotation'] = _BOUNDINGBOX3DANNO
 DESCRIPTOR.message_types_by_name['BoundingBox3DLabel'] = _BOUNDINGBOX3DLABEL
 DESCRIPTOR.message_types_by_name['InstanceSegmentationAnnotation'] = _INSTANCESEGMENTATIONANNOTATION
 DESCRIPTOR.message_types_by_name['InstanceSegmentationLabel'] = _INSTANCESEGMENTATIONLABEL
+DESCRIPTOR.message_types_by_name['SemanticSegmentationAnnotation'] = _SEMANTICSEGMENTATIONANNOTATION
+DESCRIPTOR.message_types_by_name['SemanticSegmentationLabel'] = _SEMANTICSEGMENTATIONLABEL
+DESCRIPTOR.message_types_by_name['KeypointAnnotation'] = _KEYPOINTANNOTATION
+DESCRIPTOR.message_types_by_name['KeypointLabel'] = _KEYPOINTLABEL
+DESCRIPTOR.message_types_by_name['KeypointValue'] = _KEYPOINTVALUE
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 Frame = _reflection.GeneratedProtocolMessageType('Frame', (_message.Message,), {
@@ -638,6 +939,41 @@ InstanceSegmentationLabel = _reflection.GeneratedProtocolMessageType('InstanceSe
   # @@protoc_insertion_point(class_scope:unity.solo.InstanceSegmentationLabel)
   })
 _sym_db.RegisterMessage(InstanceSegmentationLabel)
+
+SemanticSegmentationAnnotation = _reflection.GeneratedProtocolMessageType('SemanticSegmentationAnnotation', (_message.Message,), {
+  'DESCRIPTOR' : _SEMANTICSEGMENTATIONANNOTATION,
+  '__module__' : 'protos.solo_pb2'
+  # @@protoc_insertion_point(class_scope:unity.solo.SemanticSegmentationAnnotation)
+  })
+_sym_db.RegisterMessage(SemanticSegmentationAnnotation)
+
+SemanticSegmentationLabel = _reflection.GeneratedProtocolMessageType('SemanticSegmentationLabel', (_message.Message,), {
+  'DESCRIPTOR' : _SEMANTICSEGMENTATIONLABEL,
+  '__module__' : 'protos.solo_pb2'
+  # @@protoc_insertion_point(class_scope:unity.solo.SemanticSegmentationLabel)
+  })
+_sym_db.RegisterMessage(SemanticSegmentationLabel)
+
+KeypointAnnotation = _reflection.GeneratedProtocolMessageType('KeypointAnnotation', (_message.Message,), {
+  'DESCRIPTOR' : _KEYPOINTANNOTATION,
+  '__module__' : 'protos.solo_pb2'
+  # @@protoc_insertion_point(class_scope:unity.solo.KeypointAnnotation)
+  })
+_sym_db.RegisterMessage(KeypointAnnotation)
+
+KeypointLabel = _reflection.GeneratedProtocolMessageType('KeypointLabel', (_message.Message,), {
+  'DESCRIPTOR' : _KEYPOINTLABEL,
+  '__module__' : 'protos.solo_pb2'
+  # @@protoc_insertion_point(class_scope:unity.solo.KeypointLabel)
+  })
+_sym_db.RegisterMessage(KeypointLabel)
+
+KeypointValue = _reflection.GeneratedProtocolMessageType('KeypointValue', (_message.Message,), {
+  'DESCRIPTOR' : _KEYPOINTVALUE,
+  '__module__' : 'protos.solo_pb2'
+  # @@protoc_insertion_point(class_scope:unity.solo.KeypointValue)
+  })
+_sym_db.RegisterMessage(KeypointValue)
 
 
 # @@protoc_insertion_point(module_scope)
