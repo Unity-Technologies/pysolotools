@@ -93,7 +93,6 @@ class SoloBase(ABC):
                 )
                 sensor_data = MessageToDict(sensor_u_msg)
                 sensor_data["type"] = s_type
-                # TODO: Test if this works
                 sensor_data["annotations"] = sensor_u_annotations
                 sensors[s_type] = sensor_data
             else:
@@ -103,16 +102,12 @@ class SoloBase(ABC):
     def parse_frame(self, f_path):
         f = open(f_path, "r")
         f_message = json.dumps(json.load(f))
-        # TODO: Pass descriptor_pool explicitly for overrides
         frame = Parse(f_message, Frame(), ignore_unknown_fields=True, descriptor_pool=None)
         sensors = self._unpack_sensors(frame.captures)
         return sensors
 
-        #return json.load(f)
-
     def sensors(self):
         return list(self.sensor_pool.values())
-        #return list(self.sensor_pool.keys())
 
     @abstractmethod
     def register_annotation_to_sensor(self, sensor, annotation):
@@ -177,7 +172,7 @@ class Solo(SoloBase):
             sensor_data["annotations"][annotation.DESCRIPTOR.full_name] = annotation()
 
     def __load_frame__(self, frame):
-        self.frame_idx = frame;
+        self.frame_idx = frame
         sequence = (int)(frame / self.steps_per_sequence)
         step = frame % self.steps_per_sequence
         self.sequence_path = f"{self.path}/sequence.{sequence}/"
@@ -198,23 +193,10 @@ class Solo(SoloBase):
         return self
 
     def __next__(self):
-        if self.sequence_idx >= self.end:
+        if self.frame_idx >= self.end:
             raise StopIteration
 
         return self.__load_frame__(self.frame_idx + 1)
-
-        # TODO: Add some validations to check if there are more frames in a sequence.
-#        frame_file = f"{self.path}/sequence.{self.sequence_idx}/step0.frame_data.json"
-#        self.sequence_idx += 1
-#        return self.parse_frame(frame_file)
-
-        # data = dict()
-        # for s in sensors.values():
-        #     image_path = s["fileName"]
-        #     annotations = s["annotations"]
-        #     data[s["type"]] = (image_path, annotations)
-
-        # return data
 
     def __len__(self):
         return self.total_frames

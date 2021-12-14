@@ -1,0 +1,15 @@
+{
+  "sensorDefinitions": [
+    {
+      "@type": "type.unity.com/unity.solo.SensorDefinition",
+      "id": "camera",
+      "modality": "camera",
+      "definition": "The main camera",
+      "firstCaptureFrame": 0.0,
+      "captureTriggerMode": "Scheduled",
+      "simulationDeltaTime": 0.0166,
+      "framesBetweenCaptures": 0,
+      "manualSensorsAffectTiming": false
+    }
+  ]
+}

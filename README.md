@@ -1,3 +1,3 @@
 # Unity Computer Vision toolset
 
-This is a package for using Unity Computer Vision Datasets.
+Python toolchain for Unity Computer Vision Datasets. 
