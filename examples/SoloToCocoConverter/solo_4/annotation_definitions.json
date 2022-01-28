@@ -1,0 +1,36 @@
+{
+  "annotationDefinitions": [
+    {
+      "@type": "type.unity.com/unity.solo.BoundingBoxAnnotationDefinition",
+      "id": "f9f22e05-443f-4602-a422-ebe4ea9b55cb",
+      "description": "Produces 2D bounding box annotations for all visible objects that bear a label defined in this labeler's associated label configuration.",
+      "spec": [
+        {
+          "label_id": 1,
+          "label_name": "Crate"
+        },
+        {
+          "label_id": 2,
+          "label_name": "Cube"
+        },
+        {
+          "label_id": 3,
+          "label_name": "Box"
+        },
+        {
+          "label_id": 4,
+          "label_name": "Terrain"
+        },
+        {
+          "label_id": 5,
+          "label_name": "Character"
+        }
+      ]
+    },
+    {
+      "@type": "type.unity.com/unity.solo.SemanticSegmentationAnnotationDefinition",
+      "id": "12f94d8d-5425-4deb-9b21-5e53ad957d66",
+      "description": "Generates a semantic segmentation image for each captured frame. Each object is rendered to the semantic segmentation image using the color associated with it based on this labeler's associated semantic segmentation label configuration. Semantic segmentation images are saved to the dataset in PNG format. Please note that only one SemanticSegmentationLabeler can render at once across all cameras."
+    }
+  ]
+}
