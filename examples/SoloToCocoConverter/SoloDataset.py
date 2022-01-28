@@ -1,4 +1,5 @@
-﻿import json
+﻿#from inspect import get_annotations
+import json
 import os
 from os import listdir
 from os.path import isfile, join
@@ -101,16 +102,16 @@ class Dataset:
             return KeypointAnnotation()
         return None
 
-    # def get_annotator_dictionary(self):
-    #     available_labelers = self.get_available_labelers()
-    #     annotator_dic = {}
-    #     for labeler in available_labelers:
-    #         annotator_name_state = self.AnnotatorNameState(labeler['name'], False)
-    #         if labeler['type'] not in annotator_dic:
-    #             annotator_dic[labeler['type']] = [annotator_name_state]
-    #         else:
-    #             annotator_dic[labeler['type']].append(annotator_name_state)
-    #     return annotator_dic
+    def get_annotator_dictionary(self):
+         available_labelers = self.get_available_labelers()
+         annotator_dic = {}
+         for labeler in available_labelers:
+             annotator_name_state = self.AnnotatorNameState(labeler['name'], False)
+             if labeler['type'] not in annotator_dic:
+                 annotator_dic[labeler['type']] = [annotator_name_state]
+             else:
+                 annotator_dic[labeler['type']].append(annotator_name_state)
+         return annotator_dic
 
     def _get_annotation_from_sensor(self, sensor, annotator, annotation):
         annotations = sensor.annotations
@@ -120,19 +121,19 @@ class Dataset:
             if a.Is(ann_type.DESCRIPTOR):
                 a.Unpack(ann_type)
                 messageToDict = MessageToDict(a)
-                if 'id' in messageToDict and messageToDict['id'] == annotator.name and annotator.state:
-                    return messageToDict
-                elif 'id' not in messageToDict and annotator.state:
-                    return messageToDict
+#                if 'id' in messageToDict and messageToDict['id'] == annotator.name and annotator.state:
+#                    return messageToDict
+#                elif 'id' not in messageToDict and annotator.state:
+#                    return messageToDict
 
         return None
 
 
     # create AnnotatorNameState class
-    # class AnnotatorNameState:
-    #     def __init__(self, name: str, state: bool):
-    #         self.name = name
-    #         self.state = state
+    class AnnotatorNameState:
+        def __init__(self, name: str, state: bool):
+            self.name = name
+            self.state = state
 
 
 
@@ -203,3 +204,6 @@ class Dataset:
     #                 )
     #
     #     return image
+
+d = Dataset(r'C:\Users\alex.thaman\AppData\LocalLow\DefaultCompany\HDRP RenderPeople 2020_1_17f1\solo_13')
+print(d._get_annotation_from_sensor(d.solo.sensors()[0]['message'], None, BOUNDING_BOX_TYPE))
