@@ -3,7 +3,7 @@ import os
 from os import listdir
 from os.path import isfile, join
 from typing import Dict
-from PIL import Image
+#from PIL import Image
 from google.protobuf.json_format import MessageToDict
 from unity_vision.consumers.solo.parser import Solo
 from unity_vision.protos.solo_pb2 import (
@@ -13,7 +13,7 @@ from unity_vision.protos.solo_pb2 import (
     SemanticSegmentationAnnotation,
     KeypointAnnotation
 )
-import visualization.visualizers as v
+#import visualization.visualizers as v
 
 SEMANTIC_SEGMENTATION_TYPE = 'type.unity.com/unity.solo.SemanticSegmentationAnnotationDefinition'
 INSTANCE_SEGMENTATION_TYPE = 'type.unity.com/unity.solo.InstanceSegmentationAnnotationDefinition'
