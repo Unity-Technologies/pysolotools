@@ -175,7 +175,7 @@ class Solo(SoloBase):
         self.frame_idx = frame
         sequence = (int)(frame / self.steps_per_sequence)
         step = frame % self.steps_per_sequence
-        self.sequence_path = f"{self.path}/sequence.{sequence}/"
+        self.sequence_path = f"{self.path}/sequence.{sequence}"
         filename = f"{self.sequence_path}/step{step}.frame_data.json"
         return self.parse_frame(filename)
 
@@ -196,7 +196,7 @@ class Solo(SoloBase):
         if self.frame_idx >= self.end:
             raise StopIteration
 
-        return self.__load_frame__(self.frame_idx + 1)
+        return self.__load_frame__(self.frame_idx)
 
     def __len__(self):
         return self.total_frames
