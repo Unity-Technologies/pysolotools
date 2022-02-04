@@ -1,3 +1,9 @@
+#!/usr/bin/env python
+"""
+Installs unity_vision
+
+"""
+
 import io
 import os
 
@@ -15,8 +21,6 @@ VERSION = "0.1.3"
 
 here = os.path.abspath(os.path.dirname(__file__))
 
-# Import the README and use it as the long-description.
-# Note: this will only work if 'README.md' is present in your MANIFEST.in file!
 try:
     with io.open(os.path.join(here, "README.md"), encoding="utf-8") as f:
         long_description = "\n" + f.read()
@@ -40,7 +44,6 @@ setup(
     version=about["__version__"],
     description=DESCRIPTION,
     long_description=long_description,
-    # long_description_content_type="text/markdown",
     author=AUTHOR,
     author_email=EMAIL,
     python_requires=REQUIRES_PYTHON,
@@ -59,5 +62,5 @@ setup(
         "Programming Language :: Python :: 3",
         "Programming Language :: Python :: 3.8",
     ],
-    packages=["unity_vision", "unity_vision/consumers/solo", "unity_vision/protos"]
+    packages=["unity_vision", "unity_vision/consumers/solo", "unity_vision/*"]
 )
