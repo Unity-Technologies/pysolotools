@@ -1,6 +1,7 @@
-from setuptools import setup
 import io
 import os
+
+from setuptools import setup
 
 # Package meta-data.
 NAME = "unity_vision"
