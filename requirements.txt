@@ -1,0 +1,8 @@
+torch~=1.7.0
+setuptools~=58.2.0
+requests~=2.25.1
+google~=3.0.0
+tqdm~=4.62.3
+torchvision~=0.8.1
+Pillow~=8.1.2
+fiftyone~=0.14.3
