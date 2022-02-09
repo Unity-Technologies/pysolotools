@@ -98,7 +98,7 @@ class UCVDClient(DatasetClient):
 
         __entity_uri = Path(self.endpoint, "datasets", run_id)
 
-        req = self._build_request('GET', __entity_uri)
+        req = self._build_request('GET', str(__entity_uri))
         res = self.client.make_request(req)
         dataset_signed_uri = res.content
         return self._download_from_signed_url(dataset_signed_uri, run_id)
