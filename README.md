@@ -28,11 +28,17 @@
 
 ---
 
+## Pre-Requisites
+1. Install [protoc](http://google.github.io/proto-lens/installing-protoc.html)
+2. Install [Anaconda](https://docs.anaconda.com/anaconda/install/) or [Miniconda](https://docs.conda.io/en/latest/miniconda.html) (recommended). Install [pre-commit](https://pre-commit.com/).
+
+N.B. We use `proto3` and do not support `proto2` messages.
+
+
 ## Installation
 
 ---
-The package lives in the internal PyPi repo for now, so to install please follow - 
-
+The package lives in the internal PyPi repo for now, so to install please follow -
 
 ```shell
 pip install unity_vision --index-url=https://artifactory.prd.it.unity3d.com/artifactory/api/pypi/pypi/simple
@@ -45,6 +51,13 @@ pip install unity_vision --index-url=https://artifactory.prd.it.unity3d.com/arti
 ## Authentication
 
 ---
+
+## Dataset Formats
+
+### SOLO
+
+SOLO is a dataset format being from Unity for synthetic datasets.
+Refer - [Protobuf](unity-vision/protos/solo.proto)
 
 ## Additional Resources
 

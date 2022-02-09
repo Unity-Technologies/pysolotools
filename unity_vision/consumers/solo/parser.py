@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 """
 Provides a base parser to import solo datasets.
 
@@ -11,6 +13,7 @@ SoloSequence:
 
 """
 
+__copyright__   = "Copyright 2009, Unity Technologies USA Inc"
 __author__ = "souranil@unity3d.com"
 
 import glob
@@ -186,3 +189,44 @@ class Solo(SoloBase):
 
     def __len__(self):
         return self.total_frames
+
+class SoloSequence(SoloBase):
+    def __init__(self, path, sensors=None, start=0, end=None):
+        """
+        Parses frames of a sequence in a solo dataset. Each sequence has > 1 frames
+        :param path: path to sequence (data/g_solo_0/sequence.0)
+        :param start: start step index
+        :param end: end step index
+        """
+        super().__init__()
+        self.frame_pool = list()
+        self.sequence_path = path
+        self.step_idx = start  # Tracks the frame in a sequence
+        # TODO: Should be this from metadata ?
+        self.sequence_length = len(glob.glob(f"{self.sequence_path}/*.json"))
+        if not end:
+            self.end = self.sequence_length - 1
+        else:
+            self.end = end
+
+    def register_annotation_to_sensor(self, sensor, annotation):
+        pass
+
+    def __iter__(self) -> Iterable:
+        return self
+
+    def __next__(self):
+        if self.step_idx >= self.end:
+            raise StopIteration
+
+        sequence_data = list()
+        for frame_path in glob.glob(f"{self.sequence_path}/*.json"):
+            sensors = self.parse_frame(frame_path)
+            data = dict()
+            for s in sensors.values():
+                image_path = s["fileName"]
+                annotations = s["annotations"]
+                data[s["type"]] = (image_path, annotations)
+            self.step_idx += 1
+            sequence_data.append(data)
+        return sequence_data
