@@ -4,7 +4,6 @@ class Authenticator(ABC):
     AUTH_BASIC = 'Basic'
     AUTH_BEARERTOKEN = 'Bearer'
     AUTH_NONE = 'None'
-
     @abstractmethod
     def authenticate(self, req: dict):
         pass

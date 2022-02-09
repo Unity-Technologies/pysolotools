@@ -6,3 +6,4 @@ tqdm~=4.62.3
 torchvision~=0.8.1
 Pillow~=8.1.2
 fiftyone~=0.14.3
+vcrpy~=4.1.1
