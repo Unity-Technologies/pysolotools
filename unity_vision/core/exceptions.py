@@ -26,3 +26,6 @@ class TimeoutException(UnityVisionException):
 
 class MalformedQueryException(UnityVisionException):
     pass
+
+class DatasetException(UnityVisionException):
+    pass

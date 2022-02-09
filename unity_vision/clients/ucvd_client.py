@@ -1,30 +1,28 @@
-import json
 import logging
 import os
+import tarfile
 from datetime import time
 from pathlib import Path
 from tqdm import tqdm
 import requests
 import requests.exceptions
-import contextvars
 
+from unity_vision.clients.base import DatasetClient
 from unity_vision.clients.http_client import HttpClient
 from unity_vision.core.auth.basic_auth import BasicAuthenticator
-from unity_vision.core.exceptions import (AuthenticationException,
-                                          TimeoutException,
-                                          UnityVisionException)
-from unity_vision.core.model import UCVDDataset
+from unity_vision.core.exceptions import AuthenticationException, UnityVisionException, DatasetException
 
 logger = logging.getLogger(__name__)
 
+BASE_URI_V1 = "https://perception-api.simulation.unity3d.com"
 UNITY_AUTH_SA_KEY = "UNITY_AUTH_SA_KEY"
 UNITY_AUTH_API_SECRET = "UNITY_AUTH_API_SECRET"
 _SDK_VERSION = "v0.0.1"
-BASE_URI_V1 = "https://perception-api.simulation.unity3d.com"
 
-class UCVDClient:
+
+class UCVDClient(DatasetClient):
     """
-    A UCVD client necessary to interact with UCVD APIs. Provides functions to download UCVD Datasets.
+    A client for using Unity Computer Vision REST APIs
     """
     def __init__(self,
                  sa_key=None,
@@ -40,11 +38,14 @@ class UCVDClient:
             sa_key="UNITY_AUTH_SA_KEY",
             api_secret="UNITY_AUTH_API_SECRET"
             )
-        >> client.health()
 
         Args:
             api_key (str): API Key. If None, it defaults to the `UNITY_API_KEY` environment variable.
             endpoint (str): Base URI for Unity Computer Vision Dataset APIs.
+
+        Raises:
+            AuthenticationException: If Service Account Key and API Secret are not provided or are invalid.
+
 
         """
         if sa_key is None or api_secret is None:
@@ -76,33 +77,87 @@ class UCVDClient:
             'X-User-Agent': f'unity-vision-sdk {_SDK_VERSION})',
         }
 
-    def _download_from_signed_url(self, signed_uri, run_id, file_path=None):
-        timestr = time.strftime("%Y%m%d-%H%M%S")
-        if file_path is None:
-            file_path = f"{run_id}/dataset/{timestr}/dataset.tar.gz"
-        logger.info(f"Downloading content to {file_path}")
-        pbar = tqdm(total=100)
-        with requests.get(signed_uri, stream=True) as r:
-            r.raise_for_status()
-            l = len(r.content())
-            print(l)
-            with open(file_path, 'wb') as f:
-                for chunk in r.iter_content(chunk_size=1024 * 1024):  # 1MB chunks
-                    f.write(chunk)
-                    pbar.update(10)
-            pbar.close()
+    def create_dataset(self, cfg):
+        pass
 
-        return file_path
+    def describe_dataset(self, id):
+        pass
 
-    def get_dataset(self, run_id):
-        """"""
+    def list_datasets(self):
+        pass
+
+    def download_dataset(self, run_id) -> str:
+        """Download a dataset from remote
+
+        Args:
+            run_id (str): This is the run_id from UCVD. You can get this from Unity Dashboard.
+
+        Returns:
+            file_path (str): Returns the location where the tarfile was downloaded.
+        """
+
         __entity_uri = Path(self.endpoint, "datasets", run_id)
 
-        req = {
-            'method': 'GET',
-            'uri': __entity_uri,
-            'headers': self._headers
-        }
+        req = self._build_request('GET', __entity_uri)
         res = self.client.make_request(req)
         dataset_signed_uri = res.content
         return self._download_from_signed_url(dataset_signed_uri, run_id)
+
+    def _download_from_signed_url(self, signed_uri, run_id, file_path=None):
+        """Download file from signed URL. Chunked downloads enabled.
+        Args:
+            signed_uri (str): Signed URI to download dataset (tarfile).
+        """
+        timestr = time.strftime("%Y%m%d-%H%M%S")
+        if file_path is None:
+            file_path = f"dataset/{timestr}/{run_id}.tar.gz"
+        logger.info(f"Downloading content to {file_path}")
+        pbar = tqdm(total=100)
+        try:
+            with requests.get(signed_uri, stream=True) as r:
+                r.raise_for_status()
+                l = len(r.content())
+                print(l)
+                with open(file_path, 'wb') as f:
+                    for chunk in r.iter_content(chunk_size=1024 * 1024):  # 1MB chunks
+                        f.write(chunk)
+                        pbar.update(10)
+                pbar.close()
+        except Exception as e:
+            raise UnityVisionException(f"Failed to download file: {str(e)}")
+
+        try:
+            self._validate_dataset(file_path)
+        except Exception as e:
+            raise DatasetException(f"Invalid dataset: {str(e)}")
+        return file_path
+
+    def _build_request(self, method, entity_uri):
+        """Builds request object
+
+        Args:
+            method (str): oneof(GET, PUT, POST, DELETE, PATCH)
+            entity_uri (str): API Path for given entity
+
+        Returns:
+            object: Returns the resulting request for use further.
+        """
+        return {
+            'method': method,
+            'uri': entity_uri,
+            'headers': self._headers
+        }
+
+    def _validate_dataset(self, file_path: str) -> bool:
+        """Validates if a file path is a tarfile. The UCVD datasets are expected to be valid tarfiles.
+
+        TODO: Add checksum support
+
+        Arguments:
+            file_path: Path to dataset tarfile
+
+        Returns:
+            bool: True if valid tarfile, False otherwise
+        """
+        return tarfile.is_tarfile(file_path)
+

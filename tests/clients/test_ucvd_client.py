@@ -1,5 +1,6 @@
 import unittest
 from unittest.mock import MagicMock, patch
+
 from unity_vision.clients.ucvd_client import UCVDClient
 
 MOCK_SA_KEY = "mock-sa-key"
@@ -20,7 +21,6 @@ class TestUCVDClient(unittest.TestCase):
                 sa_key=MOCK_SA_KEY,
                 api_secret=MOCK_API_SECRET,
             )
-            dataset_path = client.get_dataset("run-id")
+            dataset_path = client.download_dataset("run-id")
             mocked_make_request.assert_called_once()
             assert dataset_path == self.mock_dataset_path
-

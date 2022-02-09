@@ -2,6 +2,7 @@ import requests
 from typing import Optional
 
 from unity_vision.core.auth.auth import Authenticator
+from unity_vision.core.exceptions import TimeoutException
 
 BASE_URI_V1 = "https://perception-api.simulation.unity3d.com"
 DEFAULT_TIMEOUT = 1800 # in seconds

@@ -23,8 +23,3 @@ def test_basic_authenticator_fail():
     with pytest.raises(TypeError) as err:
         BasicAuthenticator(None)
 
-    authenticator = BasicAuthenticator(MOCK_SA_KEY, MOCK_API_SECRET)
-    with pytest.raises(ValueError) as err:
-        authenticator.set_token(None)
-
-    assert str(err.value) == 'Auth token invalid.'
