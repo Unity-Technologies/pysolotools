@@ -1,5 +1,6 @@
 from solo_dataset import SoloDataset
 
+
 def run():
     dataset = SoloDataset(path="data/solo")
     # Sample 10 datapoints

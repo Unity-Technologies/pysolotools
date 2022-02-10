@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 """
 Provides a base parser to import solo datasets.
 
@@ -11,8 +13,6 @@ SoloSequence:
 
 """
 
-__copyright__ = "Copyright 2009, Unity Technologies USA Inc"
-__author__ = "souranil@unity3d.com"
 
 import glob
 import json
@@ -21,15 +21,11 @@ from typing import Iterable
 
 from google.protobuf.json_format import MessageToDict, Parse
 
-from unity_vision.protos.solo_pb2 import (
-    BoundingBox2DAnnotation,
-    BoundingBox3DAnnotation,
-    Frame,
-    InstanceSegmentationAnnotation,
-    SemanticSegmentationAnnotation,
-    RGBCamera,
-    KeypointAnnotation,
-)
+from unity_vision.protos.solo_pb2 import (BoundingBox2DAnnotation,
+                                          BoundingBox3DAnnotation, Frame,
+                                          InstanceSegmentationAnnotation,
+                                          KeypointAnnotation, RGBCamera,
+                                          SemanticSegmentationAnnotation)
 
 __SENSORS__ = [
     {
@@ -103,7 +99,9 @@ class SoloBase(ABC):
     def parse_frame(self, f_path):
         f = open(f_path, "r")
         f_message = json.dumps(json.load(f))
-        frame = Parse(f_message, Frame(), ignore_unknown_fields=True, descriptor_pool=None)
+        frame = Parse(
+            f_message, Frame(), ignore_unknown_fields=True, descriptor_pool=None
+        )
         sensors = self._unpack_sensors(frame.captures)
         return sensors
 
@@ -142,7 +140,8 @@ class Solo(SoloBase):
         self.path = path
         self.frame_idx = start
 
-        # read in the metadata file. That will get us the total number of frames, sequences, and steps per seq
+        # read in the metadata file. That will get us the total number of frames,
+        # sequences, and steps per sequence
         metadata_file = open(f"{self.path}/metadata.json")
         metadata = json.load(metadata_file)
 
@@ -184,16 +183,6 @@ class Solo(SoloBase):
             raise Exception(f"Metadata file not found for sequence {sequence}")
         return self.parse_frame(files[0])
 
-    def __load_sequence_step__(self, sequence, step):
-        frame = (sequence * self.steps_per_sequence) + step
-        return self.__load_frame__(frame)
-
-    def jump_to_seq_step(self, sequence, step):
-        return self.__load_sequence_step__(sequence, step)
-
-    def jump_to(self, index):
-        return self.__load_frame__(index)
-
     def __iter__(self):
         return self
 
@@ -211,7 +200,6 @@ class SoloSequence(SoloBase):
     def __init__(self, path, sensors=None, start=0, end=None):
         """
         Parses frames of a sequence in a solo dataset. Each sequence has > 1 frames
-
         :param path: path to sequence (data/g_solo_0/sequence.0)
         :param start: start step index
         :param end: end step index
