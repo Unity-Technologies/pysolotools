@@ -136,15 +136,12 @@ class UCVDClient(DatasetClient):
         if file_path is None:
             file_path = f"dataset/{timestr}/{run_id}.tar.gz"
         logger.info(f"Downloading content to {file_path}")
-        pbar = tqdm(total=100)
         try:
             with requests.get(signed_uri, stream=True) as r:
                 r.raise_for_status()
                 with open(file_path, "wb") as f:
                     for chunk in r.iter_content(chunk_size=1024 * 1024):  # 1MB chunks
                         f.write(chunk)
-                        pbar.update(10)
-                pbar.close()
         except Exception as e:
             raise UnityVisionException(f"Failed to download file: {str(e)}")
 
