@@ -1,4 +1,5 @@
 import pytest
+
 from unity_vision.core.auth.auth import Authenticator
 from unity_vision.core.auth.basic_auth import BasicAuthenticator
 
@@ -22,4 +23,3 @@ def test_basic_authenticator():
 def test_basic_authenticator_fail():
     with pytest.raises(TypeError) as err:
         BasicAuthenticator(None)
-

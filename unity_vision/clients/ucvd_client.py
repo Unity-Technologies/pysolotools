@@ -3,14 +3,17 @@ import os
 import tarfile
 from datetime import time
 from pathlib import Path
-from tqdm import tqdm
+
 import requests
 import requests.exceptions
+from tqdm import tqdm
 
 from unity_vision.clients.base import DatasetClient
 from unity_vision.clients.http_client import HttpClient
 from unity_vision.core.auth.basic_auth import BasicAuthenticator
-from unity_vision.core.exceptions import AuthenticationException, UnityVisionException, DatasetException
+from unity_vision.core.exceptions import (AuthenticationException,
+                                          DatasetException,
+                                          UnityVisionException)
 
 logger = logging.getLogger(__name__)
 
@@ -171,4 +174,3 @@ class UCVDClient(DatasetClient):
             bool: True if valid tarfile, False otherwise
         """
         return tarfile.is_tarfile(file_path)
-

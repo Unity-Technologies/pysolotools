@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - download-api
   pull_request:
     branches:
       - main
