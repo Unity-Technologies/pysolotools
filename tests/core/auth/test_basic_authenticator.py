@@ -17,7 +17,7 @@ def test_basic_authenticator():
     }
 
     authenticator.authenticate(req)
-    assert req["headers"]["Authentication"] == f"Basic {token}"
+    assert req["headers"]["Authorization"] == f"Basic {token}"
 
 def test_basic_authenticator_fail():
     with pytest.raises(TypeError) as err:

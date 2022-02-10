@@ -57,7 +57,7 @@ class UCVDClient(DatasetClient):
             self.api_secret = os.environ[UNITY_AUTH_API_SECRET]
         self.sa_key = sa_key
         self.api_secret = api_secret
-
+        self.endpoint = endpoint
         self.api_version = api_version
         self.authenticator = BasicAuthenticator(
             sa_key=self.sa_key,
@@ -66,9 +66,8 @@ class UCVDClient(DatasetClient):
 
         self.client = HttpClient(
             api_version=self.api_version,
-            authenticator=self.authenticator)
-
-        self.endpoint = endpoint
+            authenticator=self.authenticator
+        )
 
         self._headers = {
             'Accept': 'application/json',
@@ -78,6 +77,10 @@ class UCVDClient(DatasetClient):
         }
 
     def create_dataset(self, cfg):
+        """
+            Spec for create dataset
+
+        """
         pass
 
     def describe_dataset(self, id):
@@ -89,8 +92,16 @@ class UCVDClient(DatasetClient):
     def download_dataset(self, run_id) -> str:
         """Download a dataset from remote
 
+        API Spec:
+        {{base_url}}/v1/datasets/<run-id>/download
+            >> latest archive signed_url
+        {{base_url}}/v1/datasets/<run-id>/describe
+            >> Describe on a dataset --> Get adapter ids
+        {{base_url}}/v1/datasets/<run-id>/adapter/<adapter-id>/download
+            >> Downloads a specific run output from an adapter
+
         Args:
-            run_id (str): This is the run_id from UCVD. You can get this from Unity Dashboard.
+            run_id (str): This is the run_id that identifies a dataset.
 
         Returns:
             file_path (str): Returns the location where the tarfile was downloaded.
@@ -144,7 +155,7 @@ class UCVDClient(DatasetClient):
         """
         return {
             'method': method,
-            'uri': entity_uri,
+            'url': entity_uri,
             'headers': self._headers
         }
 

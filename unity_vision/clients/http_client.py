@@ -19,11 +19,9 @@ class HttpClient:
 
     def __init__(self,
                  api_version: str,
-                 host=BASE_URI_V1,
                  headers=None,
                  authenticator=Optional[Authenticator]):
         self.api_version = api_version
-        self.host = host
         if headers is None:
             self.headers = {}
         self.headers = headers

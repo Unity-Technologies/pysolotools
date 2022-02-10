@@ -43,7 +43,7 @@ class BasicAuthenticator(Authenticator):
         if 'headers' not in req:
             req["headers"] = {}
         headers = req.get('headers')
-        headers["Authentication"] = f"Basic {self.token}"
+        headers["Authorization"] = f"Basic {self.token}"
 
     def authentication_type(self) -> str:
         """Returns authenticator type ('basic')."""

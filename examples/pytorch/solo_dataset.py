@@ -1,6 +1,6 @@
 import glob
-
 from torch.utils.data import IterableDataset
+
 from unity_vision.consumers.solo.parser import Solo
 
 class SoloDataset(IterableDataset):

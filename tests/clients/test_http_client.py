@@ -49,7 +49,6 @@ class TestHttpClient(unittest.TestCase):
 
         client = HttpClient(
             api_version="v1",
-            host=MOCK_HOST,
             authenticator=mock_authenticator
         )
         req = {
