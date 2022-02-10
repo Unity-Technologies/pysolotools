@@ -6,7 +6,6 @@ from pathlib import Path
 
 import requests
 import requests.exceptions
-from tqdm import tqdm
 
 from unity_vision.clients.base import DatasetClient
 from unity_vision.clients.http_client import HttpClient
