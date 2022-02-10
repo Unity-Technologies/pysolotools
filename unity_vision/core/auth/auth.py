@@ -1,10 +1,12 @@
 from abc import ABC, abstractmethod
 
+
 class Authenticator(ABC):
     """Interface defining the methods allowed for authentication."""
-    AUTH_BASIC = 'Basic'
-    AUTH_BEARERTOKEN = 'Bearer'
-    AUTH_NONE = 'None'
+
+    AUTH_BASIC = "Basic"
+    AUTH_BEARERTOKEN = "Bearer"
+    AUTH_NONE = "None"
 
     @abstractmethod
     def authenticate(self, req: dict) -> None:
@@ -28,7 +30,8 @@ class Authenticator(ABC):
         """Validates the current authentication scheme configuration
 
         Raises:
-            ValueError: In case the given configuration is not valid for the selected authentication scheme.
+            ValueError: In case the given configuration is not valid for
+                        the selected authentication scheme.
 
         To be implemented by subclass.
         """

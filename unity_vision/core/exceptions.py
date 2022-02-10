@@ -12,20 +12,28 @@ class UnityVisionException(Exception):
         self.message = message
         self.source = source
 
+
 class UnrecognizedAuthException(UnityVisionException):
     """Raise when unknown authentiction methods are used"""
+
     pass
+
 
 class AuthenticationException(UnityVisionException):
     """Raised when no Auth Token is provided"""
+
     pass
+
 
 class TimeoutException(UnityVisionException):
     """Raised when request times-out."""
+
     pass
+
 
 class MalformedQueryException(UnityVisionException):
     pass
+
 
 class DatasetException(UnityVisionException):
     pass

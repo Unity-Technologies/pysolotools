@@ -27,11 +27,15 @@ class UCVDClient(DatasetClient):
     """
     A client for using Unity Computer Vision REST APIs
     """
-    def __init__(self,
-                 sa_key=None,
-                 api_secret=None,
-                 api_version="v1",
-                 endpoint=BASE_URI_V1, **kwargs):
+
+    def __init__(
+        self,
+        sa_key=None,
+        api_secret=None,
+        api_version="v1",
+        endpoint=BASE_URI_V1,
+        **kwargs,
+    ):
         """
         Creates and initializes a UCVDClient
 
@@ -43,16 +47,24 @@ class UCVDClient(DatasetClient):
             )
 
         Args:
-            api_key (str): API Key. If None, it defaults to the `UNITY_API_KEY` environment variable.
+            sa_key (str): Unity project service account key. Falls back to UNITY_AUTH_SA_KEY
+                            environment variable.
+            api_secret (str): API Secret for project. Falls back to UNITY_AUTH_API_SECRET
+                                environment variable.
+            api_version (str): Version for UCVD APIs being used.
             endpoint (str): Base URI for Unity Computer Vision Dataset APIs.
 
         Raises:
-            AuthenticationException: If Service Account Key and API Secret are not provided or are invalid.
+            AuthenticationException: If Service Account Key and API Secret
+                                        are not provided or are invalid.
 
 
         """
         if sa_key is None or api_secret is None:
-            if UNITY_AUTH_SA_KEY not in os.environ or UNITY_AUTH_API_SECRET not in os.environ:
+            if (
+                UNITY_AUTH_SA_KEY not in os.environ
+                or UNITY_AUTH_API_SECRET not in os.environ
+            ):
                 raise AuthenticationException(
                     "UNITY_AUTH_SA_KEY and UNITY_AUTH_API_SECRET both must be present."
                 )
@@ -63,25 +75,23 @@ class UCVDClient(DatasetClient):
         self.endpoint = endpoint
         self.api_version = api_version
         self.authenticator = BasicAuthenticator(
-            sa_key=self.sa_key,
-            api_secret=self.api_secret
+            sa_key=self.sa_key, api_secret=self.api_secret
         )
 
         self.client = HttpClient(
-            api_version=self.api_version,
-            authenticator=self.authenticator
+            api_version=self.api_version, authenticator=self.authenticator
         )
 
         self._headers = {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
+            "Accept": "application/json",
+            "Content-Type": "application/json",
             "User-Agent": "",
-            'X-User-Agent': f'unity-vision-sdk {_SDK_VERSION})',
+            "X-User-Agent": f"unity-vision-sdk {_SDK_VERSION})",
         }
 
     def create_dataset(self, cfg):
         """
-            Spec for create dataset
+        Spec for create dataset
 
         """
         pass
@@ -112,7 +122,7 @@ class UCVDClient(DatasetClient):
 
         __entity_uri = Path(self.endpoint, "datasets", run_id)
 
-        req = self._build_request('GET', str(__entity_uri))
+        req = self._build_request("GET", str(__entity_uri))
         res = self.client.make_request(req)
         dataset_signed_uri = res.content
         return self._download_from_signed_url(dataset_signed_uri, run_id)
@@ -130,9 +140,7 @@ class UCVDClient(DatasetClient):
         try:
             with requests.get(signed_uri, stream=True) as r:
                 r.raise_for_status()
-                l = len(r.content())
-                print(l)
-                with open(file_path, 'wb') as f:
+                with open(file_path, "wb") as f:
                     for chunk in r.iter_content(chunk_size=1024 * 1024):  # 1MB chunks
                         f.write(chunk)
                         pbar.update(10)
@@ -156,11 +164,7 @@ class UCVDClient(DatasetClient):
         Returns:
             object: Returns the resulting request for use further.
         """
-        return {
-            'method': method,
-            'url': entity_uri,
-            'headers': self._headers
-        }
+        return {"method": method, "url": entity_uri, "headers": self._headers}
 
     def _validate_dataset(self, file_path: str) -> bool:
         """Validates if a file path is a tarfile. The UCVD datasets are expected to be valid tarfiles.

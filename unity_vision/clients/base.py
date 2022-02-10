@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
 
+
 class DatasetClient(ABC):
     @abstractmethod
     def create_dataset(self, cfg):
@@ -16,4 +17,3 @@ class DatasetClient(ABC):
     @abstractmethod
     def list_datasets(self):
         pass
-

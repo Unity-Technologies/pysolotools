@@ -13,9 +13,6 @@ SoloSequence:
 
 """
 
-__copyright__   = "Copyright 2009, Unity Technologies USA Inc"
-__author__ = "souranil@unity3d.com"
-
 import glob
 import json
 from abc import ABC, abstractmethod
@@ -101,7 +98,9 @@ class SoloBase(ABC):
     def parse_frame(self, f_path):
         f = open(f_path, "r")
         f_message = json.dumps(json.load(f))
-        frame = Parse(f_message, Frame(), ignore_unknown_fields=True, descriptor_pool=None)
+        frame = Parse(
+            f_message, Frame(), ignore_unknown_fields=True, descriptor_pool=None
+        )
         sensors = self._unpack_sensors(frame.captures)
         return sensors
 
@@ -140,7 +139,8 @@ class Solo(SoloBase):
         self.path = path
         self.frame_idx = start
 
-        # read in the metadata file. That will get us the total number of frames, sequences, and steps per seq
+        # read in the metadata file. That will get us the total number of frames,
+        # sequences, and steps per sequence
         metadata_file = open(f"{self.path}/metadata.json")
         metadata = json.load(metadata_file)
 
@@ -189,6 +189,7 @@ class Solo(SoloBase):
 
     def __len__(self):
         return self.total_frames
+
 
 class SoloSequence(SoloBase):
     def __init__(self, path, sensors=None, start=0, end=None):

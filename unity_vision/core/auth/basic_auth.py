@@ -5,8 +5,9 @@ from .auth import Authenticator
 
 class BasicAuthenticator(Authenticator):
     """
-    BasicAuthenticator works with the Unity Service Account based authentication. It adds a API token to the
-    request based on the Service Account Key and the API Secret provided. This can be fetched from the Unity Dashboard.
+    BasicAuthenticator works with the Unity Service Account based authentication.
+    It adds a API token to the request based on the Service Account Key and the
+    API Secret provided. This can be fetched from the Unity Dashboard.
 
 
     The Basic Authentication will be sent as a Authentication header as follows:
@@ -20,6 +21,7 @@ class BasicAuthenticator(Authenticator):
     Raises:
         ValueError: If the SA Key or the API Secret is not available.
     """
+
     def __init__(self, sa_key: str, api_secret: str, *args, **kwargs):
         self.sa_key = sa_key
         self.api_secret = api_secret
@@ -33,7 +35,10 @@ class BasicAuthenticator(Authenticator):
             ValueError: If the token is not present.
         """
         if self.token is None:
-            raise ValueError("Auth token not present. Please make sure to provide valid SA Key and API Secret.")
+            raise ValueError(
+                "Auth token not present. Please make sure"
+                "to provide valid SA Key and API Secret."
+            )
 
     def authenticate(self, req) -> None:
         """Add basic authentication header to request
@@ -41,9 +46,9 @@ class BasicAuthenticator(Authenticator):
         Args:
             req (dict): The request to add basic auth header to.
         """
-        if 'headers' not in req:
+        if "headers" not in req:
             req["headers"] = {}
-        headers = req.get('headers')
+        headers = req.get("headers")
         headers["Authorization"] = f"Basic {self.token}"
 
     def authentication_type(self) -> str:
@@ -52,6 +57,6 @@ class BasicAuthenticator(Authenticator):
 
     @staticmethod
     def build_token(sa_key, api_secret):
-        return base64.b64encode(
-            f"{sa_key}:{api_secret}".encode("utf-8")
-        ).decode("utf-8")
+        return base64.b64encode(f"{sa_key}:{api_secret}".encode("utf-8")).decode(
+            "utf-8"
+        )

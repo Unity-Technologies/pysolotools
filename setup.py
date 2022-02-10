@@ -51,9 +51,7 @@ setup(
     py_modules=[NAME],
     include_package_data=True,
     license="MIT",
-    install_requires=[
-        "protobuf==3.17.2"
-    ],
+    install_requires=["protobuf==3.17.2"],
     classifiers=[
         # Trove classifiers
         # Full list: https://pypi.python.org/pypi?%3Aaction=list_classifiers
@@ -62,5 +60,5 @@ setup(
         "Programming Language :: Python :: 3",
         "Programming Language :: Python :: 3.8",
     ],
-    packages=["unity_vision", "unity_vision/consumers/solo", "unity_vision/*"]
+    packages=["unity_vision", "unity_vision.consumers.solo", "unity_vision.protos"]
 )

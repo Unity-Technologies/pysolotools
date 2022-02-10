@@ -10,13 +10,10 @@ MOCK_SA_KEY = "mock-sa-key"
 MOCK_API_SECRET = "mock-api-secret"
 TIMEOUT = 180
 
+
 class TestHttpClient(unittest.TestCase):
     def _mock_response(
-            self,
-            status=200,
-            data=None,
-            content="MOCK_CONTENT",
-            raise_for_status=None
+        self, status=200, data=None, content="MOCK_CONTENT", raise_for_status=None
     ):
         mock_response = mock.Mock()
         mock_response.raise_for_status = mock.Mock()
@@ -27,14 +24,12 @@ class TestHttpClient(unittest.TestCase):
         mock_response.content = content
 
         if data:
-            mock_response.json = mock.Mock(
-                return_value=data
-            )
+            mock_response.json = mock.Mock(return_value=data)
 
         return mock_response
 
     def _mock_auth_req(self, req):
-        headers = req.get('headers')
+        headers = req.get("headers")
         headers["Authentication"] = f"Basic xyz"
 
     @patch("unity_vision.core.auth.basic_auth.BasicAuthenticator")
@@ -47,16 +42,8 @@ class TestHttpClient(unittest.TestCase):
         mock_authenticator.validate = MagicMock(return_value=True)
         mock_get_request.return_value = mock_resp
 
-        client = HttpClient(
-            api_version="v1",
-            authenticator=mock_authenticator
-        )
-        req = {
-            'method': 'GET',
-            'uri': MOCK_HOST,
-            'headers': {},
-            'timeout': TIMEOUT
-        }
+        client = HttpClient(api_version="v1", authenticator=mock_authenticator)
+        req = {"method": "GET", "uri": MOCK_HOST, "headers": {}, "timeout": TIMEOUT}
         res = client.make_request(req)
         assert res.content == mock_content
         mock_get_request.called_only_once()
@@ -64,5 +51,5 @@ class TestHttpClient(unittest.TestCase):
         assert res.status_code == HTTPStatus.OK
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()
