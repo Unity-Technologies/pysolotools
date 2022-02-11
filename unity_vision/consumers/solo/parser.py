@@ -190,6 +190,7 @@ class Solo(SoloBase):
         if self.frame_idx >= self.end:
             raise StopIteration
 
+        self.frame_idx += 1
         return self.__load_frame__(self.frame_idx)
 
     def __len__(self):
