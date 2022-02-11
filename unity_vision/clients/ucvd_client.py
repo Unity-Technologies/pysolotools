@@ -89,10 +89,6 @@ class UCVDClient(DatasetClient):
         }
 
     def create_dataset(self, cfg):
-        """
-        Spec for create dataset
-
-        """
         pass
 
     def describe_dataset(self, id):
