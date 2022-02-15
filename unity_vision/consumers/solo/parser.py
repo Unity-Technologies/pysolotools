@@ -71,7 +71,7 @@ class SoloBase(ABC):
                 anno["type"] = a_type
                 unpacked_annotations.append(anno)
             else:
-                # TODO: Unknown annotations -> Return plain dict with custom type
+                # TODO: For unknown structures return a plain dict with a custom type.
                 raise Exception(
                     f"Annotation {annotation_msg.DESCRIPTOR.full_name} doesn't belong to sensor"
                 )
@@ -127,13 +127,14 @@ class Solo(SoloBase):
     Essentially flattens the sequence.
     """
 
-    def __init__(self, path, sensors=None, start=0, end=None):
+    def __init__(self, path, sensors=None, start=0, end=None, *args, **kwargs):
         """
-        Flattens a Solo Sequence dataset
-
-        :param path: Path to dataset (data/g_solo_0). This will have all sequences.
-        :param start: Start sequence
-        :param end: End sequence
+        Args:
+            path (str): Path to dataset. This should have all sequences.
+            sensors (list[dict]): A list of sensor objects to be read from the dataset.
+            start (int): Start sequence
+            end (int): End sequence
+            metadata_path (str): Optional kwarg for providing custom metadata json file path.
         """
         super().__init__()
         self.frame_pool = list()
@@ -143,6 +144,9 @@ class Solo(SoloBase):
         # read in the metadata file. That will get us the total number of frames,
         # sequences, and steps per sequence
         metadata_file = open(f"{self.path}/metadata.json")
+        if "metadata_path" in kwargs:
+            metadata_file = open(kwargs.get("metadata_path"))
+
         metadata = json.load(metadata_file)
 
         self.total_frames = metadata["totalFrames"]
@@ -199,12 +203,6 @@ class Solo(SoloBase):
 
 class SoloSequence(SoloBase):
     def __init__(self, path, sensors=None, start=0, end=None):
-        """
-        Parses frames of a sequence in a solo dataset. Each sequence has > 1 frames
-        :param path: path to sequence (data/g_solo_0/sequence.0)
-        :param start: start step index
-        :param end: end step index
-        """
         super().__init__()
         self.frame_pool = list()
         self.sequence_path = path
