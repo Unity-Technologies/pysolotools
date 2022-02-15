@@ -16,6 +16,7 @@ SoloSequence:
 
 import glob
 import json
+import time
 from abc import ABC, abstractmethod
 from typing import Iterable
 
@@ -127,32 +128,46 @@ class Solo(SoloBase):
     Essentially flattens the sequence.
     """
 
-    def __init__(self, path, sensors=None, start=0, end=None):
+    def __init__(self,
+                 path,
+                 annotation_file=None,
+                 sensors=None,
+                 start=0,
+                 end=None,
+                 *args,
+                 **kwargs):
         """
-        Flattens a Solo Sequence dataset
-
-        :param path: Path to dataset (data/g_solo_0). This will have all sequences.
-        :param start: Start sequence
-        :param end: End sequence
+        Constructor of Unity SOLO class for reading annotations.
+        Args:
+            path (str): Path to dataset. This should have all sequences.
+            annotation_file (str): Location of annotation file
+            sensors (list[dict]): A list of sensor objects to be read from the dataset.
+            start (int): Start sequence
+            end (int): End sequence
+            metadata_path (str): Optional kwarg for providing custom metadata json file path.
         """
         super().__init__()
         self.frame_pool = list()
         self.path = path
         self.frame_idx = start
 
-        # read in the metadata file. That will get us the total number of frames,
-        # sequences, and steps per sequence
+        """
+        Default metadata location is expected at root/metadata.json but
+        if an annotation_file path is provided that is used as the annotation
+        """
         metadata_file = open(f"{self.path}/metadata.json")
+        if annotation_file is not None:
+            metadata_file = open(annotation_file)
+
+        pre = time.time()
         metadata = json.load(metadata_file)
+        print('DONE (t={:0.5f}s)'.format(time.time() - pre))
 
         self.total_frames = metadata["totalFrames"]
         self.total_sequences = metadata["totalSequences"]
         self.steps_per_sequence = (int)(self.total_frames / self.total_sequences)
 
-        if not end:
-            self.end = self.__len__()
-        else:
-            self.end = end
+        self.end = self.__len__() or end
 
         # sensor filter
         if sensors:
