@@ -18,6 +18,7 @@ import glob
 import json
 from abc import ABC, abstractmethod
 from typing import Iterable
+from path import Path
 
 from google.protobuf.json_format import MessageToDict, Parse
 
@@ -175,13 +176,15 @@ class Solo(SoloBase):
         self.frame_idx = frame
         sequence = (int)(frame / self.steps_per_sequence)
         step = frame % self.steps_per_sequence
-        self.sequence_path = f"{self.path}/*sequence.{sequence}"
-        filename_pattern = f"{self.sequence_path}/step{step}.frame_data.json"
-        files = glob.glob(filename_pattern)
-        # There should be exactly 1 frame_data for a particular sequence.
-        if len(files) != 1:
-            raise Exception(f"Metadata file not found for sequence {sequence}")
-        return self.parse_frame(files[0])
+        d = Path(f"{self.path}")
+        for dirs in d.dirs(f'*sequence.{sequence}'):
+            self.sequence_path = dirs
+            break
+        filename = f"{self.sequence_path}/step{step}.frame_data.json"
+        return self.parse_frame(filename)
+
+    def jump_to(self, index):
+        return self.__load_frame__(index)
 
     def __iter__(self):
         return self
