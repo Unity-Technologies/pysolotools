@@ -20,17 +20,20 @@
 </p>
 </div>
 
-## Table of Contents
+## Introduction
 
----
+The Python SDK would allow you to the following:
 
-## Requirements
-
----
+- Parse Synthetic datasets generated with Unity.
+- SOLO support out of the box
+- Dataset iterables & converters.
 
 ## Pre-Requisites
-1. Install [protoc](http://google.github.io/proto-lens/installing-protoc.html)
-2. Install [Anaconda](https://docs.anaconda.com/anaconda/install/) or [Miniconda](https://docs.conda.io/en/latest/miniconda.html) (recommended). Install [pre-commit](https://pre-commit.com/).
+- Install [protoc](http://google.github.io/proto-lens/installing-protoc.html)
+- Install [Anaconda](https://docs.anaconda.com/anaconda/install/) or [Miniconda](https://docs.conda.io/en/latest/miniconda.html) (recommended). Install [pre-commit](https://pre-commit.com/).
+- Make sure `pip` is installed.
+- Create your API key in the Unity Dashboard. [Instructions]()
+- Save your API key somewhere safe, it will be used later.
 
 N.B. We use `proto3` and do not support `proto2` messages.
 
@@ -38,19 +41,42 @@ N.B. We use `proto3` and do not support `proto2` messages.
 ## Installation
 
 ---
-The package lives in the internal PyPi repo for now, so to install please follow -
-
+To install, run
 ```shell
 pip install unity_vision --index-url=https://artifactory.prd.it.unity3d.com/artifactory/api/pypi/pypi/simple
 ```
 
-## Documentation
-
----
+** The package lives in the internal PyPi repo for now, so to install please follow -
 
 ## Authentication
 
 ---
+
+There are multiple ways to generate, and access Unity generated synthetic datasets -
+
+### Generated in Unity Computer Vision Dataset service
+
+```python
+from unity_vision.clients import UCVDClient
+client = UCVDClient(
+    sa_key="sa-key",
+    api_secret="api-secret"
+)
+```
+
+### Generated locally with Unity Perception package
+
+```python
+from unity_vision.clients import LocalClient
+client = LocalClient(
+    data_path="dataset-path"
+)
+```
+
+[//]: # (TODO: Should this be in documentation ?)
+### Consume datasets working with Unity
+
+
 
 ## Dataset Formats
 
