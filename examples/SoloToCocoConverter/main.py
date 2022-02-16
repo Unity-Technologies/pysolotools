@@ -1,25 +1,24 @@
-# This is a sample Python script.
+from solo_dataset import SoloDataset
+from legacy_to_coco import COCOInstancesTransformer, COCOKeypointsTransformer
+def run():
+    dataset = SoloDataset(path="data/solo")
+    # Sample 10 datapoints
+    for i in range(1):
+        filename, annotations = dataset.__next__()
+        print(annotations[0])
+        print(f"Filename: {filename}\nAnnotations: {annotations}")
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
-import argparse
-from Converter import *
-import os
+def run_legacy():
+    dataset = COCOKeypointsTransformer(data_root=r"C:\Users\ruiyu.zhang\Desktop\legacyToCoco\legacy")
+    output = dataset.execute(output=r"C:\Users\ruiyu.zhang\Desktop\legacyToCoco\output2")
+    print(output)
 
+def run_solo():
+    dataset = COCOKeypointsTransformer(data_root=r"C:\Users\ruiyu.zhang\Desktop\legacyToCoco\solo")
+    output = dataset.execute(output=r"C:\Users\ruiyu.zhang\Desktop\legacyToCoco\output_solo")
+    print(output)
 
-def preview(args):
-    args = [args.data]
-    solo_to_panda_converter(args)
-
-def main():
-    cli = argparse.ArgumentParser()
-    cli.add_argument('--data', type=str,
-                 help='path to dataset', default="")
-    preview(cli.parse_args())
-
-
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    main()
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+if __name__ == "__main__":
+    # run()
+    # run_legacy()
+    run_solo()

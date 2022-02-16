@@ -142,3 +142,5 @@ Thumbs.db
 __MACOSX/
 detectron2
 
+/datasetinsights_local/
+/datasetinsights_local/.github/
