@@ -183,9 +183,6 @@ class Solo(SoloBase):
         filename = f"{self.sequence_path}/step{step}.frame_data.json"
         return self.parse_frame(filename)
 
-    def jump_to(self, index):
-        return self.__load_frame__(index)
-
     def __iter__(self):
         return self
 
