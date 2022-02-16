@@ -64,6 +64,8 @@ client = UCVDClient(
 )
 ```
 
+<!-- 
+
 ### Generated locally with Unity Perception package
 
 ```python
@@ -71,10 +73,10 @@ from unity_vision.clients import LocalClient
 client = LocalClient(
     data_path="dataset-path"
 )
-```
+``` -->
 
-[//]: # (TODO: Should this be in documentation ?)
-### Consume datasets working with Unity
+<!-- [//]: # (TODO: Should this be in documentation ?)
+### Consume datasets working with Unity -->
 
 
 
