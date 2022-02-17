@@ -71,7 +71,7 @@ class COCOInstancesTransformer():
         self._solo = Solo(data_root)
         self._data_len = self.metadata["totalFrames"]
         self._sensor = self._solo.sensors()[0]['message']
-        self._kpts_labeler_exists = True if self._kpt_def is not None else False
+        self._kpts_labeler_exists = True if hasattr(self, "_kpt_def") else False
 
     def execute(self, output, **kwargs):
         """Execute COCO Transformer
@@ -159,7 +159,7 @@ class COCOInstancesTransformer():
             ],
             "images": self._images(),
             "annotations": self._annotations(includes_kpt_labeler=self._kpts_labeler_exists),
-            "categories": self._categories(),
+            "categories": self._categories(includes_kpt_labeler=self._kpts_labeler_exists),
         }
         output_file = output / "instances.json"
         with open(output_file, "w") as out:
@@ -272,28 +272,35 @@ class COCOInstancesTransformer():
                 annotations.append(record)
         return annotations
 
-
-    def _categories(self):
+    def _categories(self, includes_kpt_labeler=bool):
         categories = []
-        key_points = []
-        skeleton = []
 
-        for kp in self._kpt_def["template"]["keypoints"]:
-            key_points.append(kp["label"])
+        if includes_kpt_labeler is True:
+            key_points = []
+            skeleton = []
+            for kp in self._kpt_def["template"]["keypoints"]:
+                key_points.append(kp["label"])
 
-        for sk in self._kpt_def["template"]["skeleton"]:
-            skeleton.append([sk["joint1"], sk["joint2"]])
+            for sk in self._kpt_def["template"]["skeleton"]:
+                skeleton.append([sk["joint1"], sk["joint2"]])
 
-        for r in self._bbox_def["spec"]:
-            record = {
-                "id": r["label_id"],
-                "name": r["label_name"],
-                "supercategory": "default",
-                "keypoints": key_points,
-                "skeleton": skeleton,
-            }
-            categories.append(record)
-
+            for r in self._bbox_def["spec"]:
+                record = {
+                    "id": r["label_id"],
+                    "name": r["label_name"],
+                    "supercategory": "default",
+                    "keypoints": key_points,
+                    "skeleton": skeleton,
+                }
+                categories.append(record)
+        else:
+            for r in self._bbox_def["spec"]:
+                record = {
+                    "id": r["label_id"],
+                    "name": r["label_name"],
+                    "supercategory": "default",
+                }
+                categories.append(record)
         return categories
 
 #
