@@ -1,21 +1,16 @@
 from solo_dataset import SoloDataset
 from legacy_to_coco import COCOInstancesTransformer, COCOKeypointsTransformer
-def run():
-    dataset = SoloDataset(path="data/solo")
-    # Sample 10 datapoints
-    for i in range(1):
-        filename, annotations = dataset.__next__()
-        print(annotations[0])
-        print(f"Filename: {filename}\nAnnotations: {annotations}")
+from solo_to_coco import COCOInstancesTransformer as Solo_COCOInstancesTransformer
+
 
 def run_legacy():
-    dataset = COCOKeypointsTransformer(data_root=r"C:\Users\ruiyu.zhang\Desktop\legacyToCoco\legacy")
-    output = dataset.execute(output=r"C:\Users\ruiyu.zhang\Desktop\legacyToCoco\output2")
+    dataset = COCOKeypointsTransformer(data_root=r"C:\Users\ruiyu.zhang\Desktop\legacyToCoco\legacy_2kpts")
+    output = dataset.execute(output=r"C:\Users\ruiyu.zhang\Desktop\legacyToCoco\output_legacy_2kpts")
     print(output)
 
 def run_solo():
-    dataset = COCOKeypointsTransformer(data_root=r"C:\Users\ruiyu.zhang\Desktop\legacyToCoco\solo")
-    output = dataset.execute(output=r"C:\Users\ruiyu.zhang\Desktop\legacyToCoco\output_solo")
+    dataset = Solo_COCOInstancesTransformer(data_root=r"C:\Users\ruiyu.zhang\Desktop\legacyToCoco\solo_1kpt")
+    output = dataset.execute(output=r"C:\Users\ruiyu.zhang\Desktop\legacyToCoco\output_solo_1kpt")
     print(output)
 
 if __name__ == "__main__":
