@@ -276,7 +276,7 @@ class COCOInstancesTransformer():
                 key_points.append(kp["label"])
 
             for sk in self._kpt_def["template"]["skeleton"]:
-                skeleton.append([sk["joint1"], sk["joint2"]])
+                skeleton.append([sk["joint1"] + 1, sk["joint2"] + 1])
 
             for r in self._bbox_def["spec"]:
                 record = {
