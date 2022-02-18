@@ -3,19 +3,10 @@ import json
 import logging
 import os
 import shutil
-import uuid
 from pathlib import Path
-
-import numpy as np
 from PIL import Image
 from google.protobuf.json_format import MessageToDict
 from datetime import datetime
-import datasetinsights_local.datasetinsights.constants as const
-# from datasetinsights_local.datasetinsights.datasets.unity_perception import (
-#     AnnotationDefinitions,
-#     Captures,
-# )
-from datasetinsights_local.datasetinsights.datasets.unity_perception.validation import NoRecordError
 from unity_vision.consumers.solo.parser import Solo
 from unity_vision.protos.solo_pb2 import (
     BoundingBox2DAnnotation,
@@ -26,17 +17,6 @@ from unity_vision.protos.solo_pb2 import (
 )
 
 logger = logging.getLogger(__name__)
-
-
-# def uuid_to_int(input_uuid):
-#     try:
-#         u = uuid.UUID(input_uuid).int
-#     except (AttributeError, ValueError):
-#         u = int(
-#             hashlib.md5(str(input_uuid).encode("utf8")).hexdigest(), base=16
-#         )
-#
-#     return u
 
 
 class COCOInstancesTransformer():
@@ -173,7 +153,6 @@ class COCOInstancesTransformer():
             capture_id = index
             date_captured_full = datetime.strptime(self.metadata["simulationStartTime"], "%m/%d/%Y %I:%M:%S %p")
             date_captured = date_captured_full.strftime("%A, %B %d, %Y")
-            # file_name = rf"{os.path.relpath(os.path.join(self._solo.sequence_path, sensor.filename), self._solo.path)}"
             file_name = f"camera_{index}.png"
             record = {
                 "id": capture_id,
