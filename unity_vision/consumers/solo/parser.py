@@ -196,6 +196,7 @@ class Solo(SoloBase):
         # There should be exactly 1 frame_data for a particular sequence.
         if len(files) != 1:
             raise Exception(f"Metadata file not found for sequence {sequence}")
+        self.frame_idx += 1
         return self.parse_frame(files[0])
 
     def __iter__(self):
@@ -204,8 +205,6 @@ class Solo(SoloBase):
     def __next__(self):
         if self.frame_idx >= self.end:
             raise StopIteration
-
-        self.frame_idx += 1
         return self.__load_frame__(self.frame_idx)
 
     def __len__(self):

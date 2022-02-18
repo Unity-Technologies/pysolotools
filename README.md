@@ -64,7 +64,7 @@ client = UCVDClient(
 )
 ```
 
-<!-- 
+<!--
 
 ### Generated locally with Unity Perception package
 
