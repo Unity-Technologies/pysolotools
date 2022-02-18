@@ -16,6 +16,7 @@ SoloSequence:
 
 import glob
 import json
+import os
 import time
 from abc import ABC, abstractmethod
 from typing import Iterable
@@ -196,6 +197,8 @@ class Solo(SoloBase):
             self.sequence_path = dirs
             break
         filename = f"{self.sequence_path}/step{step}.frame_data.json"
+        if not os.path.exists(filename):
+            raise Exception(f"Metadata file not found for sequence {sequence}/step{step}")
         return self.parse_frame(filename)
 
     def __iter__(self):
