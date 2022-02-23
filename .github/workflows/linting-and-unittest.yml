@@ -1,0 +1,47 @@
+name: Tests
+
+on:
+  push:
+    branches:
+      - main
+      - download-api
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  linting:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python 3.8
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.8
+      - name: Linting
+        run: |
+          pip install pre-commit
+          pre-commit run --all-files
+  tests:
+    # reference from https://github.com/python-poetry/poetry/blob/master/.github/workflows/main.yml
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [3.7, 3.8, 3.9]
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Get full Python version
+        id: full-python-version
+        shell: bash
+        run: echo ::set-output name=version::$(python -c "import sys; print('-'.join(str(v) for v in sys.version_info))")
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+        shell: bash
+      - name: Run pytest
+        run: python -m pytest tests/
