@@ -102,11 +102,13 @@ class COCOInstancesTransformer():
         start_at = 0
         for index in range(start_at, self._data_len):
             self._solo.__load_frame__(index)
-            file_name = f"camera_{index}"
-            image_from = os.path.join(self._solo.sequence_path, file_name)
+            step = index % self._solo.steps_per_sequence
+            image_from_file = f"step{step}.camera.png"
+            image_from = os.path.join(self._solo.sequence_path, image_from_file)
             if not os.path.exists(image_from):
                 continue
-            image_to = image_to_folder / file_name
+            image_to_file = f"camera_{index}.png"
+            image_to = image_to_folder / image_to_file
             shutil.copy(str(image_from), str(image_to))
 
 
@@ -206,7 +208,7 @@ class COCOInstancesTransformer():
                 ]
 
                 record = {
-                    "id": ann_bb["instanceId"],
+                    "id": image_id,
                     "image_id": image_id,
                     "category_id": ann_bb["labelId"],
                     "segmentation": [],  # TODO: parse instance segmentation map
@@ -234,7 +236,7 @@ class COCOInstancesTransformer():
                 area = ann_bb["dimension"][0] * ann_bb["dimension"][1]
 
                 record = {
-                    "id": ann_bb["instanceId"],
+                    "id": image_id,
                     "image_id": image_id,
                     "category_id": ann_bb["labelId"],
                     "segmentation": [],  # TODO: parse instance segmentation map
