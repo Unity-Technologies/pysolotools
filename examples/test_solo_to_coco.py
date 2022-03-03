@@ -40,11 +40,12 @@ class TestBasic(unittest.TestCase):
         self.app = COCOInstancesTransformer(data_root='data/solo')
         self.app.execute(output=output_path)
 
-    def test_output_file_count(self):
+    def test_images_produced(self):
         output_image_files = [f for f in listdir(image_output) if isfile(join(image_output, f))]
         self.assertEqual(len(output_image_files), data_len)
+
+    def test_annotation_file_exists(self):
         self.assertTrue(exists(annFile))
-        # clean_up()
 
     def test_output_with_coco(self):
         # initialize COCO api for instance annotations
