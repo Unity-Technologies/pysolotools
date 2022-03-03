@@ -1,10 +1,8 @@
-import hashlib
 import json
 import logging
 import os
 import shutil
 from pathlib import Path
-from PIL import Image
 from google.protobuf.json_format import MessageToDict
 from datetime import datetime
 from unity_vision.consumers.solo.parser import Solo
@@ -43,9 +41,13 @@ class COCOInstancesTransformer():
         self._data_root = Path(data_root)
         self.get_annotation_definitions()
         self._solo = Solo(data_root)
-        self._data_len = self.metadata["totalFrames"]
+        self._data_len = self._metadata["totalFrames"]
         self._sensor = self._solo.sensors()[0]['message']
+        self._sensor_name = "unity.solo.RGBCamera"
         self._kpts_labeler_exists = True if hasattr(self, "_kpt_def") else False
+        self._images = []
+        self._annotations = []
+        self._categories = []
 
     def execute(self, output, **kwargs):
         """Execute COCO Transformer
@@ -53,68 +55,17 @@ class COCOInstancesTransformer():
             output (str): the output directory where converted dataset will
               be stored.
         """
-        self._copy_images(output)
-        self._process_instances(output)
+        solo = self._solo
+        frame_count = self._data_len
 
-    def _get_annotation_def_by_type(self, annotation: str):
-        if annotation == self.SEMANTIC_SEGMENTATION_TYPE:
-            return SemanticSegmentationAnnotation()
-        if annotation == self.INSTANCE_SEGMENTATION_TYPE:
-            return InstanceSegmentationAnnotation()
-        if annotation == self.BOUNDING_BOX_TYPE:
-            return BoundingBox2DAnnotation()
-        if annotation == self.BOUNDING_BOX_3D_TYPE:
-            return BoundingBox3DAnnotation()
-        if annotation == self.KEYPOINT_TYPE:
-            return KeypointAnnotation()
-        return None
+        # --- process each frame at once
+        for idx, current_frame in enumerate(solo):
+            if idx == frame_count:
+                break
+            self._images.append(self._process_image(current_frame, idx, output))
+            self._annotations.append(self._process_annotation(idx, includes_kpt_labeler=self._kpts_labeler_exists))
+            self._categories = self._process_categories(includes_kpt_labeler=self._kpts_labeler_exists)
 
-
-    def _get_annotation_by_labeler_type(self, annotation, sensor=None):
-        sensor = sensor or self._sensor
-        annotations = sensor.annotations
-        ann_type = self._get_annotation_def_by_type(annotation)
-
-        for a in annotations:
-            if a.Is(ann_type.DESCRIPTOR):
-                a.Unpack(ann_type)
-                messageToDict = MessageToDict(a)
-                if 'id' in messageToDict:
-                    return messageToDict
-        return None
-
-    def get_annotation_definitions(self):
-        f = open(os.path.join(self._data_root, "metadata.json"), "r")
-        self.metadata = json.load(f)
-
-        f = open(os.path.join(self._data_root, "annotation_definitions.json"), "r")
-        self.annotaion_definitions = json.load(f)
-
-        for ann_def in self.annotaion_definitions["annotationDefinitions"]:
-            if ann_def["@type"] == self.KEYPOINT_TYPE:
-                self._kpt_def = ann_def
-            elif ann_def["@type"] == self.BOUNDING_BOX_TYPE:
-                self._bbox_def = ann_def
-
-    def _copy_images(self, output):
-        image_to_folder = Path(output) / "images"
-        image_to_folder.mkdir(parents=True, exist_ok=True)
-        start_at = 0
-        for index in range(start_at, self._data_len):
-            self._solo.__load_frame__(index)
-            step = index % self._solo.steps_per_sequence
-            image_from_file = f"step{step}.camera.png"
-            image_from = os.path.join(self._solo.sequence_path, image_from_file)
-            if not os.path.exists(image_from):
-                continue
-            image_to_file = f"camera_{index}.png"
-            image_to = image_to_folder / image_to_file
-            shutil.copy(str(image_from), str(image_to))
-
-
-    def _process_instances(self, output):
-        output = Path(output) / "annotations"
-        output.mkdir(parents=True, exist_ok=True)
         date_time = datetime.now()
         date_created = date_time.strftime("%A, %d %B, %Y")
         instances = {
@@ -133,121 +84,147 @@ class COCOInstancesTransformer():
                     "url": "Not Set"
                 }
             ],
-            "images": self._images(),
-            "annotations": self._annotations(includes_kpt_labeler=self._kpts_labeler_exists),
-            "categories": self._categories(includes_kpt_labeler=self._kpts_labeler_exists),
+            "images": self._images,
+            "annotations": self._annotations,
+            "categories": self._categories
         }
-        output_file = output / "instances.json"
+        ann_output = Path(output) / "annotations"
+        ann_output.mkdir(parents=True, exist_ok=True)
+        output_file = ann_output / "instances.json"
         with open(output_file, "w") as out:
             json.dump(instances, out, indent=3)
 
-    def _images(self):
-        images = []
-        start_at = 0
-        sensor = self._sensor
-        for index in range(start_at, self._data_len):
-            self._solo.__load_frame__(index)
-            image_file = os.path.join(self._solo.sequence_path, sensor.filename)
-            if not os.path.exists(image_file):
-                continue
-            with Image.open(image_file) as im:
-                width, height = im.size
-            capture_id = index
-            date_captured_full = datetime.strptime(self.metadata["simulationStartTime"], "%m/%d/%Y %I:%M:%S %p")
-            date_captured = date_captured_full.strftime("%A, %B %d, %Y")
-            file_name = f"camera_{index}.png"
-            record = {
-                "id": capture_id,
-                "width": width,
-                "height": height,
-                "file_name": file_name,
-                "license": 0,
-                "flickr_url": "",
-                "coco_url": "",
-                "date_captured": date_captured,
-            }
-            images.append(record)
+    def _get_annotation_def_by_type(self, annotation: str):
+        if annotation == self.SEMANTIC_SEGMENTATION_TYPE:
+            return SemanticSegmentationAnnotation()
+        if annotation == self.INSTANCE_SEGMENTATION_TYPE:
+            return InstanceSegmentationAnnotation()
+        if annotation == self.BOUNDING_BOX_TYPE:
+            return BoundingBox2DAnnotation()
+        if annotation == self.BOUNDING_BOX_3D_TYPE:
+            return BoundingBox3DAnnotation()
+        if annotation == self.KEYPOINT_TYPE:
+            return KeypointAnnotation()
+        return None
 
-        return images
+    def _get_annotation_by_labeler_type(self, annotation, sensor=None):
+        sensor = sensor or self._sensor
+        annotations = sensor.annotations
+        ann_type = self._get_annotation_def_by_type(annotation)
 
-    def _annotations(self, includes_kpt_labeler: bool):
+        for a in annotations:
+            if a.Is(ann_type.DESCRIPTOR):
+                a.Unpack(ann_type)
+                messageToDict = MessageToDict(a)
+                if 'id' in messageToDict:
+                    return messageToDict
+        return None
+
+    def get_annotation_definitions(self):
+        f = open(os.path.join(self._data_root, "metadata.json"), "r")
+        self._metadata = json.load(f)
+
+        f = open(os.path.join(self._data_root, "annotation_definitions.json"), "r")
+        self._annotaion_definitions = json.load(f)
+
+        for ann_def in self._annotaion_definitions["annotationDefinitions"]:
+            if ann_def["@type"] == self.KEYPOINT_TYPE:
+                self._kpt_def = ann_def
+            elif ann_def["@type"] == self.BOUNDING_BOX_TYPE:
+                self._bbox_def = ann_def
+
+    def _process_image(self, current_frame, idx, output):
+        sensor = self._sensor_name
+        image_to_folder = Path(output) / "images"
+        image_to_folder.mkdir(parents=True, exist_ok=True)
+        current_frame_info = current_frame[sensor]
+        image_file = os.path.join(self._solo.sequence_path, current_frame_info['filename'])
+
+        # --- copy images to coco output folder ---
+        sensor_id = current_frame_info['id']
+        image_to_file = f"{sensor_id}_{idx}.png"
+        image_to = image_to_folder / image_to_file
+        shutil.copy(str(image_file), str(image_to))
+
+        width, height = current_frame_info['dimension'][0], current_frame_info['dimension'][1]
+        date_captured_full = datetime.strptime(self._metadata["simulationStartTime"], "%m/%d/%Y %I:%M:%S %p")
+        date_captured = date_captured_full.strftime("%A, %B %d, %Y")
+        record = {
+            "id": idx,
+            "width": width,
+            "height": height,
+            "file_name": image_to_file,
+            "license": 0,
+            "flickr_url": "",
+            "coco_url": "",
+            "date_captured": date_captured,
+        }
+        return record
+
+    def _process_annotation(self, idx, includes_kpt_labeler):
         if includes_kpt_labeler is True:
-            annotations = self._get_coco_record_for_bbx_and_kpts()
+            annotations = self._get_coco_record_for_bbx_and_kpts(idx)
         else:
-            annotations = self._get_coco_record_for_bbx()
+            annotations = self._get_coco_record_for_bbx(idx)
         return annotations
 
-    def _get_coco_record_for_bbx_and_kpts(self):
-        annotations = []
-        start_at = 0
-        for index in range(start_at, self._data_len):
-            self._solo.__load_frame__(index)
-            bb_dic = self._get_annotation_by_labeler_type(annotation=self.BOUNDING_BOX_TYPE)
-            kpt_dic = self._get_annotation_by_labeler_type(annotation=self.KEYPOINT_TYPE)
-            image_id = index
+    def _get_coco_record_for_bbx_and_kpts(self, idx):
+        bb_dic = self._get_annotation_by_labeler_type(annotation=self.BOUNDING_BOX_TYPE)
+        kpt_dic = self._get_annotation_by_labeler_type(annotation=self.KEYPOINT_TYPE)
 
-            for ann_bb, ann_kpt in zip(bb_dic["values"], kpt_dic["values"]):
-                # --- bbox ---
-                area = ann_bb["dimension"][0] * ann_bb["dimension"][1]
-                # --- keypoint ---
-                keypoints_vals = []
-                num_keypoints = 0
-                for kpt in ann_kpt["keypoints"]:
-                    keypoints_vals.append(
-                        [
-                            kpt["location"][0],
-                            kpt["location"][1],
-                            kpt["state"] if kpt.get("state") else 0.0
-                        ]
-                    )
-                    if kpt.get("state") and kpt["state"] != 0.0:
-                        num_keypoints += 1
+        for ann_bb, ann_kpt in zip(bb_dic["values"], kpt_dic["values"]):
+            # --- bbox ---
+            area = ann_bb["dimension"][0] * ann_bb["dimension"][1]
+            # --- keypoint ---
+            keypoints_vals = []
+            num_keypoints = 0
+            for kpt in ann_kpt["keypoints"]:
+                keypoints_vals.append(
+                    [
+                        kpt["location"][0],
+                        kpt["location"][1],
+                        kpt["state"] if kpt.get("state") else 0.0
+                    ]
+                )
+                if kpt.get("state") and kpt["state"] != 0.0:
+                    num_keypoints += 1
 
-                keypoints_vals = [
-                    item for sublist in keypoints_vals for item in sublist
-                ]
+            keypoints_vals = [
+                item for sublist in keypoints_vals for item in sublist
+            ]
 
-                record = {
-                    "id": image_id,
-                    "image_id": image_id,
-                    "category_id": ann_bb["labelId"],
-                    "segmentation": [],  # TODO: parse instance segmentation map
-                    "area": area,
-                    "bbox": ann_bb["origin"] + ann_bb["dimension"],
-                    "iscrowd": 0,
-                    "num_keypoints": num_keypoints,
-                    "keypoints": keypoints_vals,
-                }
-                annotations.append(record)
+            record = {
+                "id": idx,
+                "image_id": idx,
+                "category_id": ann_bb["labelId"],
+                "segmentation": [],  # TODO: parse instance segmentation map
+                "area": area,
+                "bbox": ann_bb["origin"] + ann_bb["dimension"],
+                "iscrowd": 0,
+                "num_keypoints": num_keypoints,
+                "keypoints": keypoints_vals,
+            }
+        return record
 
-        return annotations
+    def _get_coco_record_for_bbx(self, idx):
+        bb_dic = self._get_annotation_by_labeler_type(annotation=self.BOUNDING_BOX_TYPE)
 
+        for ann_bb in bb_dic["values"]:
+            # --- bbox ---
+            area = ann_bb["dimension"][0] * ann_bb["dimension"][1]
 
-    def _get_coco_record_for_bbx(self):
-        annotations = []
-        start_at = 0
-        for index in range(start_at, self._data_len):
-            self._solo.__load_frame__(index)
-            bb_dic = self._get_annotation_by_labeler_type(annotation=self.BOUNDING_BOX_TYPE)
-            image_id = index
+            record = {
+                "id": idx,
+                "image_id": idx,
+                "category_id": ann_bb["labelId"],
+                "segmentation": [],  # TODO: parse instance segmentation map
+                "area": area,
+                "bbox": ann_bb["origin"] + ann_bb["dimension"],
+                "iscrowd": 0,
+            }
+        return record
 
-            for ann_bb in bb_dic["values"]:
-                # --- bbox ---
-                area = ann_bb["dimension"][0] * ann_bb["dimension"][1]
-
-                record = {
-                    "id": image_id,
-                    "image_id": image_id,
-                    "category_id": ann_bb["labelId"],
-                    "segmentation": [],  # TODO: parse instance segmentation map
-                    "area": area,
-                    "bbox": ann_bb["origin"] + ann_bb["dimension"],
-                    "iscrowd": 0,
-                }
-                annotations.append(record)
-        return annotations
-
-    def _categories(self, includes_kpt_labeler=bool):
+    def _process_categories(self, includes_kpt_labeler=bool):
         categories = []
 
         if includes_kpt_labeler is True:
