@@ -1,14 +1,16 @@
-import os
-import pathlib
 import shutil
-
-from unity_vision.consumers.solo.parser import SoloBase
+import unittest
+from os import listdir
+from os.path import isfile, join, exists
+from pycocotools.coco import COCO
+import os
 from unity_vision.protos.solo_pb2 import (BoundingBox2DAnnotation,
                                           BoundingBox3DAnnotation,
                                           InstanceSegmentationAnnotation,
                                           KeypointAnnotation, RGBCamera,
                                           SemanticSegmentationAnnotation)
 from SoloToCocoConverter.solo_to_coco import COCOInstancesTransformer
+
 __SENSORS__ = [
     {
         "sensor": RGBCamera,
@@ -22,17 +24,12 @@ __SENSORS__ = [
     }
 ]
 
-import unittest
-from os import listdir
-from os.path import isfile, join, exists
-from pycocotools.coco import COCO
-import os
-
 output_path = "temp_output/"
 annotation_output = os.path.join(output_path, "annotations")
 image_output = os.path.join(output_path, "images")
 annFile = os.path.join(annotation_output, "instances.json")
 data_len = 10
+
 
 class TestBasic(unittest.TestCase):
     def setUp(self):
@@ -47,7 +44,7 @@ class TestBasic(unittest.TestCase):
     def test_annotation_file_exists(self):
         self.assertTrue(exists(annFile))
 
-    def test_output_with_coco(self):
+    def test_output_categories_with_coco(self):
         # initialize COCO api for instance annotations
         coco = COCO(annFile)
         # display COCO categories and supercategories
@@ -87,7 +84,6 @@ class TestBasic(unittest.TestCase):
         except OSError as e:
             print("Error: %s - %s." % (e.filename, e.strerror))
 
+
 if __name__ == '__main__':
     unittest.main()
-
-
