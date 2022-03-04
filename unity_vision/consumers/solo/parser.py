@@ -160,12 +160,12 @@ class Solo(SoloBase):
         Default metadata location is expected at root/metadata.json but
         if an annotation_file path is provided that is used as the annotation
         """
-        metadata_file = open(f"{self.path}/metadata.json")
-        if annotation_file is not None:
-            metadata_file = open(annotation_file)
-
+        metadata_file_path = f"{self.path}/metadata.json"
+        if annotation_file:
+            metadata_file_path = annotation_file
+        metadata_f = open(metadata_file_path)
         pre = time.time()
-        metadata = json.load(metadata_file)
+        metadata = json.load(metadata_f)
         print('DONE (t={:0.5f}s)'.format(time.time() - pre))
 
         self.total_frames = metadata["totalFrames"]
