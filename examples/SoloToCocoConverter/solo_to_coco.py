@@ -1,3 +1,4 @@
+import glob
 import json
 import logging
 import os
@@ -15,7 +16,8 @@ from unity_vision.protos.solo_pb2 import (
 )
 
 logger = logging.getLogger(__name__)
-
+# unique id for annotation ids
+aid = 0
 
 class COCOInstancesTransformer():
     """Convert Synthetic dataset to COCO format.
@@ -29,7 +31,6 @@ class COCOInstancesTransformer():
     Args:
         data_root (str): root directory of the dataset
     """
-
     # annotation type
     SEMANTIC_SEGMENTATION_TYPE = 'type.unity.com/unity.solo.SemanticSegmentationAnnotationDefinition'
     INSTANCE_SEGMENTATION_TYPE = 'type.unity.com/unity.solo.InstanceSegmentationAnnotationDefinition'
@@ -62,7 +63,7 @@ class COCOInstancesTransformer():
             if idx == self._data_len:
                 break
             self._images.append(self._process_image(current_frame, idx, output))
-            self._annotations.append(self._process_annotation(idx, includes_kpt_labeler=self._kpts_labeler_exists))
+            self._process_annotation(idx, includes_kpt_labeler=self._kpts_labeler_exists)
             self._categories = self._process_categories(includes_kpt_labeler=self._kpts_labeler_exists)
 
         date_time = datetime.now()
@@ -132,12 +133,19 @@ class COCOInstancesTransformer():
             elif ann_def["@type"] == self.BOUNDING_BOX_TYPE:
                 self._bbox_def = ann_def
 
+    def _get_sequence_path(self):
+        filename_pattern = f"{self._solo.sequence_path}"
+        files = glob.glob(filename_pattern)
+        if len(files) != 1:
+            raise Exception(f"Metadata file not found for sequence {self._solo.sequence_path}")
+        return files[0]
+
     def _process_image(self, current_frame, idx, output):
         sensor = self._sensor_name
         image_to_folder = Path(output) / "images"
         image_to_folder.mkdir(parents=True, exist_ok=True)
         current_frame_info = current_frame[sensor]
-        image_file = os.path.join(self._solo.sequence_path, current_frame_info['filename'])
+        image_file = os.path.join(self._get_sequence_path(), current_frame_info['filename'])
 
         # --- copy images to coco output folder ---
         sensor_id = current_frame_info['id']
@@ -162,70 +170,59 @@ class COCOInstancesTransformer():
 
     def _process_annotation(self, idx, includes_kpt_labeler):
         if includes_kpt_labeler is True:
-            annotations = self._get_coco_record_for_bbx_and_kpts(idx)
+            self._get_coco_record_for_bbx_and_kpts(idx)
         else:
-            annotations = self._get_coco_record_for_bbx(idx)
-        return annotations
+            self._get_coco_record_for_bbx(idx)
 
     def _get_coco_record_for_bbx_and_kpts(self, idx):
         bb_dic = self._get_annotation_by_labeler_type(annotation=self.BOUNDING_BOX_TYPE)
         kpt_dic = self._get_annotation_by_labeler_type(annotation=self.KEYPOINT_TYPE)
 
-        for ann_bb, ann_kpt in zip(bb_dic["values"], kpt_dic["values"]):
-            record = self._get_coco_record_for_bbx(idx)
-            # --- bbox ---
-            # area = ann_bb["dimension"][0] * ann_bb["dimension"][1]
+        for ann_bb in bb_dic["values"]:
+            for ann_kpt in kpt_dic["values"]:
+                record = self._bbox_to_record(ann_bb, idx)
+                keypoints_vals = []
+                num_keypoints = 0
+                for kpt in ann_kpt["keypoints"]:
+                    keypoints_vals.append(
+                        [
+                            kpt["location"][0],
+                            kpt["location"][1],
+                            kpt["state"] if kpt.get("state") else 0.0
+                        ]
+                    )
+                    if kpt.get("state") and kpt["state"] != 0.0:
+                        num_keypoints += 1
 
-            # --- keypoint ---
-            keypoints_vals = []
-            num_keypoints = 0
-            for kpt in ann_kpt["keypoints"]:
-                keypoints_vals.append(
-                    [
-                        kpt["location"][0],
-                        kpt["location"][1],
-                        kpt["state"] if kpt.get("state") else 0.0
-                    ]
-                )
-                if kpt.get("state") and kpt["state"] != 0.0:
-                    num_keypoints += 1
+                keypoints_vals = [
+                    item for sublist in keypoints_vals for item in sublist
+                ]
+                record['num_keypoints'] = num_keypoints
+                record['keypoints'] = keypoints_vals
+                self._annotations.append(record)
 
-            keypoints_vals = [
-                item for sublist in keypoints_vals for item in sublist
-            ]
-
-            record['num_keypoints'] = num_keypoints
-            record['keypoints'] = keypoints_vals
-
-            # record = {
-            #     "id": idx,
-            #     "image_id": idx,
-            #     "category_id": ann_bb["labelId"],
-            #     "segmentation": [],  # TODO: parse instance segmentation map
-            #     "area": area,
-            #     "bbox": ann_bb["origin"] + ann_bb["dimension"],
-            #     "iscrowd": 0,
-            #     "num_keypoints": num_keypoints,
-            #     "keypoints": keypoints_vals,
-            # }
-        return record
 
     def _get_coco_record_for_bbx(self, idx):
         bb_dic = self._get_annotation_by_labeler_type(annotation=self.BOUNDING_BOX_TYPE)
 
         for ann_bb in bb_dic["values"]:
-            # --- bbox ---
-            area = ann_bb["dimension"][0] * ann_bb["dimension"][1]
+            record = self._bbox_to_record(ann_bb, idx)
+            self._annotations.append(record)
 
-            record = {
-                "id": idx,
-                "image_id": idx,
-                "category_id": ann_bb["labelId"],
-                "segmentation": [],  # TODO: parse instance segmentation map
-                "area": area,
-                "bbox": ann_bb["origin"] + ann_bb["dimension"],
-                "iscrowd": 0,
-            }
+    def _bbox_to_record(self, ann_bb, idx):
+        # --- bbox ---
+        area = ann_bb["dimension"][0] * ann_bb["dimension"][1]
+        global aid
+        record = {
+            "id": aid,
+            "image_id": idx,
+            "category_id": ann_bb["labelId"],
+            "segmentation": [],  # TODO: parse instance segmentation map
+            "area": area,
+            "bbox": ann_bb["origin"] + ann_bb["dimension"],
+            "iscrowd": 0,
+        }
+        aid += 1
         return record
 
     def _process_categories(self, includes_kpt_labeler=bool):
@@ -243,27 +240,14 @@ class COCOInstancesTransformer():
                 record = self._bbox_categories(r)
                 record['keypoints'] = key_points
                 record['skeleton'] = skeleton
-                # record = {
-                #     "id": r["label_id"],
-                #     "name": r["label_name"],
-                #     "supercategory": "default",
-                #     "keypoints": key_points,
-                #     "skeleton": skeleton,
-                # }
                 categories.append(record)
         else:
             for r in self._bbox_def["spec"]:
-                # record = {
-                #     "id": r["label_id"],
-                #     "name": r["label_name"],
-                #     "supercategory": "default",
-                # }
                 record = self._bbox_categories(r)
                 categories.append(record)
         return categories
 
     def _bbox_categories(self, r):
-        # for r in self._bbox_def["spec"]:
         record = {
             "id": r["label_id"],
             "name": r["label_name"],
