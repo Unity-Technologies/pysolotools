@@ -104,6 +104,11 @@ class SoloBase(ABC):
             f_message, Frame(), ignore_unknown_fields=True, descriptor_pool=None
         )
         sensors = self._unpack_sensors(frame.captures)
+        for s in sensors.values():
+            s['frame'] = frame.frame
+            s['sequence'] = frame.sequence
+            s['step'] = frame.step
+
         return sensors
 
     def sensors(self):
