@@ -3,6 +3,7 @@ import json
 import logging
 import os
 import shutil
+from itertools import cycle
 from pathlib import Path
 from google.protobuf.json_format import MessageToDict
 from datetime import datetime
@@ -178,28 +179,29 @@ class COCOInstancesTransformer():
         bb_dic = self._get_annotation_by_labeler_type(annotation=self.BOUNDING_BOX_TYPE)
         kpt_dic = self._get_annotation_by_labeler_type(annotation=self.KEYPOINT_TYPE)
 
-        for ann_bb in bb_dic["values"]:
-            for ann_kpt in kpt_dic["values"]:
-                record = self._bbox_to_record(ann_bb, idx)
-                keypoints_vals = []
-                num_keypoints = 0
-                for kpt in ann_kpt["keypoints"]:
-                    keypoints_vals.append(
-                        [
-                            kpt["location"][0],
-                            kpt["location"][1],
-                            kpt["state"] if kpt.get("state") else 0.0
-                        ]
-                    )
-                    if kpt.get("state") and kpt["state"] != 0.0:
-                        num_keypoints += 1
+        A = bb_dic["values"]
+        B = kpt_dic["values"]
+        for ann_bb, ann_kpt in zip(A, cycle(B)) if len(A) > len(B) else zip(cycle(A), B):
+            record = self._bbox_to_record(ann_bb, idx)
+            keypoints_vals = []
+            num_keypoints = 0
+            for kpt in ann_kpt["keypoints"]:
+                keypoints_vals.append(
+                    [
+                        kpt["location"][0],
+                        kpt["location"][1],
+                        kpt["state"] if kpt.get("state") else 0.0
+                    ]
+                )
+                if kpt.get("state") and kpt["state"] != 0.0:
+                    num_keypoints += 1
 
-                keypoints_vals = [
-                    item for sublist in keypoints_vals for item in sublist
-                ]
-                record['num_keypoints'] = num_keypoints
-                record['keypoints'] = keypoints_vals
-                self._annotations.append(record)
+            keypoints_vals = [
+                item for sublist in keypoints_vals for item in sublist
+            ]
+            record['num_keypoints'] = num_keypoints
+            record['keypoints'] = keypoints_vals
+            self._annotations.append(record)
 
 
     def _get_coco_record_for_bbx(self, idx):
