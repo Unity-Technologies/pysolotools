@@ -74,6 +74,7 @@ class TestBasic(unittest.TestCase):
             img = coco.loadImgs(index)[0]
             annIds = coco_kps.getAnnIds(img['id'], iscrowd=None)
             anns = coco_kps.loadAnns(annIds)
+            coco_kps.showAnns(anns, draw_bbox=True)
             self.assertEqual(index, anns[0]['image_id'])
             self.assertTrue(True, anns[0]['bbox'])
 

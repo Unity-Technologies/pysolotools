@@ -180,27 +180,29 @@ class COCOInstancesTransformer():
         kpt_dic = self._get_annotation_by_labeler_type(annotation=self.KEYPOINT_TYPE)
 
         bb_list = bb_dic["values"]
-        kpt_list = kpt_dic["values"]
-        for ann_bb, ann_kpt in zip(bb_list, cycle(kpt_list)) if len(bb_list) > len(kpt_list) else zip(cycle(bb_list), kpt_list):
+        # --- only 1 keypoint labeler allowed at this point, we can get ann_kpt directly ---
+        ann_kpt = kpt_dic["values"][0]
+        for ann_bb in bb_list:
             record = self._bbox_to_record(ann_bb, idx)
-            keypoints_vals = []
-            num_keypoints = 0
-            for kpt in ann_kpt["keypoints"]:
-                keypoints_vals.append(
-                    [
-                        kpt["location"][0],
-                        kpt["location"][1],
-                        kpt["state"] if kpt.get("state") else 0.0
-                    ]
-                )
-                if kpt.get("state") and kpt["state"] != 0.0:
-                    num_keypoints += 1
+            if ann_bb["instanceId"] == ann_kpt["instanceId"]:
+                keypoints_vals = []
+                num_keypoints = 0
+                for kpt in ann_kpt["keypoints"]:
+                    keypoints_vals.append(
+                        [
+                            kpt["location"][0],
+                            kpt["location"][1],
+                            kpt["state"] if kpt.get("state") else 0.0
+                        ]
+                    )
+                    if kpt.get("state") and kpt["state"] != 0.0:
+                        num_keypoints += 1
 
-            keypoints_vals = [
-                item for sublist in keypoints_vals for item in sublist
-            ]
-            record['num_keypoints'] = num_keypoints
-            record['keypoints'] = keypoints_vals
+                keypoints_vals = [
+                    item for sublist in keypoints_vals for item in sublist
+                ]
+                record['num_keypoints'] = num_keypoints
+                record['keypoints'] = keypoints_vals
             self._annotations.append(record)
 
 
