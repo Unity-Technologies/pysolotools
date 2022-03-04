@@ -56,11 +56,10 @@ class COCOInstancesTransformer():
               be stored.
         """
         solo = self._solo
-        frame_count = self._data_len
 
         # --- process each frame at once
         for idx, current_frame in enumerate(solo):
-            if idx == frame_count:
+            if idx == self._data_len:
                 break
             self._images.append(self._process_image(current_frame, idx, output))
             self._annotations.append(self._process_annotation(idx, includes_kpt_labeler=self._kpts_labeler_exists))
@@ -173,8 +172,10 @@ class COCOInstancesTransformer():
         kpt_dic = self._get_annotation_by_labeler_type(annotation=self.KEYPOINT_TYPE)
 
         for ann_bb, ann_kpt in zip(bb_dic["values"], kpt_dic["values"]):
+            record = self._get_coco_record_for_bbx(idx)
             # --- bbox ---
-            area = ann_bb["dimension"][0] * ann_bb["dimension"][1]
+            # area = ann_bb["dimension"][0] * ann_bb["dimension"][1]
+
             # --- keypoint ---
             keypoints_vals = []
             num_keypoints = 0
@@ -193,17 +194,20 @@ class COCOInstancesTransformer():
                 item for sublist in keypoints_vals for item in sublist
             ]
 
-            record = {
-                "id": idx,
-                "image_id": idx,
-                "category_id": ann_bb["labelId"],
-                "segmentation": [],  # TODO: parse instance segmentation map
-                "area": area,
-                "bbox": ann_bb["origin"] + ann_bb["dimension"],
-                "iscrowd": 0,
-                "num_keypoints": num_keypoints,
-                "keypoints": keypoints_vals,
-            }
+            record['num_keypoints'] = num_keypoints
+            record['keypoints'] = keypoints_vals
+
+            # record = {
+            #     "id": idx,
+            #     "image_id": idx,
+            #     "category_id": ann_bb["labelId"],
+            #     "segmentation": [],  # TODO: parse instance segmentation map
+            #     "area": area,
+            #     "bbox": ann_bb["origin"] + ann_bb["dimension"],
+            #     "iscrowd": 0,
+            #     "num_keypoints": num_keypoints,
+            #     "keypoints": keypoints_vals,
+            # }
         return record
 
     def _get_coco_record_for_bbx(self, idx):
@@ -226,7 +230,6 @@ class COCOInstancesTransformer():
 
     def _process_categories(self, includes_kpt_labeler=bool):
         categories = []
-
         if includes_kpt_labeler is True:
             key_points = []
             skeleton = []
@@ -237,20 +240,38 @@ class COCOInstancesTransformer():
                 skeleton.append([sk["joint1"] + 1, sk["joint2"] + 1])
 
             for r in self._bbox_def["spec"]:
-                record = {
-                    "id": r["label_id"],
-                    "name": r["label_name"],
-                    "supercategory": "default",
-                    "keypoints": key_points,
-                    "skeleton": skeleton,
-                }
+                record = self._bbox_categories(r)
+                record['keypoints'] = key_points
+                record['skeleton'] = skeleton
+                # record = {
+                #     "id": r["label_id"],
+                #     "name": r["label_name"],
+                #     "supercategory": "default",
+                #     "keypoints": key_points,
+                #     "skeleton": skeleton,
+                # }
                 categories.append(record)
         else:
             for r in self._bbox_def["spec"]:
-                record = {
-                    "id": r["label_id"],
-                    "name": r["label_name"],
-                    "supercategory": "default",
-                }
+                # record = {
+                #     "id": r["label_id"],
+                #     "name": r["label_name"],
+                #     "supercategory": "default",
+                # }
+                record = self._bbox_categories(r)
                 categories.append(record)
         return categories
+
+    def _bbox_categories(self, r):
+        # for r in self._bbox_def["spec"]:
+        record = {
+            "id": r["label_id"],
+            "name": r["label_name"],
+            "supercategory": "default",
+        }
+        return record
+
+
+if __name__ == "__main__":
+    dataset = COCOInstancesTransformer(data_root=os.path.join(Path(__file__).parents[1], "data", "solo"))
+    dataset.execute(output=os.path.join(Path(__file__).parents[1], "data_output"))
