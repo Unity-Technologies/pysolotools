@@ -179,9 +179,9 @@ class COCOInstancesTransformer():
         bb_dic = self._get_annotation_by_labeler_type(annotation=self.BOUNDING_BOX_TYPE)
         kpt_dic = self._get_annotation_by_labeler_type(annotation=self.KEYPOINT_TYPE)
 
-        A = bb_dic["values"]
-        B = kpt_dic["values"]
-        for ann_bb, ann_kpt in zip(A, cycle(B)) if len(A) > len(B) else zip(cycle(A), B):
+        bb_list = bb_dic["values"]
+        kpt_list = kpt_dic["values"]
+        for ann_bb, ann_kpt in zip(bb_list, cycle(kpt_list)) if len(bb_list) > len(kpt_list) else zip(cycle(bb_list), kpt_list):
             record = self._bbox_to_record(ann_bb, idx)
             keypoints_vals = []
             num_keypoints = 0
