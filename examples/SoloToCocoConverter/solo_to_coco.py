@@ -3,6 +3,7 @@ import json
 import logging
 import os
 import shutil
+from itertools import cycle
 from pathlib import Path
 from google.protobuf.json_format import MessageToDict
 from datetime import datetime
@@ -178,9 +179,12 @@ class COCOInstancesTransformer():
         bb_dic = self._get_annotation_by_labeler_type(annotation=self.BOUNDING_BOX_TYPE)
         kpt_dic = self._get_annotation_by_labeler_type(annotation=self.KEYPOINT_TYPE)
 
-        for ann_bb in bb_dic["values"]:
-            for ann_kpt in kpt_dic["values"]:
-                record = self._bbox_to_record(ann_bb, idx)
+        bb_list = bb_dic["values"]
+        # --- only 1 keypoint labeler allowed at this point, we can get ann_kpt directly ---
+        ann_kpt = kpt_dic["values"][0]
+        for ann_bb in bb_list:
+            record = self._bbox_to_record(ann_bb, idx)
+            if ann_bb["instanceId"] == ann_kpt["instanceId"]:
                 keypoints_vals = []
                 num_keypoints = 0
                 for kpt in ann_kpt["keypoints"]:
@@ -199,7 +203,7 @@ class COCOInstancesTransformer():
                 ]
                 record['num_keypoints'] = num_keypoints
                 record['keypoints'] = keypoints_vals
-                self._annotations.append(record)
+            self._annotations.append(record)
 
 
     def _get_coco_record_for_bbx(self, idx):

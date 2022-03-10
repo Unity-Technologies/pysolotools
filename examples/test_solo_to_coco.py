@@ -39,7 +39,7 @@ class TestBasic(unittest.TestCase):
 
     def test_images_produced(self):
         output_image_files = [f for f in listdir(image_output) if isfile(join(image_output, f))]
-        self.assertEqual(len(output_image_files), data_len)
+        self.assertEqual(data_len, len(output_image_files))
 
     def test_annotation_file_exists(self):
         self.assertTrue(exists(annFile))
@@ -50,21 +50,21 @@ class TestBasic(unittest.TestCase):
         # display COCO categories and supercategories
         cats = coco.loadCats(coco.getCatIds())
         nms = [cat['name'] for cat in cats]
-        self.assertEqual(nms, ['Crate', 'Cube', 'Box', 'Terrain', 'Character'])
+        self.assertEqual(['Crate', 'Cube', 'Box', 'Terrain', 'Character'], nms)
         print('COCO categories: \n{}\n'.format(' '.join(nms)))
 
         nms = set([cat['supercategory'] for cat in cats])
-        self.assertEqual(nms, {'default'})
+        self.assertEqual({'default'}, nms)
         print('COCO supercategories: \n{}'.format(' '.join(nms)))
 
     def test_output_image_info(self):
         coco = COCO(annFile)
         for index in range(0, data_len):
             img = coco.loadImgs(index)[0]
-            self.assertEqual(img['id'], index)
-            self.assertEqual(img['width'], 822)
-            self.assertEqual(img['height'], 509)
-            self.assertEqual(img['file_name'], f'camera_{index}.png')
+            self.assertEqual(index, img['id'])
+            self.assertEqual(822, img['width'])
+            self.assertEqual(509, img['height'])
+            self.assertEqual(f'camera_{index}.png', img['file_name'])
 
     def test_output_contains_bbox(self):
         # initialize COCO api for person keypoints annotations
@@ -74,8 +74,15 @@ class TestBasic(unittest.TestCase):
             img = coco.loadImgs(index)[0]
             annIds = coco_kps.getAnnIds(img['id'], iscrowd=None)
             anns = coco_kps.loadAnns(annIds)
-            self.assertEqual(anns[0]['image_id'], index)
-            self.assertTrue(anns[0]['bbox'], True)
+            coco_kps.showAnns(anns, draw_bbox=True)
+            self.assertEqual(index, anns[0]['image_id'])
+            self.assertTrue(True, anns[0]['bbox'])
+
+    def test_annotations_correct_number(self):
+        coco = COCO(annFile)
+        total_num_anns = len(coco.dataset['annotations'])
+        # 3 bounding boxes and 1 keypoint labelers for each frame
+        self.assertEqual(data_len * 3, total_num_anns)
 
     # delete test output after finished testing
     def tearDown(self):
