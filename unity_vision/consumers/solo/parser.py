@@ -159,11 +159,11 @@ class Solo(SoloBase):
         """
         Default metadata location is expected at root/metadata.json but
         if an annotation_file path is provided that is used as the annotation
+        
+        Metadata can be in one of two locations, depending if it was a part of a singular build,
+        or if it was a part of a distributed build.
         """
-        metadata_file_path = f"{self.path}/metadata.json"
-        if annotation_file:
-            metadata_file_path = annotation_file
-        metadata_f = open(metadata_file_path)
+        metadata_f = self.__open_metadata__(annotation_file)
         pre = time.time()
         metadata = json.load(metadata_f)
         print('DONE (t={:0.5f}s)'.format(time.time() - pre))
@@ -179,6 +179,17 @@ class Solo(SoloBase):
             self.sensor_pool = {
                 k: self.sensor_pool[k] for k in sensors if k in self.sensor_pool.keys()
             }
+
+    def __open_metadata__(self, annotation_file=None):
+        discovered_path = None
+        if annotation_file:
+            discovered_path = annotation_file
+        else:
+            discovered_path = glob.glob(self.path + "/**/metadata.json", recursive=True)
+            if len(discovered_path) != 1:
+                raise Exception("Found multiple metadata files.")
+        return open(discovered_path[0])
+
 
     def register_annotation_to_sensor(self, sensor, annotation):
         if not sensor.DESCRIPTOR:
