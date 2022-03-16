@@ -190,7 +190,6 @@ class Solo(SoloBase):
                 raise Exception("Found multiple metadata files.")
         return open(discovered_path[0])
 
-
     def register_annotation_to_sensor(self, sensor, annotation):
         if not sensor.DESCRIPTOR:
             raise Exception(

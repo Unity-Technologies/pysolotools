@@ -4,7 +4,6 @@ import logging
 import os
 import shutil
 from datetime import datetime
-from itertools import cycle
 from pathlib import Path
 
 from google.protobuf.json_format import MessageToDict
@@ -20,6 +19,7 @@ logger = logging.getLogger(__name__)
 # unique id for annotation ids
 aid = 0
 
+
 class COCOInstancesTransformer():
     """Convert Synthetic dataset to COCO format.
     This transformer convert Synthetic dataset into annotations in instance
@@ -33,11 +33,16 @@ class COCOInstancesTransformer():
         data_root (str): root directory of the dataset
     """
     # annotation type
-    SEMANTIC_SEGMENTATION_TYPE = 'type.unity.com/unity.solo.SemanticSegmentationAnnotationDefinition'
-    INSTANCE_SEGMENTATION_TYPE = 'type.unity.com/unity.solo.InstanceSegmentationAnnotationDefinition'
-    BOUNDING_BOX_TYPE = 'type.unity.com/unity.solo.BoundingBoxAnnotationDefinition'
-    BOUNDING_BOX_3D_TYPE = 'type.unity.com/unity.solo.BoundingBox3DAnnotationDefinition'
-    KEYPOINT_TYPE = 'type.unity.com/unity.solo.KeypointAnnotationDefinition'
+    SEMANTIC_SEGMENTATION_TYPE = (
+        'type.unity.com/unity.solo.SemanticSegmentationAnnotationDefinition')
+    INSTANCE_SEGMENTATION_TYPE = (
+        'type.unity.com/unity.solo.InstanceSegmentationAnnotationDefinition')
+    BOUNDING_BOX_TYPE = (
+        'type.unity.com/unity.solo.BoundingBoxAnnotationDefinition')
+    BOUNDING_BOX_3D_TYPE = (
+        'type.unity.com/unity.solo.BoundingBox3DAnnotationDefinition')
+    KEYPOINT_TYPE = (
+        'type.unity.com/unity.solo.KeypointAnnotationDefinition')
 
     def __init__(self, data_root):
         self._data_root = Path(data_root)
@@ -65,7 +70,8 @@ class COCOInstancesTransformer():
                 break
             self._images.append(self._process_image(current_frame, idx, output))
             self._process_annotation(idx, includes_kpt_labeler=self._kpts_labeler_exists)
-            self._categories = self._process_categories(includes_kpt_labeler=self._kpts_labeler_exists)
+            self._categories = (
+                self._process_categories(includes_kpt_labeler=self._kpts_labeler_exists))
 
         date_time = datetime.now()
         date_created = date_time.strftime("%A, %d %B, %Y")
@@ -154,8 +160,10 @@ class COCOInstancesTransformer():
         image_to = image_to_folder / image_to_file
         shutil.copy(str(image_file), str(image_to))
 
-        width, height = current_frame_info['dimension'][0], current_frame_info['dimension'][1]
-        date_captured_full = datetime.strptime(self._metadata["simulationStartTime"], "%m/%d/%Y %I:%M:%S %p")
+        width = current_frame_info['dimension'][0]
+        height = current_frame_info['dimension'][1]
+        date_captured_full = datetime.strptime(
+            self._metadata["simulationStartTime"], "%m/%d/%Y %I:%M:%S %p")
         date_captured = date_captured_full.strftime("%A, %B %d, %Y")
         record = {
             "id": idx,
@@ -204,7 +212,6 @@ class COCOInstancesTransformer():
                 record['num_keypoints'] = num_keypoints
                 record['keypoints'] = keypoints_vals
             self._annotations.append(record)
-
 
     def _get_coco_record_for_bbx(self, idx):
         bb_dic = self._get_annotation_by_labeler_type(annotation=self.BOUNDING_BOX_TYPE)
@@ -261,5 +268,6 @@ class COCOInstancesTransformer():
 
 
 if __name__ == "__main__":
-    dataset = COCOInstancesTransformer(data_root=os.path.join(Path(__file__).parents[1], "data", "solo"))
+    dataset = COCOInstancesTransformer(
+        data_root=os.path.join(Path(__file__).parents[1], "data", "solo"))
     dataset.execute(output=os.path.join(Path(__file__).parents[1], "data_output"))
