@@ -1,15 +1,17 @@
+import os
 import shutil
 import unittest
 from os import listdir
-from os.path import isfile, join, exists
+from os.path import exists, isfile, join
+
 from pycocotools.coco import COCO
-import os
+from SoloToCocoConverter.solo_to_coco import COCOInstancesTransformer
+
 from unity_vision.protos.solo_pb2 import (BoundingBox2DAnnotation,
                                           BoundingBox3DAnnotation,
                                           InstanceSegmentationAnnotation,
                                           KeypointAnnotation, RGBCamera,
                                           SemanticSegmentationAnnotation)
-from SoloToCocoConverter.solo_to_coco import COCOInstancesTransformer
 
 __SENSORS__ = [
     {

@@ -3,18 +3,18 @@ import json
 import logging
 import os
 import shutil
+from datetime import datetime
 from itertools import cycle
 from pathlib import Path
+
 from google.protobuf.json_format import MessageToDict
-from datetime import datetime
+
 from unity_vision.consumers.solo.parser import Solo
-from unity_vision.protos.solo_pb2 import (
-    BoundingBox2DAnnotation,
-    BoundingBox3DAnnotation,
-    InstanceSegmentationAnnotation,
-    SemanticSegmentationAnnotation,
-    KeypointAnnotation
-)
+from unity_vision.protos.solo_pb2 import (BoundingBox2DAnnotation,
+                                          BoundingBox3DAnnotation,
+                                          InstanceSegmentationAnnotation,
+                                          KeypointAnnotation,
+                                          SemanticSegmentationAnnotation)
 
 logger = logging.getLogger(__name__)
 # unique id for annotation ids

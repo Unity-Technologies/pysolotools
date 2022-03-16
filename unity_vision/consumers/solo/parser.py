@@ -159,7 +159,7 @@ class Solo(SoloBase):
         """
         Default metadata location is expected at root/metadata.json but
         if an annotation_file path is provided that is used as the annotation
-        
+
         Metadata can be in one of two locations, depending if it was a part of a singular build,
         or if it was a part of a distributed build.
         """
