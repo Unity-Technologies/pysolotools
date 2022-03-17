@@ -1,29 +1,30 @@
 {
-  "unityVersion": "2020.3.23f1",
+  "unityVersion": "2020.3.19f1",
   "perceptionVersion": "0.8.0-preview.4",
   "renderPipeline": "HDRP",
-  "simulationStartTime": "12/7/2021 1:33:11 PM",
+  "simulationStartTime": "2/16/2022 7:02:22 PM",
   "scenarioRandomSeed": 5.39662E+08,
-  "scenarioActiveRandomizers": [],
-  "totalFrames": 100,
-  "totalSequences": 20,
+  "scenarioActiveRandomizers": [
+    "AnimationRandomizer"
+  ],
+  "totalFrames": 10,
+  "totalSequences": 10,
   "sensors": [
     "camera"
   ],
   "metricCollectors": [
-    "object count",
     "scenario_iteration",
     "random-seed"
   ],
-  "simulationEndTime": "12/7/2021 1:33:19 PM",
+  "simulationEndTime": "2/16/2022 7:02:25 PM",
   "annotators": [
+    {
+      "name": "8b3ef246-daa7-4dd5-a0e8-a943f6e7f8c2",
+      "type": "type.unity.com/unity.solo.KeypointAnnotationDefinition"
+    },
     {
       "name": "bounding box",
       "type": "type.unity.com/unity.solo.BoundingBoxAnnotationDefinition"
-    },
-    {
-      "name": "instance segmentation",
-      "type": "type.unity.com/unity.solo.InstanceSegmentationAnnotationDefinition"
     }
   ]
 }
