@@ -16,7 +16,7 @@ from unity_vision.core.exceptions import (AuthenticationException,
 
 logger = logging.getLogger(__name__)
 
-BASE_URI_V1 = "https://perception-api.simulation.unity3d.com"
+BASE_URI_V1 = 'https://api.test.datasets.computer-vision.unity.com/v1'
 UNITY_AUTH_SA_KEY = "UNITY_AUTH_SA_KEY"
 UNITY_AUTH_API_SECRET = "UNITY_AUTH_API_SECRET"
 _SDK_VERSION = "v0.0.1"
@@ -29,10 +29,12 @@ class UCVDClient(DatasetClient):
 
     def __init__(
         self,
+        org_id,
+        project_id,
         sa_key=None,
         api_secret=None,
         api_version="v1",
-        endpoint=BASE_URI_V1,
+        base_uri=BASE_URI_V1,
         **kwargs,
     ):
         """
@@ -59,6 +61,8 @@ class UCVDClient(DatasetClient):
 
 
         """
+        self.project_id = project_id
+        self.org_id = org_id
         if sa_key is None or api_secret is None:
             if (
                 UNITY_AUTH_SA_KEY not in os.environ
@@ -71,7 +75,7 @@ class UCVDClient(DatasetClient):
             self.api_secret = os.environ[UNITY_AUTH_API_SECRET]
         self.sa_key = sa_key
         self.api_secret = api_secret
-        self.endpoint = endpoint
+        self.endpoint = f"{base_uri}/organizations/{self.org_id}/projects/{self.project_id}"
         self.api_version = api_version
         self.authenticator = BasicAuthenticator(
             sa_key=self.sa_key, api_secret=self.api_secret
