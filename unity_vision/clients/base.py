@@ -1,3 +1,4 @@
+
 from abc import ABC, abstractmethod
 
 
@@ -7,11 +8,11 @@ class DatasetClient(ABC):
         pass
 
     @abstractmethod
-    def download_dataset(self, run_id):
+    def download_dataset(self, dataset_id: str, dest_dir: str, **kwargs):
         pass
 
     @abstractmethod
-    def describe_dataset(self, run_id):
+    def describe_dataset(self, dataset_id: str):
         pass
 
     @abstractmethod

@@ -1,27 +1,28 @@
 import unittest
-from unittest.mock import MagicMock, patch
+
+import responses
 
 from unity_vision.clients.ucvd_client import UCVDClient
 
+MOCK_PROJECT_ID = "mock-proj-id"
+MOCK_ORG_ID = "mock-org-id"
 MOCK_SA_KEY = "mock-sa-key"
 MOCK_API_SECRET = "mock-api-secret"
 MOCK_RUN_ID = "123"
+BASE_URI = 'https://services.api.unity.com/computer-vision-datasets/v1'
+API_ENDPOINT = f"{BASE_URI}/organizations/{MOCK_ORG_ID}/projects/{MOCK_PROJECT_ID}"
 
 
 class TestUCVDClient(unittest.TestCase):
-    mock_dataset_path = "test/file-path"
 
-    @patch("unity_vision.clients.ucvd_client.UCVDClient._download_from_signed_url")
-    @patch("unity_vision.clients.http_client.HttpClient.make_request")
-    def test_get_dataset(self, mocked_make_request, mocked__download_from_signed_url):
-        mocked_http_client = MagicMock()
-        mocked__download_from_signed_url.return_value = self.mock_dataset_path
-
-        with patch("unity_vision.clients.http_client.HttpClient", mocked_http_client):
-            client = UCVDClient(
-                sa_key=MOCK_SA_KEY,
-                api_secret=MOCK_API_SECRET,
-            )
-            dataset_path = client.download_dataset("run-id")
-            mocked_make_request.assert_called_once()
-            assert dataset_path == self.mock_dataset_path
+    @responses.activate
+    def test_list_datasets(self):
+        responses.add(responses.GET, f"{API_ENDPOINT}/datasets", json={'results': []}, status=200)
+        client = UCVDClient(
+            project_id=MOCK_PROJECT_ID,
+            org_id=MOCK_ORG_ID,
+            sa_key=MOCK_SA_KEY,
+            api_secret=MOCK_API_SECRET,
+        )
+        result = client.list_datasets()
+        assert result == []

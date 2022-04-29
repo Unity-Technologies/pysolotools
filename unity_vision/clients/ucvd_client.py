@@ -1,22 +1,17 @@
 import logging
 import os
 import tarfile
-from datetime import time
-from pathlib import Path
 
 import requests
 import requests.exceptions
+from requests.auth import HTTPBasicAuth
 
 from unity_vision.clients.base import DatasetClient
-from unity_vision.clients.http_client import HttpClient
-from unity_vision.core.auth.basic_auth import BasicAuthenticator
-from unity_vision.core.exceptions import (AuthenticationException,
-                                          DatasetException,
-                                          UnityVisionException)
+from unity_vision.core.exceptions import AuthenticationException, UCVDException
 
 logger = logging.getLogger(__name__)
 
-BASE_URI_V1 = 'https://api.test.datasets.computer-vision.unity.com/v1'
+BASE_URI_V1 = 'https://services.api.unity.com/computer-vision-datasets/v1'
 UNITY_AUTH_SA_KEY = "UNITY_AUTH_SA_KEY"
 UNITY_AUTH_API_SECRET = "UNITY_AUTH_API_SECRET"
 _SDK_VERSION = "v0.0.1"
@@ -28,14 +23,14 @@ class UCVDClient(DatasetClient):
     """
 
     def __init__(
-        self,
-        org_id,
-        project_id,
-        sa_key=None,
-        api_secret=None,
-        api_version="v1",
-        base_uri=BASE_URI_V1,
-        **kwargs,
+            self,
+            org_id,
+            project_id,
+            sa_key=None,
+            api_secret=None,
+            api_version="v1",
+            base_uri=BASE_URI_V1,
+            **kwargs,
     ):
         """
         Creates and initializes a UCVDClient
@@ -65,8 +60,8 @@ class UCVDClient(DatasetClient):
         self.org_id = org_id
         if sa_key is None or api_secret is None:
             if (
-                UNITY_AUTH_SA_KEY not in os.environ
-                or UNITY_AUTH_API_SECRET not in os.environ
+                    UNITY_AUTH_SA_KEY not in os.environ
+                    or UNITY_AUTH_API_SECRET not in os.environ
             ):
                 raise AuthenticationException(
                     "UNITY_AUTH_SA_KEY and UNITY_AUTH_API_SECRET both must be present."
@@ -77,14 +72,7 @@ class UCVDClient(DatasetClient):
         self.api_secret = api_secret
         self.endpoint = f"{base_uri}/organizations/{self.org_id}/projects/{self.project_id}"
         self.api_version = api_version
-        self.authenticator = BasicAuthenticator(
-            sa_key=self.sa_key, api_secret=self.api_secret
-        )
-
-        self.client = HttpClient(
-            api_version=self.api_version, authenticator=self.authenticator
-        )
-
+        self.auth = HTTPBasicAuth(self.sa_key, self.api_secret)
         self._headers = {
             "Accept": "application/json",
             "Content-Type": "application/json",
@@ -95,74 +83,61 @@ class UCVDClient(DatasetClient):
     def create_dataset(self, cfg):
         pass
 
-    def describe_dataset(self, id):
+    def describe_dataset(self, dataset_id):
         pass
 
     def list_datasets(self):
+        entity_uri = f"{self.endpoint}/datasets"
+        payload = self.__make_request(method="get", url=entity_uri, auth=self.auth)
+        return payload["results"]
+
+    def download_dataset(self, dataset_id: str, dest_dir: str, chunk_size=1024 ** 2,
+                         skip_on_error: bool = True):
+        """
+        Args:
+            dataset_id (str): The dataset id
+            dest_dir (str): Destination directory
+            chunk_size (int): Chunk size
+            skip_on_error (bool): Should skip on error flag
+
+        Returns:
+            Downloads the file and saves it to the dest_dir
+        """
         pass
 
-    def download_dataset(self, run_id) -> str:
-        """Download a dataset from remote
-
-        API Spec:
-        {{base_url}}/v1/datasets/<run-id>/download
-            >> latest archive signed_url
-        {{base_url}}/v1/datasets/<run-id>/describe
-            >> Describe on a dataset --> Get adapter ids
-        {{base_url}}/v1/datasets/<run-id>/adapter/<adapter-id>/download
-            >> Downloads a specific run output from an adapter
-
-        Args:
-            run_id (str): This is the run_id that identifies a dataset.
-
-        Returns:
-            file_path (str): Returns the location where the tarfile was downloaded.
-        """
-
-        __entity_uri = Path(self.endpoint, "datasets", run_id)
-
-        req = self._build_request("GET", str(__entity_uri))
-        res = self.client.make_request(req)
-        dataset_signed_uri = res.content
-        return self._download_from_signed_url(dataset_signed_uri, run_id)
-
-    def _download_from_signed_url(self, signed_uri, run_id, file_path=None):
-        """Download file from signed URL. Chunked downloads enabled.
-        Args:
-            signed_uri (str): Signed URI to download dataset (tarfile).
-        """
-        timestr = time.strftime("%Y%m%d-%H%M%S")
-        if file_path is None:
-            file_path = f"dataset/{timestr}/{run_id}.tar.gz"
-        logger.info(f"Downloading content to {file_path}")
-        try:
-            with requests.get(signed_uri, stream=True) as r:
-                r.raise_for_status()
-                with open(file_path, "wb") as f:
-                    for chunk in r.iter_content(chunk_size=1024 * 1024):  # 1MB chunks
-                        f.write(chunk)
-        except Exception as e:
-            raise UnityVisionException(f"Failed to download file: {str(e)}")
+    @staticmethod
+    def __make_request(
+            method,
+            url,
+            headers=None,
+            auth=None,
+            params=None,
+            body=None,
+            data=None
+    ):
+        session = requests.Session()
+        params = params or {}
 
         try:
-            self._validate_dataset(file_path)
-        except Exception as e:
-            raise DatasetException(f"Invalid dataset: {str(e)}")
-        return file_path
+            res = session.request(
+                method=method,
+                url=url,
+                headers=headers,
+                auth=auth,
+                params=params,
+                json=body,
+                data=data
+            )
+            res.raise_for_status()
+            session.close()
+            return res.json()
+        except requests.exceptions.HTTPError as re:
+            session.close()
+            logger.error(str(re))
+            raise UCVDException(str(re))
 
-    def _build_request(self, method, entity_uri):
-        """Builds request object
-
-        Args:
-            method (str): oneof(GET, PUT, POST, DELETE, PATCH)
-            entity_uri (str): API Path for given entity
-
-        Returns:
-            object: Returns the resulting request for use further.
-        """
-        return {"method": method, "url": entity_uri, "headers": self._headers}
-
-    def _validate_dataset(self, file_path: str) -> bool:
+    @staticmethod
+    def validate_dataset(file_path: str) -> bool:
         """Validates if a file path is a tarfile. The UCVD datasets are expected to be valid tarfiles.
 
         TODO: Add checksum support
