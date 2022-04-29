@@ -172,7 +172,7 @@ class Solo(SoloBase):
         self.total_sequences = metadata["totalSequences"]
         self.steps_per_sequence = (int)(self.total_frames / self.total_sequences)
 
-        self.end = self.__len__() or end
+        self.end = end or self.__len__()
 
         # sensor filter
         if sensors:
