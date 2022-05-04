@@ -1,15 +1,17 @@
 import logging
 import os
-import tarfile
 
 import requests
 import requests.exceptions
+import requests_toolbelt
 from requests.auth import HTTPBasicAuth
 
 from unity_vision.clients.base import DatasetClient
 from unity_vision.core.exceptions import AuthenticationException, UCVDException
+from unity_vision.core.model import Archive, Attachment
 
 logger = logging.getLogger(__name__)
+logging.basicConfig(level=logging.WARNING)
 
 BASE_URI_V1 = 'https://services.api.unity.com/computer-vision-datasets/v1'
 UNITY_AUTH_SA_KEY = "UNITY_AUTH_SA_KEY"
@@ -38,11 +40,15 @@ class UCVDClient(DatasetClient):
         Usage:
 
         >> client = UCVDClient(
+            org_id="<unity-org-id>",
+            project_id="<unity-project-id>",
             sa_key="UNITY_AUTH_SA_KEY",
             api_secret="UNITY_AUTH_API_SECRET"
             )
 
         Args:
+            org_id (str): Organization ID
+            project_id (str): Project ID
             sa_key (str): Unity project service account key. Falls back to UNITY_AUTH_SA_KEY
                             environment variable.
             api_secret (str): API Secret for project. Falls back to UNITY_AUTH_API_SECRET
@@ -80,30 +86,121 @@ class UCVDClient(DatasetClient):
             "X-User-Agent": f"unity-vision-sdk {_SDK_VERSION})",
         }
 
-    def create_dataset(self, cfg):
-        pass
+    def create_dataset(self, dataset_name, description=None, license_uri=None):
+        entity_uri = f"{self.endpoint}/datasets"
+        dataset = {"name": dataset_name}
+        if description:
+            dataset["description"] = description
+        if license_uri:
+            dataset["licenseURI"] = license_uri
+        return self.__make_request(method="post", url=entity_uri, body=dataset, auth=self.auth)
 
     def describe_dataset(self, dataset_id):
-        pass
+        entity_uri = f"{self.endpoint}/datasets/{dataset_id}"
+        payload = self.__make_request(method="get", url=entity_uri, auth=self.auth)
+        return payload
 
     def list_datasets(self):
         entity_uri = f"{self.endpoint}/datasets"
         payload = self.__make_request(method="get", url=entity_uri, auth=self.auth)
+        # TODO: Pagenation logic ?
         return payload["results"]
 
-    def download_dataset(self, dataset_id: str, dest_dir: str, chunk_size=1024 ** 2,
-                         skip_on_error: bool = True):
-        """
-        Args:
-            dataset_id (str): The dataset id
-            dest_dir (str): Destination directory
-            chunk_size (int): Chunk size
-            skip_on_error (bool): Should skip on error flag
+    def list_dataset_archives(self, dataset_id):
+        entity_uri = f"{self.endpoint}/datasets/{dataset_id}/archives"
+        payload = self.__make_request(method="get", url=entity_uri, auth=self.auth)
+        return payload["results"]
 
-        Returns:
-            Downloads the file and saves it to the dest_dir
-        """
-        pass
+    def create_dataset_archive(self, dataset_id, archive_name="Archive.tar"):
+        entity_uri = f"{self.endpoint}/datasets/{dataset_id}/archives"
+        body = {"name": archive_name}
+        return self.__make_request(method="post", url=entity_uri, body=body, auth=self.auth)
+
+    def describe_dataset_archive(self, dataset_id, archive_id):
+        entity_uri = f"{self.endpoint}/datasets/{dataset_id}/archives/{archive_id}"
+        payload = self.__make_request(method="get", url=entity_uri, auth=self.auth)
+        return payload
+
+    def list_dataset_attachments(self, dataset_id):
+        entity_uri = f"{self.endpoint}/datasets/{dataset_id}/attachments"
+        payload = self.__make_request(method="get", url=entity_uri, auth=self.auth)
+        return payload["results"]
+
+    def describe_dataset_attachment(self, dataset_id, attachment_id):
+        entity_uri = f"{self.endpoint}/datasets/{dataset_id}/archives/{attachment_id}"
+        payload = self.__make_request(method="get", url=entity_uri, auth=self.auth)
+        return payload
+
+    def create_dataset_attachment(self, dataset_id, attachment_name, description):
+        entity_uri = f"{self.endpoint}/datasets/{dataset_id}/attachment"
+        body = {"name": attachment_name, "description": description}
+        return self.__make_request(method="post", url=entity_uri, body=body, auth=self.auth)
+
+    def iterate_dataset_archives(self, dataset_id):
+        entity_uri = f"{self.endpoint}/datasets/{dataset_id}/archives"
+        for res in self.__iterable_get(entity_uri, auth=self.auth):
+            yield Archive(**res)
+
+    def iterate_dataset_attachments(self, dataset_id):
+        entity_uri = f"{self.endpoint}/datasets/{dataset_id}/attachments"
+        for res in self.__iterable_get(entity_uri, auth=self.auth):
+            yield Attachment(**res)
+
+    def download_dataset_archives(self, dataset_id: str, dest_dir: str, chunk_size=1024 ** 2,
+                                  skip_on_error: bool = True):
+        if not os.path.isdir(dest_dir):
+            os.mkdir(dest_dir)
+        for archive in self.iterate_dataset_archives(dataset_id):
+            if archive.state['status'] != 'READY':
+                continue
+            r = requests.get(archive.downloadURL, stream=True)
+            if not r.ok:
+                if skip_on_error:
+                    continue
+                else:
+                    r.raise_for_status()
+            with open(os.path.join(dest_dir, archive.name), 'wb') as f:
+                for chunk in r.iter_content(chunk_size=chunk_size):
+                    f.write(chunk)
+        logger.info("Downloaded successfully")
+
+    def download_dataset_attachment(self, dataset_id: str, attachment_id: str, dest_dir: str = '.',
+                                    chunk_size: int = 1024 ** 2):
+        attachment = self.describe_dataset_attachment(dataset_id, attachment_id)
+        if attachment.state['status'] == 'READY':
+            r = requests.get(attachment.downloadURL, stream=True)
+            r.raise_for_status()
+            with open(os.path.join(dest_dir, attachment.name), 'wb') as f:
+                for chunk in r.iter_content(chunk_size=chunk_size):
+                    f.write(chunk)
+            return
+        raise Exception(f"attachment {attachment_id} is not ready for download")
+
+    @staticmethod
+    def upload_file(url: str, filename: str) -> requests.Response:
+        size = os.path.getsize(filename)
+        with open(filename, 'rb') as fd:
+            stream = requests_toolbelt.StreamingIterator(size, fd)
+            return requests.put(url, data=stream)
+
+    @staticmethod
+    def __iterable_get(
+            base_url,
+            headers=None,
+            auth=None,
+            params=None
+    ):
+        url = base_url
+        params = params or {}
+        while True:
+            res = requests.get(url, params=params, headers=headers, auth=auth)
+            res.raise_for_status()
+            payload = res.json()
+            for result in payload['results']:
+                yield result
+            if 'next' not in payload:
+                break
+            url = f"{base_url}?next={payload['next']}"
 
     @staticmethod
     def __make_request(
@@ -115,9 +212,8 @@ class UCVDClient(DatasetClient):
             body=None,
             data=None
     ):
-        session = requests.Session()
         params = params or {}
-
+        session = requests.Session()
         try:
             res = session.request(
                 method=method,
@@ -131,21 +227,7 @@ class UCVDClient(DatasetClient):
             res.raise_for_status()
             session.close()
             return res.json()
-        except requests.exceptions.HTTPError as re:
+        except Exception as err:
             session.close()
-            logger.error(str(re))
-            raise UCVDException(str(re))
-
-    @staticmethod
-    def validate_dataset(file_path: str) -> bool:
-        """Validates if a file path is a tarfile. The UCVD datasets are expected to be valid tarfiles.
-
-        TODO: Add checksum support
-
-        Arguments:
-            file_path: Path to dataset tarfile
-
-        Returns:
-            bool: True if valid tarfile, False otherwise
-        """
-        return tarfile.is_tarfile(file_path)
+            logger.error(str(err))
+            raise UCVDException(str(err))

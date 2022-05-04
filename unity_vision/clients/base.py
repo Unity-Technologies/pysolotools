@@ -8,7 +8,7 @@ class DatasetClient(ABC):
         pass
 
     @abstractmethod
-    def download_dataset(self, dataset_id: str, dest_dir: str, **kwargs):
+    def download_dataset_archives(self, dataset_id: str, dest_dir: str, **kwargs):
         pass
 
     @abstractmethod
