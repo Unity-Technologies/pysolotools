@@ -1,3 +1,4 @@
+import os.path
 import unittest
 
 import responses
@@ -14,27 +15,38 @@ API_ENDPOINT = f"{BASE_URI}/organizations/{MOCK_ORG_ID}/projects/{MOCK_PROJECT_I
 
 
 class TestUCVDClient(unittest.TestCase):
-    mock_datasets_list = [
-        {
-            "id": "f8407a04-bccd-4934-8cc0-63d7bbdd6b0c",
-            "name": "Mock Test Dataset 1",
-            "createdAt": "2022-04-29T21:04:05.564332Z",
-            "updatedAt": "2022-04-29T21:04:05.564332Z"
-        },
-        {
-            "id": "f8407a04-bccd-4934-8cc0-63d7bbdd6b0c",
-            "name": "Test Dataset 2",
-            "createdAt": "2022-04-29T21:04:35.564332Z",
-            "updatedAt": "2022-04-29T21:04:35.564332Z"
-        },
-        {
-            "id": "f8407a04-bccd-4934-8cc0-63d7bbdd6b0c",
-            "name": "Test Dataset 3",
-            "createdAt": "2022-04-29T21:04:45.564332Z",
-            "updatedAt": "2022-04-29T21:04:45.564332Z"
-        }
 
-    ]
+    mock_dataset = {
+        "id": "b3eb0caf-52dd-46e5-bf61-ae46bb597e0e",
+        "name": "Test Dataset 1",
+        "description": "Mock datasets",
+        "licenseURI": "string",
+        "createdAt": "2022-05-04T07:36:52.233871Z",
+        "updatedAt": "2022-05-04T07:36:52.233871Z"
+    }
+
+    dataset_archives = {
+        "results": [
+            {
+                "id": "id-1",
+                "name": "Sample.tar",
+                "type": "FULL",
+                "downloadURL": "https://mock-signed-url",
+                "state": {
+                    "status": "READY"
+                }
+            },
+            {
+                "id": "id-2",
+                "name": "Sample-2.tar",
+                "type": "FULL",
+                "downloadURL": "https://mock-signed-url",
+                "state": {
+                    "status": "READY"
+                },
+            }
+        ]
+    }
 
     client = UCVDClient(
         project_id=MOCK_PROJECT_ID,
@@ -46,22 +58,50 @@ class TestUCVDClient(unittest.TestCase):
     @responses.activate
     def test_list_datasets(self):
         responses.add(responses.GET, f"{API_ENDPOINT}/datasets",
-                      json={'results': self.mock_datasets_list}, status=200)
+                      json={'results': [self.mock_dataset]}, status=200)
 
         result = self.client.list_datasets()
-        assert result == self.mock_datasets_list
+        assert result == [self.mock_dataset]
 
     @responses.activate
     def test_create_dataset(self):
-        dataset = {
-            "id": "b3eb0caf-52dd-46e5-bf61-ae46bb597e0e",
-            "name": "Test Dataset 1",
-            "description": "Mock datasets",
-            "licenseURI": "string",
-            "createdAt": "2022-05-04T07:36:52.233871Z",
-            "updatedAt": "2022-05-04T07:36:52.233871Z"
-        }
-        responses.add(responses.POST, f"{API_ENDPOINT}/datasets", json=dataset, status=200)
+        responses.add(responses.POST, f"{API_ENDPOINT}/datasets", json=self.mock_dataset, status=200)
 
-        result = self.client.create_dataset(dataset_name="test dataset 1")
-        assert result == dataset
+        result = self.client.create_dataset(dataset_name=self.mock_dataset["name"])
+        assert result == self.mock_dataset
+
+    @responses.activate
+    def test_describe_dataset(self):
+        responses.add(responses.GET, f"{API_ENDPOINT}/datasets/{self.mock_dataset['id']}",
+                      json=self.mock_dataset, status=200)
+
+        result = self.client.describe_dataset(dataset_id=self.mock_dataset["id"])
+        assert result == self.mock_dataset
+
+    @responses.activate
+    def test_iterate_dataset_archive(self):
+        responses.add(responses.GET, f"{API_ENDPOINT}/datasets/{self.mock_dataset['id']}/archives",
+                      json=self.dataset_archives, status=200)
+
+        iterator = self.client.iterate_dataset_archives(dataset_id=self.mock_dataset['id'])
+        assert next(iterator).id == "id-1"
+        assert next(iterator).id == "id-2"
+
+    @unittest.mock.patch("unity_vision.clients.ucvd_client.UCVDClient.iterate_dataset_attachments", autospec=True)
+    @responses.activate
+    def test_download_dataset_archives(self, mocked_iterate_dataset_archives):
+        responses.add(responses.GET, f"{API_ENDPOINT}/datasets/{self.mock_dataset['id']}/archives",
+                      json=self.dataset_archives, status=200)
+        with open('data/Sample.tar', 'rb') as f:
+            responses.add(
+                responses.GET,
+                "https://mock-signed-url",
+                stream=True,
+                body=f.read(),
+                status=200,
+                content_type="application/x-tar"
+            )
+        self.client.download_dataset_archives(dataset_id=self.mock_dataset["id"], dest_dir="test_data")
+        for archive in self.client.iterate_dataset_archives(self.mock_dataset["id"]):
+            assert os.path.exists(f"test_data/{archive.name}")
+            os.remove(f"test_data/{archive.name}")

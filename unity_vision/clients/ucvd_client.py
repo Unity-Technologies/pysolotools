@@ -6,7 +6,6 @@ import requests.exceptions
 import requests_toolbelt
 from requests.auth import HTTPBasicAuth
 
-from unity_vision.clients.base import DatasetClient
 from unity_vision.core.exceptions import AuthenticationException, UCVDException
 from unity_vision.core.model import Archive, Attachment
 
@@ -19,7 +18,7 @@ UNITY_AUTH_API_SECRET = "UNITY_AUTH_API_SECRET"
 _SDK_VERSION = "v0.0.1"
 
 
-class UCVDClient(DatasetClient):
+class UCVDClient:
     """
     A client for using Unity Computer Vision REST APIs
     """
@@ -103,7 +102,6 @@ class UCVDClient(DatasetClient):
     def list_datasets(self):
         entity_uri = f"{self.endpoint}/datasets"
         payload = self.__make_request(method="get", url=entity_uri, auth=self.auth)
-        # TODO: Pagenation logic ?
         return payload["results"]
 
     def list_dataset_archives(self, dataset_id):
