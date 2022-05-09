@@ -166,7 +166,7 @@ class TestUCVDClient(unittest.TestCase):
     def test_download_dataset_archives_success(self, mocked_iterate_dataset_archives):
         responses.add(responses.GET, f"{API_ENDPOINT}/datasets/{self.mock_dataset['id']}/archives",
                       json=self.dataset_archives, status=200)
-        with open('data/Sample.tar', 'rb') as f:
+        with open('tests/data/Sample.tar', 'rb') as f:
             responses.add(
                 responses.GET,
                 "https://mock-signed-url",
