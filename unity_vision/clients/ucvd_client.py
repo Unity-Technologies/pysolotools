@@ -4,6 +4,7 @@ import os
 import requests
 import requests.exceptions
 import requests_toolbelt
+from ratelimit import limits
 from requests.auth import HTTPBasicAuth
 
 from unity_vision.core.exceptions import AuthenticationException, UCVDException
@@ -31,6 +32,7 @@ class UCVDClient:
             api_secret=None,
             api_version="v1",
             base_uri=BASE_URI_V1,
+            rate_limit_period=900,
             **kwargs,
     ):
         """
@@ -78,6 +80,7 @@ class UCVDClient:
         self.endpoint = f"{base_uri}/organizations/{self.org_id}/projects/{self.project_id}"
         self.api_version = api_version
         self.auth = HTTPBasicAuth(self.sa_key, self.api_secret)
+        self.rate_limit_period = rate_limit_period
         self._headers = {
             "Accept": "application/json",
             "Content-Type": "application/json",
@@ -134,11 +137,13 @@ class UCVDClient:
         body = {"name": attachment_name, "description": description}
         return self.__make_request(method="post", url=entity_uri, body=body, auth=self.auth)
 
+    @limits(calls=15, period=900)
     def iterate_dataset_archives(self, dataset_id):
         entity_uri = f"{self.endpoint}/datasets/{dataset_id}/archives"
         for res in self.__iterable_get(entity_uri, auth=self.auth):
             yield Archive(**res)
 
+    @limits(calls=15, period=900)
     def iterate_dataset_attachments(self, dataset_id):
         entity_uri = f"{self.endpoint}/datasets/{dataset_id}/attachments"
         for res in self.__iterable_get(entity_uri, auth=self.auth):

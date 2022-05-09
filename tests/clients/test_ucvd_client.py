@@ -65,7 +65,8 @@ class TestUCVDClient(unittest.TestCase):
 
     @responses.activate
     def test_create_dataset(self):
-        responses.add(responses.POST, f"{API_ENDPOINT}/datasets", json=self.mock_dataset, status=200)
+        responses.add(responses.POST, f"{API_ENDPOINT}/datasets",
+                      json=self.mock_dataset, status=200)
 
         result = self.client.create_dataset(dataset_name=self.mock_dataset["name"])
         assert result == self.mock_dataset
@@ -87,7 +88,8 @@ class TestUCVDClient(unittest.TestCase):
         assert next(iterator).id == "id-1"
         assert next(iterator).id == "id-2"
 
-    @unittest.mock.patch("unity_vision.clients.ucvd_client.UCVDClient.iterate_dataset_attachments", autospec=True)
+    @unittest.mock.patch("unity_vision.clients.ucvd_client.UCVDClient.iterate_dataset_attachments",
+                         autospec=True)
     @responses.activate
     def test_download_dataset_archives(self, mocked_iterate_dataset_archives):
         responses.add(responses.GET, f"{API_ENDPOINT}/datasets/{self.mock_dataset['id']}/archives",
