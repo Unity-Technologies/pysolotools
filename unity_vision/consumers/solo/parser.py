@@ -16,6 +16,7 @@ SoloSequence:
 
 import glob
 import json
+import time
 from abc import ABC, abstractmethod
 from typing import Iterable
 
@@ -103,6 +104,11 @@ class SoloBase(ABC):
             f_message, Frame(), ignore_unknown_fields=True, descriptor_pool=None
         )
         sensors = self._unpack_sensors(frame.captures)
+        for s in sensors.values():
+            s['frame'] = frame.frame
+            s['sequence'] = frame.sequence
+            s['step'] = frame.step
+
         return sensors
 
     def sensors(self):
@@ -127,10 +133,19 @@ class Solo(SoloBase):
     Essentially flattens the sequence.
     """
 
-    def __init__(self, path, sensors=None, start=0, end=None, *args, **kwargs):
+    def __init__(self,
+                 path,
+                 annotation_file=None,
+                 sensors=None,
+                 start=0,
+                 end=None,
+                 *args,
+                 **kwargs):
         """
+        Constructor of Unity SOLO class for reading annotations.
         Args:
             path (str): Path to dataset. This should have all sequences.
+            annotation_file (str): Location of annotation file
             sensors (list[dict]): A list of sensor objects to be read from the dataset.
             start (int): Start sequence
             end (int): End sequence
@@ -141,28 +156,39 @@ class Solo(SoloBase):
         self.path = path
         self.frame_idx = start
 
-        # read in the metadata file. That will get us the total number of frames,
-        # sequences, and steps per sequence
-        metadata_file = open(f"{self.path}/metadata.json")
-        if "metadata_path" in kwargs:
-            metadata_file = open(kwargs.get("metadata_path"))
+        """
+        Default metadata location is expected at root/metadata.json but
+        if an annotation_file path is provided that is used as the annotation
 
-        metadata = json.load(metadata_file)
+        Metadata can be in one of two locations, depending if it was a part of a singular build,
+        or if it was a part of a distributed build.
+        """
+        metadata_f = self.__open_metadata__(annotation_file)
+        pre = time.time()
+        metadata = json.load(metadata_f)
+        print('DONE (t={:0.5f}s)'.format(time.time() - pre))
 
         self.total_frames = metadata["totalFrames"]
         self.total_sequences = metadata["totalSequences"]
         self.steps_per_sequence = (int)(self.total_frames / self.total_sequences)
 
-        if not end:
-            self.end = self.__len__()
-        else:
-            self.end = end
+        self.end = end or self.__len__()
 
         # sensor filter
         if sensors:
             self.sensor_pool = {
                 k: self.sensor_pool[k] for k in sensors if k in self.sensor_pool.keys()
             }
+
+    def __open_metadata__(self, annotation_file=None):
+        discovered_path = None
+        if annotation_file:
+            discovered_path = annotation_file
+        else:
+            discovered_path = glob.glob(self.path + "/**/metadata.json", recursive=True)
+            if len(discovered_path) != 1:
+                raise Exception("Found multiple metadata files.")
+        return open(discovered_path[0])
 
     def register_annotation_to_sensor(self, sensor, annotation):
         if not sensor.DESCRIPTOR:
@@ -185,6 +211,7 @@ class Solo(SoloBase):
         # There should be exactly 1 frame_data for a particular sequence.
         if len(files) != 1:
             raise Exception(f"Metadata file not found for sequence {sequence}")
+        self.frame_idx += 1
         return self.parse_frame(files[0])
 
     def __iter__(self):
@@ -193,8 +220,6 @@ class Solo(SoloBase):
     def __next__(self):
         if self.frame_idx >= self.end:
             raise StopIteration
-
-        self.frame_idx += 1
         return self.__load_frame__(self.frame_idx)
 
     def __len__(self):
