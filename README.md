@@ -59,6 +59,8 @@ There are multiple ways to generate, and access Unity generated synthetic datase
 ```python
 from unity_vision.clients import UCVDClient
 client = UCVDClient(
+    org_id="unity-org-id",
+    project_id="unity-project-id",
     sa_key="sa-key",
     api_secret="api-secret"
 )
