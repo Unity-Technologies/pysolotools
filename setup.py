@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 """
 Installs unity_vision
-
 """
 
 import io
@@ -14,9 +13,9 @@ NAME = "unity_vision"
 DESCRIPTION = "unity computer vision toolchain"
 URL = "https://https://github.com/Unity-Technologies/unity-vision"
 EMAIL = "souranil@unity3d.com"
-AUTHOR = "Souranil Sen"
+AUTHOR = "Unity Technologies"
 REQUIRES_PYTHON = ">=3.6"
-VERSION = "0.1.8"
+VERSION = "0.1.9"
 
 
 here = os.path.abspath(os.path.dirname(__file__))
@@ -51,7 +50,9 @@ setup(
     py_modules=[NAME],
     include_package_data=True,
     license="MIT",
-    install_requires=["protobuf==3.17.2"],
+    install_requires=[
+        "protobuf>=3.17.2"
+    ],
     classifiers=[
         # Trove classifiers
         # Full list: https://pypi.python.org/pypi?%3Aaction=list_classifiers

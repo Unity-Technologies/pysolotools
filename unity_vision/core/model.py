@@ -1,32 +1,36 @@
-from abc import ABC, abstractmethod
+import datetime
+from dataclasses import dataclass
 
 
-class RunOutput:
-    def __init__(self):
-        """"""
+@dataclass(frozen=True)
+class Dataset:
+    id: str
+    name: str
+    createdAt: datetime.date = None
+    updatedAt: datetime.date = None
+    description: str = None
+    licenseURI: str = None
 
 
-class Dataset(ABC):
-    """
-    Abstract Dataset class
-    """
+@dataclass(frozen=True)
+class Archive(object):
+    id: str
+    name: str
+    type: str
+    state: dict = None
+    downloadURL: str = None
+    uploadURL: str = None
+    createdAt: datetime.date = None
+    updatedAt: datetime.date = None
 
-    @abstractmethod
-    def get_metadata_file(self):
-        pass
 
-
-class UCVDDataset(Dataset):
-    def __init__(
-        self,
-        root,
-        run_id=None,
-    ):
-        """
-        Initializes UCVD Dataset
-        """
-        self.root = root
-        self.run_id = run_id
-
-    def get_metadata_file(self) -> str:
-        return f"{self.root}/metadata.json"
+@dataclass(frozen=True)
+class Attachment(object):
+    id: str
+    name: str
+    description: str = None
+    state: dict = None
+    downloadURL: str = None
+    uploadURL: str = None
+    createdAt: datetime.date = None
+    updatedAt: datetime.date = None

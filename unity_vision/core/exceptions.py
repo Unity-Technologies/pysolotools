@@ -19,6 +19,10 @@ class UnrecognizedAuthException(UnityVisionException):
     pass
 
 
+class UCVDException(UnityVisionException):
+    pass
+
+
 class AuthenticationException(UnityVisionException):
     """Raised when no Auth Token is provided"""
 
