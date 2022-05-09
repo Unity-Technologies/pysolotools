@@ -8,7 +8,7 @@ from ratelimit import limits
 from requests.auth import HTTPBasicAuth
 
 from unity_vision.core.exceptions import AuthenticationException, UCVDException
-from unity_vision.core.model import Archive, Attachment
+from unity_vision.core.model import Archive, Attachment, Dataset
 
 logger = logging.getLogger(__name__)
 logging.basicConfig(level=logging.WARNING)
@@ -136,6 +136,12 @@ class UCVDClient:
         entity_uri = f"{self.endpoint}/datasets/{dataset_id}/attachment"
         body = {"name": attachment_name, "description": description}
         return self.__make_request(method="post", url=entity_uri, body=body, auth=self.auth)
+
+    @limits(calls=15, period=900)
+    def iterate_datasets(self):
+        entity_uri = f"{self.endpoint}/datasets"
+        for res in self.__iterable_get(entity_uri, auth=self.auth):
+            yield Dataset(**res)
 
     @limits(calls=15, period=900)
     def iterate_dataset_archives(self, dataset_id):

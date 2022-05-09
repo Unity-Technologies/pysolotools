@@ -9,7 +9,7 @@ class Dataset:
     createdAt: datetime.date = None
     updatedAt: datetime.date = None
     description: str = None
-    licenseURL: str = None
+    licenseURI: str = None
 
 
 @dataclass(frozen=True)

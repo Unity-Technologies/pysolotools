@@ -4,6 +4,7 @@ import unittest
 import responses
 
 from unity_vision.clients.ucvd_client import UCVDClient
+from unity_vision.core.model import Dataset
 
 MOCK_PROJECT_ID = "mock-proj-id"
 MOCK_ORG_ID = "mock-org-id"
@@ -23,6 +24,11 @@ class TestUCVDClient(unittest.TestCase):
         "licenseURI": "string",
         "createdAt": "2022-05-04T07:36:52.233871Z",
         "updatedAt": "2022-05-04T07:36:52.233871Z"
+    }
+
+    list_datasets = {
+        "next": "mock-page-2",
+        "results": [mock_dataset]
     }
 
     dataset_archives = {
@@ -84,6 +90,22 @@ class TestUCVDClient(unittest.TestCase):
 
         result = self.client.list_datasets()
         assert result == [self.mock_dataset]
+
+    @responses.activate
+    def test_iterate_datasets(self):
+        responses.add(responses.GET, f"{API_ENDPOINT}/datasets",
+                      json=self.list_datasets, status=200)
+
+        responses.add(responses.GET, f"{API_ENDPOINT}/datasets?next=mock-page-2",
+                      json={'results': [self.mock_dataset]}, status=200)
+
+        count = 0
+        for dataset in self.client.iterate_datasets():
+            count += 1
+            self.assertIsNotNone(dataset)
+            self.assertIsInstance(dataset, Dataset)
+            self.assertEqual(dataset.name, self.mock_dataset["name"])
+        self.assertEqual(count, 2)
 
     @responses.activate
     def test_list_datasets_unauthorized(self):
