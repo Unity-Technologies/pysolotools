@@ -48,6 +48,28 @@ class TestUCVDClient(unittest.TestCase):
         ]
     }
 
+    unauthorized_res = {
+        "status": 401,
+        "title": "Unauthorized",
+        "requestId": "698c0d2f-b413-4061-a49b-3def18880395",
+        "detail": "Authentication Failed"
+    }
+
+    bad_request = {
+        "status": 400,
+        "title": "Bad Request",
+        "requestId": "mock-id",
+        "detail": "Bad Request",
+        "details": []
+    }
+
+    not_found = {
+        "status": 404,
+        "title": "Not Found",
+        "requestId": "mock-id",
+        "detail": "Not Found"
+    }
+
     client = UCVDClient(
         project_id=MOCK_PROJECT_ID,
         org_id=MOCK_ORG_ID,
@@ -64,6 +86,16 @@ class TestUCVDClient(unittest.TestCase):
         assert result == [self.mock_dataset]
 
     @responses.activate
+    def test_list_datasets_unauthorized(self):
+        responses.add(responses.GET, f"{API_ENDPOINT}/datasets",
+                      json=self.unauthorized_res, status=403)
+
+        with self.assertRaises(Exception) as context:
+            self.client.list_datasets()
+            self.assertEqual(context.exception.response.status_code, 403)
+            self.assertTrue('Forbidden' in str(context.exception))
+
+    @responses.activate
     def test_create_dataset(self):
         responses.add(responses.POST, f"{API_ENDPOINT}/datasets",
                       json=self.mock_dataset, status=200)
@@ -72,12 +104,30 @@ class TestUCVDClient(unittest.TestCase):
         assert result == self.mock_dataset
 
     @responses.activate
+    def test_create_dataset_bad_request(self):
+        responses.add(responses.POST, f"{API_ENDPOINT}/datasets",
+                      json=self.mock_dataset, status=400)
+        with self.assertRaises(Exception) as context:
+            self.client.create_dataset(dataset_name=self.mock_dataset["name"])
+            self.assertEqual(context.exception.response.status_code, 400)
+            self.assertTrue('Forbidden' in str(context.exception))
+
+    @responses.activate
     def test_describe_dataset(self):
         responses.add(responses.GET, f"{API_ENDPOINT}/datasets/{self.mock_dataset['id']}",
                       json=self.mock_dataset, status=200)
 
         result = self.client.describe_dataset(dataset_id=self.mock_dataset["id"])
         assert result == self.mock_dataset
+
+    @responses.activate
+    def test_describe_dataset_not_found(self):
+        responses.add(responses.GET, f"{API_ENDPOINT}/datasets/{self.mock_dataset['id']}",
+                      json=self.not_found, status=404)
+        with self.assertRaises(Exception) as context:
+            self.client.describe_dataset(dataset_id=self.mock_dataset["id"])
+            self.assertEqual(context.exception.response.status_code, 404)
+            self.assertTrue('Forbidden' in str(context.exception))
 
     @responses.activate
     def test_iterate_dataset_archive(self):
@@ -91,7 +141,7 @@ class TestUCVDClient(unittest.TestCase):
     @unittest.mock.patch("unity_vision.clients.ucvd_client.UCVDClient.iterate_dataset_attachments",
                          autospec=True)
     @responses.activate
-    def test_download_dataset_archives(self, mocked_iterate_dataset_archives):
+    def test_download_dataset_archives_success(self, mocked_iterate_dataset_archives):
         responses.add(responses.GET, f"{API_ENDPOINT}/datasets/{self.mock_dataset['id']}/archives",
                       json=self.dataset_archives, status=200)
         with open('data/Sample.tar', 'rb') as f:
@@ -107,3 +157,16 @@ class TestUCVDClient(unittest.TestCase):
         for archive in self.client.iterate_dataset_archives(self.mock_dataset["id"]):
             assert os.path.exists(f"test_data/{archive.name}")
             os.remove(f"test_data/{archive.name}")
+
+    @unittest.mock.patch("unity_vision.clients.ucvd_client.UCVDClient.iterate_dataset_attachments",
+                         autospec=True)
+    @responses.activate
+    def test_download_dataset_archives_failure_unauthorized(self, mocked_iterate_dataset_archives):
+        responses.add(responses.GET, f"{API_ENDPOINT}/datasets/{self.mock_dataset['id']}/archives",
+                      json=self.unauthorized_res, status=403)
+
+        with self.assertRaises(Exception) as context:
+            self.client.download_dataset_archives(dataset_id=self.mock_dataset["id"], dest_dir="test_data")
+
+        self.assertEqual(context.exception.response.status_code, 403)
+        self.assertTrue('Forbidden' in str(context.exception))
