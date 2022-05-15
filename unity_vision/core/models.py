@@ -2,6 +2,8 @@ import datetime
 from dataclasses import dataclass
 from typing import List
 
+from dataclasses_json import dataclass_json
+
 
 @dataclass(frozen=True)
 class AnnotationLabel:
@@ -9,6 +11,7 @@ class AnnotationLabel:
     labelId: int
 
 
+@dataclass_json
 @dataclass(frozen=True)
 class Annotation:
     id: str
@@ -16,6 +19,7 @@ class Annotation:
     description: str
 
 
+@dataclass_json
 @dataclass(frozen=True)
 class BoundingBox2DLabel(AnnotationLabel):
     labelName: str
@@ -23,6 +27,7 @@ class BoundingBox2DLabel(AnnotationLabel):
     dimension: List[float]
 
 
+@dataclass_json
 @dataclass(frozen=True)
 class BoundingBox3DLabel(AnnotationLabel):
     size: int
@@ -37,7 +42,6 @@ class Keypoint:
     state: int
 
 
-@dataclass(frozen=True)
 class KeypointLabel(AnnotationLabel):
     pose: str
     keypoints: List[Keypoint]
@@ -87,21 +91,37 @@ class SemanticSegmentationAnnotation(Annotation):
     instances: List[SemanticSegmentationLabel]
 
 
-@dataclass(frozen=True)
+@dataclass_json
+@dataclass
 class Capture:
+    """
+    id (str): Id
+    type(str):
+    """
     id: str
+    type: str
     description: str
     position: List[float]
     rotation: List[float]
-    annotations: List[Annotation]
+    annotations: List[dataclass]
+
+    def __post_init__(self):
+        self.annotations = [DataFactory.cast(anno) for anno in self.annotations]
+
+    def __eq__(self, other):
+        if other == self.id:
+            return True
+        return False
 
 
-@dataclass(frozen=True)
+@dataclass_json
+@dataclass
 class Frame:
     frame: int
     sequence: int
     step: int
     captures: List[Capture]
+    metrics: List[object]
 
 
 @dataclass(frozen=True)
@@ -111,7 +131,7 @@ class Sensor:
     annotations: List[Annotation]
 
 
-@dataclass(frozen=True)
+@dataclass
 class RGBCameraCapture(Capture):
     position: List[float]
     rotation: List[float]
@@ -156,3 +176,24 @@ class Attachment(object):
     uploadURL: str = None
     createdAt: datetime.date = None
     updatedAt: datetime.date = None
+
+
+class DataFactory:
+    switcher = {
+        "type.unity.com/unity.solo.KeypointAnnotation": KeypointAnnotation,
+        "type.unity.com/unity.solo.BoundingBox2DAnnotation": BoundingBox2DAnnotation,
+        "type.unity.com/unity.solo.BoundingBox3DAnnotation": BoundingBox3DAnnotation,
+        "type.unity.com/unity.solo.InstanceSegmentationAnnotation": InstanceSegmentationAnnotation,
+        "type.unity.com/unity.solo.SemanticSegmentationAnnotation": SemanticSegmentationAnnotation
+
+    }
+
+    @classmethod
+    def cast(cls, data):
+        if 'type' not in data.keys():
+            raise Exception("No type provided in annotation")
+        dtype = data['type']
+        if dtype not in cls.switcher.keys():
+            raise Exception("Unknown data type")
+        klass = cls.switcher[dtype]
+        return klass.from_dict(data)

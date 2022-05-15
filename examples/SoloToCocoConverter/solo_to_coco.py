@@ -8,7 +8,7 @@ from pathlib import Path
 
 from google.protobuf.json_format import MessageToDict
 
-from unity_vision.consumers.solo.parser import Solo
+from unity_vision.consumers.solo.parser_pb import Solo
 from unity_vision.protos.solo_pb2 import (BoundingBox2DAnnotation,
                                           BoundingBox3DAnnotation,
                                           InstanceSegmentationAnnotation,

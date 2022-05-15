@@ -4,7 +4,7 @@ import unittest
 import responses
 
 from unity_vision.clients.ucvd_client import UCVDClient
-from unity_vision.core.model import Dataset
+from unity_vision.core.models import Dataset
 
 MOCK_PROJECT_ID = "mock-proj-id"
 MOCK_ORG_ID = "mock-org-id"
