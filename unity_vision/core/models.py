@@ -30,7 +30,7 @@ class BoundingBox2DLabel(AnnotationLabel):
 @dataclass_json
 @dataclass(frozen=True)
 class BoundingBox3DLabel(AnnotationLabel):
-    size: int
+    size: List[float]
     translation: List[float]
     rotation: List[float]
 
@@ -120,8 +120,11 @@ class Frame:
     frame: int
     sequence: int
     step: int
-    captures: List[Capture]
+    captures: List[dataclass]
     metrics: List[object]
+
+    def __post_init__(self):
+        self.captures = [DataFactory.cast(capture) for capture in self.captures]
 
 
 @dataclass(frozen=True)
@@ -133,7 +136,6 @@ class Sensor:
 
 @dataclass
 class RGBCameraCapture(Capture):
-    position: List[float]
     rotation: List[float]
     velocity: List[float]
     acceleration: List[float]
@@ -180,6 +182,7 @@ class Attachment(object):
 
 class DataFactory:
     switcher = {
+        "type.unity.com/unity.solo.RGBCamera": RGBCameraCapture,
         "type.unity.com/unity.solo.KeypointAnnotation": KeypointAnnotation,
         "type.unity.com/unity.solo.BoundingBox2DAnnotation": BoundingBox2DAnnotation,
         "type.unity.com/unity.solo.BoundingBox3DAnnotation": BoundingBox3DAnnotation,
