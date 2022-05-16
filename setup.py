@@ -5,6 +5,7 @@ Installs unity_vision
 
 import io
 import os
+from os.path import dirname, realpath
 
 from setuptools import setup
 
@@ -15,7 +16,7 @@ URL = "https://https://github.com/Unity-Technologies/unity-vision"
 EMAIL = "souranil@unity3d.com"
 AUTHOR = "Unity Technologies"
 REQUIRES_PYTHON = ">=3.6"
-VERSION = "0.2.4"
+VERSION = "0.2.5"
 
 
 here = os.path.abspath(os.path.dirname(__file__))
@@ -38,6 +39,18 @@ else:
 with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
 
+
+def _read_requirements():
+    requirements = f"{dirname(realpath(__file__))}/requirements.txt"
+    with open(requirements) as f:
+        results = []
+        for line in f:
+            line = line.strip()
+            if '-i' not in line:
+                results.append(line)
+        return results
+
+
 setup(
     name=NAME,
     version=about["__version__"],
@@ -50,9 +63,7 @@ setup(
     py_modules=[NAME],
     include_package_data=True,
     license="MIT",
-    install_requires=[
-        "protobuf>=3.17.2"
-    ],
+    install_requires=_read_requirements(),
     classifiers=[
         # Trove classifiers
         # Full list: https://pypi.python.org/pypi?%3Aaction=list_classifiers
