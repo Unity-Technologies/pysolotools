@@ -2,7 +2,7 @@ from solo_dataset import SoloDataset
 
 
 def run():
-    dataset = SoloDataset(path="data/", annotation_file="data/metadata.json")
+    dataset = SoloDataset(path="data/solo/", annotation_file="data/solo/metadata.json")
     # Sample 10 datapoints
     for _, frame in enumerate(dataset):
         return ([cap.annotations for cap in frame.captures], frame.metrics)
