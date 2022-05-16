@@ -1,8 +1,8 @@
 import datetime
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import List
 
-from dataclasses_json import dataclass_json
+from dataclasses_json import config, dataclass_json
 
 
 @dataclass(frozen=True)
@@ -99,7 +99,7 @@ class Capture:
     type(str):
     """
     id: str
-    type: str
+    type: str = field(metadata=config(field_name="@type"))
     description: str
     position: List[float]
     rotation: List[float]
