@@ -15,7 +15,7 @@ URL = "https://https://github.com/Unity-Technologies/unity-vision"
 EMAIL = "souranil@unity3d.com"
 AUTHOR = "Unity Technologies"
 REQUIRES_PYTHON = ">=3.6"
-VERSION = "0.1.9"
+VERSION = "0.2.0"
 
 
 here = os.path.abspath(os.path.dirname(__file__))
