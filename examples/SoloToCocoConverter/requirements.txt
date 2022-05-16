@@ -1,7 +1,0 @@
-certifi==2021.10.8
-protobuf==3.17.2
-six==1.16.0
-wincertstore==0.2
-pillow==9.0.1
-pytest
-pycocotools
