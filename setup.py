@@ -16,7 +16,7 @@ URL = "https://https://github.com/Unity-Technologies/unity-vision"
 EMAIL = "souranil@unity3d.com"
 AUTHOR = "Unity Technologies"
 REQUIRES_PYTHON = ">=3.6"
-VERSION = "0.2.5"
+VERSION = "0.2.7"
 
 
 here = os.path.abspath(os.path.dirname(__file__))
@@ -63,7 +63,14 @@ setup(
     py_modules=[NAME],
     include_package_data=True,
     license="MIT",
-    install_requires=_read_requirements(),
+    install_requires=[
+        "requests~=2.25.1",
+        "requests-toolbelt>=0.9.1",
+        "tqdm~=4.62.3",
+        "responses~=0.20.0",
+        "ratelimit~=2.2.1",
+        "dataclasses-json==0.5.7"
+    ],
     classifiers=[
         # Trove classifiers
         # Full list: https://pypi.python.org/pypi?%3Aaction=list_classifiers
