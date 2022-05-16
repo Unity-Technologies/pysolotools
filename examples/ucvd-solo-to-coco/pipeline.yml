@@ -1,0 +1,11 @@
+refinery:
+  name: UCVD SOLO to COCO Magic
+  input_dataset: "solo_dir/solo"
+  pipeline:
+    - transformers:
+    - analyzers:
+    - converters:
+      - node: "solo_to_coco"
+        arguments:
+          output_path: "solo_dir/final"
+          dataset_name: "coco-final"
