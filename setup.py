@@ -15,7 +15,7 @@ URL = "https://https://github.com/Unity-Technologies/unity-vision"
 EMAIL = "souranil@unity3d.com"
 AUTHOR = "Unity Technologies"
 REQUIRES_PYTHON = ">=3.6"
-VERSION = "0.2.2"
+VERSION = "0.2.3"
 
 
 here = os.path.abspath(os.path.dirname(__file__))
@@ -61,5 +61,5 @@ setup(
         "Programming Language :: Python :: 3",
         "Programming Language :: Python :: 3.8",
     ],
-    packages=["unity_vision", "unity_vision.consumers.solo", "unity_vision.protos"]
+    packages=["unity_vision", "unity_vision.core", "unity_vision.consumers.solo", "unity_vision.protos"]
 )
