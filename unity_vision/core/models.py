@@ -72,6 +72,8 @@ class BoundingBox2DAnnotation(Annotation):
 
 @dataclass(frozen=True)
 class BoundingBox3DAnnotation(Annotation):
+    velocity: List[float]
+    acceleration: List[float]
     values: List[BoundingBox3DLabel]
 
 
@@ -125,13 +127,6 @@ class Frame:
 
     def __post_init__(self):
         self.captures = [DataFactory.cast(capture) for capture in self.captures]
-
-
-@dataclass(frozen=True)
-class Sensor:
-    id: str
-    description: str
-    annotations: List[Annotation]
 
 
 @dataclass
