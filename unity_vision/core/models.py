@@ -188,7 +188,7 @@ class DataFactory:
 
     @classmethod
     def cast(cls, data):
-        if 'type' not in data.keys():
+        if '@type' not in data.keys():
             raise Exception("No type provided in annotation")
         dtype = data['type']
         if dtype not in cls.switcher.keys():
