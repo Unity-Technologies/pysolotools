@@ -7,3 +7,4 @@ protobuf~=3.17.2
 responses~=0.20.0
 ratelimit~=2.2.1
 pytest~=5.4.3
+dataclasses-json==0.5.7
