@@ -1,11 +1,11 @@
 import glob
-import json
+import os
 import time
 from abc import ABC, abstractmethod
 
 from unity_vision.core.models import (BoundingBox2DAnnotation,
-                                      BoundingBox3DAnnotation, Frame,
-                                      InstanceSegmentationAnnotation,
+                                      BoundingBox3DAnnotation, DatasetMetadata,
+                                      Frame, InstanceSegmentationAnnotation,
                                       SemanticSegmentationAnnotation)
 
 
@@ -74,19 +74,24 @@ class Solo(SoloBase):
         """
         super().__init__()
         self.frame_pool = list()
-        self.path = path
+        self.path = os.path.normpath(path)
         self.frame_idx = start
-
-        metadata_f = self.__open_metadata__(annotation_file)
         pre = time.time()
-        metadata = json.load(metadata_f)
+        self.metadata = self.__open_metadata__(annotation_file)
         print('DONE (t={:0.5f}s)'.format(time.time() - pre))
 
-        self.total_frames = metadata["totalFrames"]
-        self.total_sequences = metadata["totalSequences"]
+        self.total_frames = self.metadata.totalFrames
+        self.total_sequences = self.metadata.totalSequences
         self.steps_per_sequence = int(self.total_frames / self.total_sequences)
 
         self.end = end or self.__len__()
+
+    def get_metadata(self) -> DatasetMetadata:
+        """
+        Returns:
+            unity_vision.core.models.DatasetMetadata: Returns metadata of SOLO Dataset
+        """
+        return self.metadata
 
     def __open_metadata__(self, annotation_file: str = None):
         """
@@ -102,14 +107,14 @@ class Solo(SoloBase):
 
 
         """
-        discovered_path = None
         if annotation_file:
             discovered_path = [annotation_file]
         else:
-            discovered_path = glob.glob(self.path + "/**/metadata.json", recursive=True)
+            discovered_path = glob.glob(self.path + "/metadata.json", recursive=True)
             if len(discovered_path) != 1:
                 raise Exception("Found none or multiple metadata files.")
-        return open(discovered_path[0])
+        metadata_f = open(discovered_path[0])
+        return DatasetMetadata.from_json(metadata_f.read())
 
     def __load_frame__(self, frame_id: int) -> Frame:
         """
@@ -120,7 +125,6 @@ class Solo(SoloBase):
         Returns:
 
         """
-        self.frame_idx = frame_id
         sequence = int(frame_id / self.steps_per_sequence)
         step = frame_id % self.steps_per_sequence
         self.sequence_path = f"{self.path}/*sequence.{sequence}"
@@ -129,7 +133,7 @@ class Solo(SoloBase):
         # There should be exactly 1 frame_data for a particular sequence.
         if len(files) != 1:
             raise Exception(f"Metadata file not found for sequence {sequence}")
-        self.frame_idx = 1
+        self.frame_idx += 1
         return self.parse_frame(files[0])
 
     def parse_frame(self, f_path: str) -> Frame:
@@ -147,6 +151,7 @@ class Solo(SoloBase):
         return frame
 
     def __iter__(self):
+        self.frame_idx = 0
         return self
 
     def __next__(self):

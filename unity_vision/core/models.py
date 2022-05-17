@@ -2,6 +2,7 @@ import datetime
 from dataclasses import dataclass, field
 from typing import List
 
+import pandas as pd
 from dataclasses_json import config, dataclass_json
 
 
@@ -107,6 +108,13 @@ class Capture:
     rotation: List[float]
     annotations: List[dataclass]
 
+    def get_annotations_df(self) -> pd.DataFrame:
+        """
+        Returns:
+                pd.DataFrame: Captures List fo
+        """
+        return pd.DataFrame(self.annotations)
+
     def __post_init__(self):
         self.annotations = [DataFactory.cast(anno) for anno in self.annotations]
 
@@ -127,6 +135,21 @@ class Frame:
 
     def __post_init__(self):
         self.captures = [DataFactory.cast(capture) for capture in self.captures]
+
+    def get_captures_df(self) -> pd.DataFrame:
+        """
+        Returns:
+                pd.DataFrame: Captures List for a Solo Frame
+        """
+        return pd.DataFrame(self.captures)
+
+    def get_metrics_df(self) -> pd.DataFrame:
+        """
+
+        Returns:
+            pd.DataFrame: Solo Frame Metrics
+        """
+        return pd.DataFrame(self.metrics)
 
 
 @dataclass
@@ -173,6 +196,23 @@ class Attachment(object):
     uploadURL: str = None
     createdAt: datetime.date = None
     updatedAt: datetime.date = None
+
+
+@dataclass_json
+@dataclass
+class DatasetMetadata(object):
+    unityVersion: str
+    perceptionVersion: str
+    renderPipeline: str
+    simulationStartTime: str
+    scenarioRandomSeed: float
+    scenarioActiveRandomizers: List[str]
+    totalFrames: int
+    totalSequences: int
+    sensors: List[str]
+    metricCollectors: List[str]
+    simulationEndTime: str
+    annotators: List[object]
 
 
 class DataFactory:

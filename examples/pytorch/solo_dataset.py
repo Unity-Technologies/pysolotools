@@ -6,7 +6,7 @@ from unity_vision.consumers.solo.parser import Solo
 
 
 class SoloDataset(IterableDataset):
-    def __init__(self, path, annotation_file):
+    def __init__(self, path, annotation_file=None):
         """
         Flattens a Solo dataset with 1 frame element per sequence. Refer to solo.proto.
         Return an iterator that starts from sequence_idx and iterates through all sequences
