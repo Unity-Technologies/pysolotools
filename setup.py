@@ -5,6 +5,7 @@ Installs unity_vision
 
 import io
 import os
+from os.path import dirname, realpath
 
 from setuptools import setup
 
@@ -15,7 +16,7 @@ URL = "https://https://github.com/Unity-Technologies/unity-vision"
 EMAIL = "souranil@unity3d.com"
 AUTHOR = "Unity Technologies"
 REQUIRES_PYTHON = ">=3.6"
-VERSION = "0.2.3"
+VERSION = "0.2.8"
 
 
 here = os.path.abspath(os.path.dirname(__file__))
@@ -38,6 +39,18 @@ else:
 with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
 
+
+def _read_requirements():
+    requirements = f"{dirname(realpath(__file__))}/requirements.txt"
+    with open(requirements) as f:
+        results = []
+        for line in f:
+            line = line.strip()
+            if '-i' not in line:
+                results.append(line)
+        return results
+
+
 setup(
     name=NAME,
     version=about["__version__"],
@@ -51,7 +64,12 @@ setup(
     include_package_data=True,
     license="MIT",
     install_requires=[
-        "protobuf>=3.17.2"
+        "requests~=2.25.1",
+        "requests-toolbelt>=0.9.1",
+        "tqdm~=4.62.3",
+        "responses~=0.20.0",
+        "ratelimit~=2.2.1",
+        "dataclasses-json==0.5.7"
     ],
     classifiers=[
         # Trove classifiers
@@ -61,5 +79,11 @@ setup(
         "Programming Language :: Python :: 3",
         "Programming Language :: Python :: 3.8",
     ],
-    packages=["unity_vision", "unity_vision.core", "unity_vision.consumers.solo", "unity_vision.protos"]
+    packages=[
+        "unity_vision",
+        "unity_vision.core",
+        "unity_vision.consumers.solo",
+        "unity_vision.clients",
+        "unity_vision.protos"
+    ]
 )

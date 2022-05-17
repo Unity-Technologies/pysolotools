@@ -1,6 +1,5 @@
-from .parser_pb import Solo, SoloSequence
+from .parser import Solo
 
 __all__ = [
-    Solo,
-    SoloSequence
+    Solo
 ]
