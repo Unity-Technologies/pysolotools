@@ -3,7 +3,8 @@ from unity_vision.consumers.solo.parser import Solo
 
 def run():
     solo = Solo(path="data/solo/", start=0, end=10)
-    # Sample 10 datapoints
+    print("Dataset Metadata !! ")
+    print(solo.get_metadata())
     while True:
         try:
             frame = next(solo)
