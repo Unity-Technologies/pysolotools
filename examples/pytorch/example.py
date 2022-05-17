@@ -1,17 +1,18 @@
-from solo_dataset import SoloDataset
+from unity_vision.consumers.solo.parser import Solo
 
 
 def run():
-    dataset = SoloDataset(path="data/solo/")
+    solo = Solo(path="data/solo/", start=0, end=10)
     # Sample 10 datapoints
-    for _ in range(10):
-        frame = next(dataset)
-        return ([cap.annotations for cap in frame.captures], frame.metrics)
-        # print(frame captures)
+    while True:
+        try:
+            frame = next(solo)
+            annotations, metrics = [cap.annotations for cap in frame.captures], frame.metrics
+            print(annotations)
+            print(metrics)
+        except StopIteration:
+            break
 
 
 if __name__ == "__main__":
-    annotations, metrics = run()
-
-    print(f"Frame annotations: \n{annotations}")
-    print(f"Frame metrics: \n{metrics}")
+    run()

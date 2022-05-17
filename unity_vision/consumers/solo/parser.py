@@ -125,7 +125,6 @@ class Solo(SoloBase):
         Returns:
 
         """
-        self.frame_idx = frame_id
         sequence = int(frame_id / self.steps_per_sequence)
         step = frame_id % self.steps_per_sequence
         self.sequence_path = f"{self.path}/*sequence.{sequence}"
@@ -134,7 +133,7 @@ class Solo(SoloBase):
         # There should be exactly 1 frame_data for a particular sequence.
         if len(files) != 1:
             raise Exception(f"Metadata file not found for sequence {sequence}")
-        self.frame_idx = 1
+        self.frame_idx += 1
         return self.parse_frame(files[0])
 
     def parse_frame(self, f_path: str) -> Frame:
@@ -152,6 +151,7 @@ class Solo(SoloBase):
         return frame
 
     def __iter__(self):
+        self.frame_idx = 0
         return self
 
     def __next__(self):
