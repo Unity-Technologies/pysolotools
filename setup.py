@@ -15,7 +15,7 @@ DESCRIPTION = "unity computer vision toolchain"
 URL = "https://https://github.com/Unity-Technologies/unity-vision"
 EMAIL = "souranil@unity3d.com"
 AUTHOR = "Unity Technologies"
-REQUIRES_PYTHON = ">=3.6"
+REQUIRES_PYTHON = ">=3.8"
 VERSION = "0.2.8"
 
 

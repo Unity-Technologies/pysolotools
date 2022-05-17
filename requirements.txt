@@ -3,8 +3,9 @@ requests~=2.25.1
 requests-toolbelt>=0.9.1
 google~=3.0.0
 tqdm~=4.62.3
-protobuf~=3.17.2
+protobuf~=3.19.2
 responses~=0.20.0
 ratelimit~=2.2.1
 pytest>=6.2.2
-dataclasses-json==0.5.7
+dataclasses-json~=0.5.7
+pandas~=1.4.2
