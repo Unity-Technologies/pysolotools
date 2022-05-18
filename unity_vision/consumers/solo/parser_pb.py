@@ -1,19 +1,5 @@
 #!/usr/bin/env python
 
-"""
-Provides a base parser to import solo datasets.
-
-Solo:
-    Returns an iterator to read datasets which have 1 frame per sequence. This essentially flattens
-    all the sequences and gives an iterator to loop through all the frames in the dataset along with
-     the corresponding sensors and their annotations.
-
-SoloSequence:
-    Returns iterator to read all steps in a sequence.
-
-"""
-
-
 import glob
 import json
 import time
@@ -154,13 +140,6 @@ class Solo(SoloBase):
         self.path = path
         self.frame_idx = start
 
-        """
-        Default metadata location is expected at root/metadata.json but
-        if an annotation_file path is provided that is used as the annotation
-
-        Metadata can be in one of two locations, depending if it was a part of a singular build,
-        or if it was a part of a distributed build.
-        """
         metadata_f = self.__open_metadata__(annotation_file)
         pre = time.time()
         metadata = json.load(metadata_f)

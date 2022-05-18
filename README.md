@@ -24,18 +24,24 @@
 
 The Python SDK would allow you to the following:
 
-- Parse Synthetic datasets generated with Unity.
-- SOLO support out of the box
-- Dataset iterables & converters.
+- Parse SOLO datasets generated with Unity Perception.
+- Dataset iterables.
+- Clients to access remote datasets
+  - Unity Computer Vision Datasets (UCVD)
 
 ## Pre-Requisites
-- Install [protoc](http://google.github.io/proto-lens/installing-protoc.html)
 - Install [Anaconda](https://docs.anaconda.com/anaconda/install/) or [Miniconda](https://docs.conda.io/en/latest/miniconda.html) (recommended). Install [pre-commit](https://pre-commit.com/).
 - Make sure `pip` is installed.
-- Create your API key in the Unity Dashboard. [Instructions]()
-- Save your API key somewhere safe, it will be used later.
 
-N.B. We use `proto3` and do not support `proto2` messages.
+## Using Cloud datasets from UCVD
+- Create a Unity account if you don't at [Unity Services](https://dashboard.unity3d.com/)
+- Navigate to Projects and create a project if you don't have one.
+- Navigate to Projects>Service Account in the dashboard to create a new one.
+![Service Account](images/sa.png)
+- Generate your API key.
+- Save your API key somewhere safe, it will be used later.
+- Navigate to Projects>Select the project to use and record the `Project ID`.
+- Navigate to Projects>Orgaization Settings and record the `Organization ID`.
 
 
 ## Installation
@@ -48,13 +54,21 @@ pip install unity_vision --index-url=https://artifactory.prd.it.unity3d.com/arti
 
 ** The package lives in the internal PyPi repo for now, so to install please follow -
 
-## Authentication
 
----
 
-There are multiple ways to generate, and access Unity generated synthetic datasets -
+#### SOLO Dataset
 
-### Generated in Unity Computer Vision Dataset service
+##### Local Datasets
+
+```python
+from unity_vision.consumers.solo.parser import Solo
+
+solo = Solo(path="<<dataset-path>>")
+```
+
+##### Cloud Datasets
+
+Generated in Unity Computer Vision Dataset service
 
 ```python
 from unity_vision.clients import UCVDClient
@@ -64,30 +78,15 @@ client = UCVDClient(
     sa_key="sa-key",
     api_secret="api-secret"
 )
+
+client.download_dataset_archives("<<dataset-id>>")
+
 ```
 
-<!--
+### Data Models
 
-### Generated locally with Unity Perception package
+Please refer - [models](unity_vision/core/models.py) for the data models used by SOLO.
 
-```python
-from unity_vision.clients import LocalClient
-client = LocalClient(
-    data_path="dataset-path"
-)
-``` -->
-
-<!-- [//]: # (TODO: Should this be in documentation ?)
-### Consume datasets working with Unity -->
-
-
-
-## Dataset Formats
-
-### SOLO
-
-SOLO is a dataset format being from Unity for synthetic datasets.
-Refer - [Protobuf](unity-vision/protos/solo.proto)
 
 ## Additional Resources
 
