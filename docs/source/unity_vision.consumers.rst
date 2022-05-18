@@ -1,7 +1,18 @@
-unity_vision.consumers
-======================
+unity\_vision.consumers package
+===============================
+
+Subpackages
+-----------
 
 .. toctree::
-   :maxdepth: 1
+   :maxdepth: 4
 
    unity_vision.consumers.solo
+
+Module contents
+---------------
+
+.. automodule:: unity_vision.consumers
+   :members:
+   :undoc-members:
+   :show-inheritance:

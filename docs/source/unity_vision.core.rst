@@ -1,18 +1,29 @@
-unity_vision.core
-==================
+unity\_vision.core package
+==========================
 
-unity_vision.core.models
-========================
+Submodules
+----------
+
+unity\_vision.core.exceptions module
+------------------------------------
+
+.. automodule:: unity_vision.core.exceptions
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+unity\_vision.core.models module
+--------------------------------
 
 .. automodule:: unity_vision.core.models
    :members:
    :undoc-members:
    :show-inheritance:
 
-unity_vision.core.exceptions
-========================
+Module contents
+---------------
 
-.. automodule:: unity_vision.core.exceptions
+.. automodule:: unity_vision.core
    :members:
    :undoc-members:
    :show-inheritance:
