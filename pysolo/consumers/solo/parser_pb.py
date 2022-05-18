@@ -8,10 +8,10 @@ from typing import Iterable
 
 from google.protobuf.json_format import MessageToDict, Parse
 
-from unity_vision.protos.solo_pb2 import (BoundingBox2DAnnotation, Frame,
-                                          InstanceSegmentationAnnotation,
-                                          KeypointAnnotation, RGBCamera,
-                                          SemanticSegmentationAnnotation)
+from pysolo.protos.solo_pb2 import (BoundingBox2DAnnotation, Frame,
+                                    InstanceSegmentationAnnotation,
+                                    KeypointAnnotation, RGBCamera,
+                                    SemanticSegmentationAnnotation)
 
 __SENSORS__ = [
     {

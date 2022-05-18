@@ -3,10 +3,10 @@ import os
 import time
 from abc import ABC, abstractmethod
 
-from unity_vision.core.models import (BoundingBox2DAnnotation,
-                                      BoundingBox3DAnnotation, DatasetMetadata,
-                                      Frame, InstanceSegmentationAnnotation,
-                                      SemanticSegmentationAnnotation)
+from pysolo.core.models import (BoundingBox2DAnnotation,
+                                BoundingBox3DAnnotation, DatasetMetadata,
+                                Frame, InstanceSegmentationAnnotation,
+                                SemanticSegmentationAnnotation)
 
 
 class SoloBase(ABC):

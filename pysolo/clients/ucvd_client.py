@@ -7,8 +7,8 @@ import requests_toolbelt
 from ratelimit import limits
 from requests.auth import HTTPBasicAuth
 
-from unity_vision.core.exceptions import AuthenticationException, UCVDException
-from unity_vision.core.models import Archive, Attachment, Dataset
+from pysolo.core.exceptions import AuthenticationException, UCVDException
+from pysolo.core.models import Archive, Attachment, Dataset
 
 logger = logging.getLogger(__name__)
 logging.basicConfig(level=logging.WARNING)
