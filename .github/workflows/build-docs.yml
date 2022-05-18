@@ -7,3 +7,36 @@ on:
   pull_request:
     branches:
       - main
+
+jobs:
+  make-docs:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodule: true
+      - uses: actions/setup-python@v2
+        with:
+          python: 3.9
+      - name: Cache pip
+        uses: actions/cache@v2
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('requirements/base.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y cmake sphinx
+          pip --version
+          pip install --requirement requirements/docs.txt
+          pip list
+        shell: bash
+
+      - name: Make Documentation
+        working-directory: ./docs
+        run: |
+          # First run the same pipeline as Read-The-Docs
+          make html
