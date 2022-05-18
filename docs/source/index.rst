@@ -13,9 +13,6 @@ Installation
 
 ** The package lives in the internal PyPi repo for now.
 
-unity_vision
-========================================
-
 .. toctree::
    :maxdepth: 4
 
