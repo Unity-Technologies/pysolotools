@@ -160,7 +160,7 @@ class TestUCVDClient(unittest.TestCase):
         assert next(iterator).id == "id-1"
         assert next(iterator).id == "id-2"
 
-    @unittest.mock.patch("unity_vision.clients.ucvd_client.UCVDClient.iterate_dataset_attachments",
+    @unittest.mock.patch("pysolo.clients.ucvd_client.UCVDClient.iterate_dataset_attachments",
                          autospec=True)
     @responses.activate
     def test_download_dataset_archives_success(self, mocked_iterate_dataset_archives):
@@ -180,7 +180,7 @@ class TestUCVDClient(unittest.TestCase):
             assert os.path.exists(f"test_data/{archive.name}")
             os.remove(f"test_data/{archive.name}")
 
-    @unittest.mock.patch("unity_vision.clients.ucvd_client.UCVDClient.iterate_dataset_attachments",
+    @unittest.mock.patch("pysolo.clients.ucvd_client.UCVDClient.iterate_dataset_attachments",
                          autospec=True)
     @responses.activate
     def test_download_dataset_archives_failure_unauthorized(self, mocked_iterate_dataset_archives):

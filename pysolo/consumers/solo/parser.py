@@ -89,7 +89,7 @@ class Solo(SoloBase):
     def get_metadata(self) -> DatasetMetadata:
         """
         Returns:
-            unity_vision.core.models.DatasetMetadata: Returns metadata of SOLO Dataset
+            pysolo.core.models.DatasetMetadata: Returns metadata of SOLO Dataset
         """
         return self.metadata
 
