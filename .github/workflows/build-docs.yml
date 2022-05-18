@@ -29,7 +29,6 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y cmake sphinx
           pip --version
           pip install --requirement requirements/docs.txt
           pip list
@@ -38,5 +37,4 @@ jobs:
       - name: Make Documentation
         working-directory: ./docs
         run: |
-          # First run the same pipeline as Read-The-Docs
-          make html
+          make html --debug --jobs $(nproc) SPHINXOPTS="-W --keep-going"

@@ -111,7 +111,7 @@ class SoloBase(ABC):
         raise NotImplementedError
 
 
-class Solo(SoloBase):
+class SoloPb(SoloBase):
     """
     Parser for solo dataset with 1 frame per sequence. Returns a list of frames from each sequence.
     Essentially flattens the sequence.
@@ -203,7 +203,7 @@ class Solo(SoloBase):
         return self.total_frames
 
 
-class SoloSequence(SoloBase):
+class SoloSequencePb(SoloBase):
     def __init__(self, path, sensors=None, start=0, end=None):
         """
         Parses frames of a sequence in a solo dataset. Each sequence has > 1 frames
