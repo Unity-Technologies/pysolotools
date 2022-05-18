@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 """
-Installs unity_vision
+Installs pysolo
 """
 
 import io
@@ -10,13 +10,13 @@ from os.path import dirname, realpath
 from setuptools import setup
 
 # Package meta-data.
-NAME = "unity_vision"
-DESCRIPTION = "unity computer vision toolchain"
-URL = "https://https://github.com/Unity-Technologies/unity-vision"
+NAME = "pysolo"
+DESCRIPTION = "unity computer vision dataset toolchain"
+URL = "https://https://github.com/Unity-Technologies/pysolo"
 EMAIL = "souranil@unity3d.com"
 AUTHOR = "Unity Technologies"
 REQUIRES_PYTHON = ">=3.7"
-VERSION = "0.2.9"
+VERSION = "0.3.0"
 
 
 here = os.path.abspath(os.path.dirname(__file__))
@@ -80,10 +80,10 @@ setup(
         "Programming Language :: Python :: 3.8",
     ],
     packages=[
-        "unity_vision",
-        "unity_vision.core",
-        "unity_vision.consumers.solo",
-        "unity_vision.clients",
-        "unity_vision.protos"
+        "pysolo",
+        "pysolo.core",
+        "pysolo.consumers.solo",
+        "pysolo.clients",
+        "pysolo.protos"
     ]
 )
