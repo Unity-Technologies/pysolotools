@@ -49,7 +49,7 @@ The Python SDK would allow you to the following:
 ---
 To install, run
 ```shell
-pip install unity_vision --index-url=https://artifactory.prd.it.unity3d.com/artifactory/api/pypi/pypi/simple
+pip install pysolo --index-url=https://artifactory.prd.it.unity3d.com/artifactory/api/pypi/pypi/simple
 ```
 
 ** The package lives in the internal PyPi repo for now, so to install please follow -
@@ -61,7 +61,7 @@ pip install unity_vision --index-url=https://artifactory.prd.it.unity3d.com/arti
 ##### Local Datasets
 
 ```python
-from unity_vision.consumers.solo.parser import Solo
+from pysolo.consumers.solo.parser import Solo
 
 solo = Solo(path="<<dataset-path>>")
 ```
@@ -71,7 +71,7 @@ solo = Solo(path="<<dataset-path>>")
 Generated in Unity Computer Vision Dataset service
 
 ```python
-from unity_vision.clients import UCVDClient
+from pysolo.clients import UCVDClient
 client = UCVDClient(
     org_id="unity-org-id",
     project_id="unity-project-id",
@@ -85,7 +85,7 @@ client.download_dataset_archives("<<dataset-id>>")
 
 ### Data Models
 
-Please refer - [models](unity_vision/core/models.py) for the data models used by SOLO.
+Please refer - [models](pysolo/core/models.py) for the data models used by SOLO.
 
 
 ## Additional Resources

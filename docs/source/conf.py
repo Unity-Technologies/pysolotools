@@ -20,7 +20,7 @@ sys.path.insert(0, os.path.abspath('../..'))
 
 # -- Project information -----------------------------------------------------
 
-project = 'unity_vision'
+project = 'pysolo'
 copyright = '2022, Unity Technologies'
 author = 'Unity Technologies'
 

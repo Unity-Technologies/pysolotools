@@ -1,7 +1,7 @@
-unity_vision
+pysolo
 ============
 
 .. toctree::
    :maxdepth: 4
 
-   unity_vision
+   pysolo

@@ -1,5 +1,5 @@
-unity\_vision.consumers package
-===============================
+pysolo package
+==============
 
 Subpackages
 -----------
@@ -7,12 +7,15 @@ Subpackages
 .. toctree::
    :maxdepth: 4
 
-   unity_vision.consumers.solo
+   pysolo.clients
+   pysolo.consumers
+   pysolo.core
+   pysolo.protos
 
 Module contents
 ---------------
 
-.. automodule:: unity_vision.consumers
+.. automodule:: pysolo
    :members:
    :undoc-members:
    :show-inheritance:

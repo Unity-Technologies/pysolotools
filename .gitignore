@@ -141,3 +141,5 @@ Icon?
 Thumbs.db
 __MACOSX/
 detectron2
+
+docs/make.bat
