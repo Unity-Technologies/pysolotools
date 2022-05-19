@@ -10,30 +10,18 @@ on:
 
 jobs:
   make-docs:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - name: Set up Python 3.8
+        uses: actions/setup-python@v2
         with:
-          submodule: true
-      - uses: actions/setup-python@v2
-        with:
-          python: 3.9
-      - name: Cache pip
-        uses: actions/cache@v2
-        with:
-          path: ~/.cache/pip
-          key: ${{ runner.os }}-pip-${{ hashFiles('requirements/base.txt') }}
-          restore-keys: |
-            ${{ runner.os }}-pip-
-
+          python-version: 3.8
       - name: Install dependencies
         run: |
-          sudo apt-get update
-          pip --version
           pip install --requirement requirements/docs.txt
           pip list
         shell: bash
-
       - name: Make Documentation
         working-directory: ./docs
         run: |
