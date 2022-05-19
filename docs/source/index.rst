@@ -1,5 +1,5 @@
 pysolo
-============
+======
 
 pysolo is a python package for operating on Unity Synthetic
 datasets.
@@ -14,9 +14,10 @@ Installation
 ** The package lives in the internal PyPi repo for now.
 
 .. toctree::
-   :maxdepth: 4
+   :maxdepth: 2
 
    modules
+
 
 
 Indices and tables

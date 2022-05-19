@@ -20,9 +20,10 @@ jobs:
       - name: Install dependencies
         run: |
           pip install --requirement requirements/docs.txt
+          pip install --requirement requirements/base.txt
           pip list
         shell: bash
       - name: Make Documentation
         working-directory: ./docs
         run: |
-          make html --debug --jobs $(nproc) SPHINXOPTS="-W --keep-going"
+          make html
