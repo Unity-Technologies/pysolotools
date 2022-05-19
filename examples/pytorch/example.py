@@ -1,4 +1,4 @@
-from pysolo.consumers.solo.parser import Solo
+from pysolo.consumers import Solo
 
 
 def run():

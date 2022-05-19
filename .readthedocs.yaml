@@ -3,9 +3,9 @@ formats: all
 build:
   image: stable
 python:
-  version: 3.8
+  version: "3.8"
   install:
-    - requirements: docs/requirements.txt
+    - requirements: requirements/docs.txt
     - method: pip
       path: .
 sphinx:

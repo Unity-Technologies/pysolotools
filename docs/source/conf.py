@@ -13,28 +13,24 @@
 import os
 import sys
 
-import pkg_resources
+# sys.path.insert(0, os.path.abspath('.'))
 
+PATH_HERE = os.path.abspath(os.path.dirname(__file__))
+PATH_ROOT = os.path.join(PATH_HERE, "..", "..")
+sys.path.insert(0, os.path.abspath(PATH_ROOT))
 sys.path.insert(0, os.path.abspath('../..'))
 
 
 # -- Project information -----------------------------------------------------
 
 project = 'pysolo'
-copyright = '2022, Unity Technologies'
-author = 'Unity Technologies'
-
-
-# The full version, including alpha/beta/rc tags
-release = pkg_resources.get_distribution(project).version
-napoleon_google_docstring = True
+copyright = '2022, unity technologies'
+author = 'unity technologies'
 
 
 # -- General configuration ---------------------------------------------------
-
+napoleon_google_docstring = True
 master_doc = "index"
-
-
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.

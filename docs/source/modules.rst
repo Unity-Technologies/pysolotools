@@ -1,5 +1,5 @@
 pysolo
-============
+======
 
 .. toctree::
    :maxdepth: 4
