@@ -1,4 +1,3 @@
-import datetime
 from dataclasses import dataclass, field
 from typing import List
 
@@ -164,38 +163,37 @@ class RGBCameraCapture(Capture):
     matrix: List[float]
 
 
-@dataclass(frozen=True)
-class Dataset:
-    id: str
-    name: str
-    createdAt: datetime.date = None
-    updatedAt: datetime.date = None
-    description: str = None
-    licenseURI: str = None
+@dataclass
+class AnnotationDefinition:
+    annotation_definitions: List[dataclass]
+
+    def __post_init__(self):
+        self.annotation_definitions = [DataFactory.cast(anno_def) for anno_def in self.annotation_definitions]
 
 
-@dataclass(frozen=True)
-class Archive(object):
-    id: str
-    name: str
+@dataclass
+class BoundingBoxAnnotationDefinitionSpec:
+    label_id: int
+    label_name: str
+
+
+@dataclass
+class BoundingBoxAnnotationDefinition:
     type: str
-    state: dict = None
-    downloadURL: str = None
-    uploadURL: str = None
-    createdAt: datetime.date = None
-    updatedAt: datetime.date = None
-
-
-@dataclass(frozen=True)
-class Attachment(object):
     id: str
-    name: str
-    description: str = None
-    state: dict = None
-    downloadURL: str = None
-    uploadURL: str = None
-    createdAt: datetime.date = None
-    updatedAt: datetime.date = None
+    description: str
+    spec: List[BoundingBoxAnnotationDefinitionSpec]
+
+    def __post_init__(self):
+        cat_id_to_name = {}
+        cat_name_to_id = {}
+
+        for s in self.spec:
+            cat_id_to_name[s.label_id] = s.label_name
+            cat_name_to_id[s.label_name] = s.label_id
+
+    def get_cat_ids(self) -> List[int]:
+        return [s.label_id for s in self.spec]
 
 
 @dataclass_json
@@ -215,6 +213,23 @@ class DatasetMetadata(object):
     annotators: List[object]
 
 
+@dataclass
+class SoloDataset:
+    metadata: DatasetMetadata
+    annotation_definitions: List[dataclass]
+
+    def __post_init__(self):
+        self.annotation_definitions = [DataFactory.cast(anno) for anno in self.annotation_definitions]
+
+    def get_num_frames(self):
+        """
+
+        Returns:
+
+        """
+        return self.metadata.totalFrames
+
+
 class DataFactory:
     switcher = {
         "type.unity.com/unity.solo.RGBCamera": RGBCameraCapture,
@@ -222,7 +237,8 @@ class DataFactory:
         "type.unity.com/unity.solo.BoundingBox2DAnnotation": BoundingBox2DAnnotation,
         "type.unity.com/unity.solo.BoundingBox3DAnnotation": BoundingBox3DAnnotation,
         "type.unity.com/unity.solo.InstanceSegmentationAnnotation": InstanceSegmentationAnnotation,
-        "type.unity.com/unity.solo.SemanticSegmentationAnnotation": SemanticSegmentationAnnotation
+        "type.unity.com/unity.solo.SemanticSegmentationAnnotation": SemanticSegmentationAnnotation,
+        "type.unity.com/unity.solo.BoundingBoxAnnotationDefinition": BoundingBoxAnnotationDefinition
 
     }
 

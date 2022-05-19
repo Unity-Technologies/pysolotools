@@ -4,7 +4,7 @@ import unittest
 import responses
 
 from pysolo.clients.ucvd_client import UCVDClient
-from pysolo.core.models import Dataset
+from pysolo.core.models import UCVDDataset
 
 MOCK_PROJECT_ID = "mock-proj-id"
 MOCK_ORG_ID = "mock-org-id"
@@ -103,7 +103,7 @@ class TestUCVDClient(unittest.TestCase):
         for dataset in self.client.iterate_datasets():
             count += 1
             self.assertIsNotNone(dataset)
-            self.assertIsInstance(dataset, Dataset)
+            self.assertIsInstance(dataset, UCVDDataset)
             self.assertEqual(dataset.name, self.mock_dataset["name"])
         self.assertEqual(count, 2)
 

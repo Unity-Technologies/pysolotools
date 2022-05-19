@@ -8,7 +8,7 @@ from ratelimit import limits
 from requests.auth import HTTPBasicAuth
 
 from pysolo.core.exceptions import AuthenticationException, UCVDException
-from pysolo.core.models import Archive, Attachment, Dataset
+from pysolo.core.models import UCVDArchive, UCVDAttachment, UCVDDataset
 
 logger = logging.getLogger(__name__)
 logging.basicConfig(level=logging.WARNING)
@@ -141,19 +141,19 @@ class UCVDClient:
     def iterate_datasets(self):
         entity_uri = f"{self.endpoint}/datasets"
         for res in self.__iterable_get(entity_uri, auth=self.auth):
-            yield Dataset(**res)
+            yield UCVDDataset(**res)
 
     @limits(calls=15, period=900)
     def iterate_dataset_archives(self, dataset_id):
         entity_uri = f"{self.endpoint}/datasets/{dataset_id}/archives"
         for res in self.__iterable_get(entity_uri, auth=self.auth):
-            yield Archive(**res)
+            yield UCVDArchive(**res)
 
     @limits(calls=15, period=900)
     def iterate_dataset_attachments(self, dataset_id):
         entity_uri = f"{self.endpoint}/datasets/{dataset_id}/attachments"
         for res in self.__iterable_get(entity_uri, auth=self.auth):
-            yield Attachment(**res)
+            yield UCVDAttachment(**res)
 
     def download_dataset_archives(self, dataset_id: str, dest_dir: str, chunk_size=1024 ** 2,
                                   skip_on_error: bool = True):
