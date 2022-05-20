@@ -4,8 +4,9 @@ import time
 from abc import ABC, abstractmethod
 
 from unity_vision.core.models import (BoundingBox2DAnnotation,
-                                      BoundingBox3DAnnotation, DatasetMetadata,
-                                      Frame, InstanceSegmentationAnnotation,
+                                      BoundingBox3DAnnotation, DatasetAnnotations,
+                                      DatasetMetadata, Frame,
+                                      InstanceSegmentationAnnotation,
                                       SemanticSegmentationAnnotation)
 
 
@@ -78,6 +79,7 @@ class Solo(SoloBase):
         self.frame_idx = start
         pre = time.time()
         self.metadata = self.__open_metadata__(annotation_file)
+        self.annotation_definitions = self.__open_annotation_definitions__(annotation_file)
         print('DONE (t={:0.5f}s)'.format(time.time() - pre))
 
         self.total_frames = self.metadata.totalFrames
@@ -92,6 +94,19 @@ class Solo(SoloBase):
             unity_vision.core.models.DatasetMetadata: Returns metadata of SOLO Dataset
         """
         return self.metadata
+
+    def get_annotation_definitions(self) -> DatasetAnnotations:
+        return self.annotation_definitions
+
+    def __open_annotation_definitions__(self, annotation_file: str = None):
+        if annotation_file:
+            discovered_path = [annotation_file]
+        else:
+            discovered_path = glob.glob(self.path + "/annotation_definitions.json", recursive=True)
+            if len(discovered_path) != 1:
+                raise Exception("Found none or multiple annottion definition files.")
+        metadata_f = open(discovered_path[0])
+        return DatasetAnnotations.from_json(metadata_f.read())
 
     def __open_metadata__(self, annotation_file: str = None):
         """
