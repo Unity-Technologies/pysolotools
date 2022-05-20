@@ -32,9 +32,12 @@ class BoundingBox2DLabel(AnnotationLabel):
 @dataclass_json
 @dataclass
 class BoundingBox3DLabel(AnnotationLabel):
+    labelName: str
     size: List[float]
     translation: List[float]
     rotation: List[float]
+    velocity: List[float]
+    acceleration: List[float]
 
 
 @dataclass
@@ -75,8 +78,6 @@ class BoundingBox2DAnnotation(Annotation):
 
 @dataclass
 class BoundingBox3DAnnotation(Annotation):
-    velocity: List[float]
-    acceleration: List[float]
     values: List[BoundingBox3DLabel]
 
 
@@ -229,23 +230,35 @@ class KeypointDefinition:
     color: List[int]
 
 @dataclass
-class KeypointAnnotationDefinition(AnnotationDefinition):
+class KeypointTemplateDefinition:
     templateId: str
     templateName: str
     keypoints: List[KeypointDefinition]
 
 @dataclass
-class BoundingBox2DSpec:
+class KeypointAnnotationDefinition(AnnotationDefinition):
+    template: KeypointTemplateDefinition
+
+@dataclass
+class LabelNameSpec:
     label_id: int
     label_name: str
 
 @dataclass
 class BoundingBox2DAnnotationDefinition(AnnotationDefinition):
-    spec: List[BoundingBox2DSpec]
+    spec: List[LabelNameSpec]
 
 @dataclass
 class SemanticSegmentationAnnotationDefinition(AnnotationDefinition):
-    pass
+    pass  # Adds not additional fields
+
+@dataclass
+class BoundingBox3DAnnotationDefinition(AnnotationDefinition):
+    spec: List[LabelNameSpec]
+
+@dataclass
+class InstanceSegmentationAnnotationDefinition(AnnotationDefinition):
+    spec: List[LabelNameSpec]
 
 @dataclass_json
 @dataclass
@@ -280,7 +293,9 @@ class DefinitionFactory:
     switcher = {
         "type.unity.com/unity.solo.KeypointAnnotation": KeypointAnnotationDefinition,
         "type.unity.com/unity.solo.BoundingBox2DAnnotation": BoundingBox2DAnnotationDefinition,
+        "type.unity.com/unity.solo.BoundingBox3DAnnotation": BoundingBox3DAnnotationDefinition,
         "type.unity.com/unity.solo.SemanticSegmentationAnnotation": SemanticSegmentationAnnotationDefinition,
+        "type.unity.com/unity.solo.InstanceSegmentationAnnotation": InstanceSegmentationAnnotationDefinition,
     }
 
     @classmethod
@@ -289,6 +304,6 @@ class DefinitionFactory:
             raise Exception("No type provided in annotation")
         dtype = data['@type']
         if dtype not in cls.switcher.keys():
-            raise Exception("Unknown data type")
+            raise Exception(f"Unknown data type: {dtype}")
         klass = cls.switcher[dtype]
         return klass.from_dict(data)
