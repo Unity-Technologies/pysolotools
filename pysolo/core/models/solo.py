@@ -5,22 +5,23 @@ import pandas as pd
 from dataclasses_json import config, dataclass_json
 
 
-@dataclass(frozen=True)
+@dataclass
 class AnnotationLabel:
     instanceId: int
     labelId: int
 
 
 @dataclass_json
-@dataclass(frozen=True)
+@dataclass
 class Annotation:
+    type: str = field(metadata=config(field_name="@type"))
     id: str
     sensorId: str
     description: str
 
 
 @dataclass_json
-@dataclass(frozen=True)
+@dataclass
 class BoundingBox2DLabel(AnnotationLabel):
     labelName: str
     origin: List[float]
@@ -28,56 +29,58 @@ class BoundingBox2DLabel(AnnotationLabel):
 
 
 @dataclass_json
-@dataclass(frozen=True)
+@dataclass
 class BoundingBox3DLabel(AnnotationLabel):
+    labelName: str
     size: List[float]
     translation: List[float]
     rotation: List[float]
+    velocity: List[float]
+    acceleration: List[float]
 
 
-@dataclass(frozen=True)
+@dataclass
 class Keypoint:
     index: int
     location: List[float]
     state: int
 
 
+@dataclass
 class KeypointLabel(AnnotationLabel):
     pose: str
     keypoints: List[Keypoint]
 
 
-@dataclass(frozen=True)
+@dataclass
 class InstanceSegmentationLabel(AnnotationLabel):
     labelName: str
     color: List[int]
 
 
-@dataclass(frozen=True)
-class SemanticSegmentationLabel(AnnotationLabel):
+@dataclass
+class SemanticSegmentationLabel:
     labelName: str
     pixelValue: List[int]
 
 
-@dataclass(frozen=True)
+@dataclass
 class KeypointAnnotation(Annotation):
     templateId: str
     values: List[KeypointLabel]
 
 
-@dataclass(frozen=True)
+@dataclass
 class BoundingBox2DAnnotation(Annotation):
     values: List[BoundingBox2DLabel]
 
 
-@dataclass(frozen=True)
+@dataclass
 class BoundingBox3DAnnotation(Annotation):
-    velocity: List[float]
-    acceleration: List[float]
     values: List[BoundingBox3DLabel]
 
 
-@dataclass(frozen=True)
+@dataclass
 class InstanceSegmentationAnnotation(Annotation):
     imageFormat: str
     dimension: List[int]
@@ -85,7 +88,7 @@ class InstanceSegmentationAnnotation(Annotation):
     instances: List[InstanceSegmentationLabel]
 
 
-@dataclass(frozen=True)
+@dataclass
 class SemanticSegmentationAnnotation(Annotation):
     imageFormat: str
     dimension: List[int]
@@ -115,7 +118,7 @@ class Capture:
         return pd.DataFrame(self.annotations)
 
     def __post_init__(self):
-        self.annotations = [DataFactory.cast(anno) for anno in self.annotations]
+        self.annotations = [DefinitionFactory.cast(anno) for anno in self.annotations]
 
     def __eq__(self, other):
         if other == self.id:
@@ -133,7 +136,7 @@ class Frame:
     metrics: List[object]
 
     def __post_init__(self):
-        self.captures = [DataFactory.cast(capture) for capture in self.captures]
+        self.captures = [DefinitionFactory.cast(capture) for capture in self.captures]
 
     def get_captures_df(self) -> pd.DataFrame:
         """
@@ -163,12 +166,65 @@ class RGBCameraCapture(Capture):
     matrix: List[float]
 
 
+@dataclass_json
 @dataclass
 class AnnotationDefinition:
-    annotation_definitions: List[dataclass]
+    id: str
+    description: str
+
+
+@dataclass
+class KeypointDefinition:
+    label: str
+    index: int
+    color: List[int]
+
+
+@dataclass
+class KeypointTemplateDefinition:
+    templateId: str
+    templateName: str
+    keypoints: List[KeypointDefinition]
+
+
+@dataclass
+class KeypointAnnotationDefinition(AnnotationDefinition):
+    template: KeypointTemplateDefinition
+
+
+@dataclass
+class LabelNameSpec:
+    label_id: int
+    label_name: str
+
+
+@dataclass
+class BoundingBox2DAnnotationDefinition(AnnotationDefinition):
+    spec: List[LabelNameSpec]
+
+
+@dataclass
+class SemanticSegmentationAnnotationDefinition(AnnotationDefinition):
+    pass  # Adds not additional fields
+
+
+@dataclass
+class BoundingBox3DAnnotationDefinition(AnnotationDefinition):
+    spec: List[LabelNameSpec]
+
+
+@dataclass
+class InstanceSegmentationAnnotationDefinition(AnnotationDefinition):
+    spec: List[LabelNameSpec]
+
+
+@dataclass_json
+@dataclass
+class DatasetAnnotations(object):
+    annotationDefinitions: List[dataclass]
 
     def __post_init__(self):
-        self.annotation_definitions = [DataFactory.cast(anno_def) for anno_def in self.annotation_definitions]
+        self.annotationDefinitions = [DefinitionFactory.cast(anno) for anno in self.annotationDefinitions]
 
 
 @dataclass
@@ -219,7 +275,7 @@ class SoloDataset:
     annotation_definitions: List[dataclass]
 
     def __post_init__(self):
-        self.annotation_definitions = [DataFactory.cast(anno) for anno in self.annotation_definitions]
+        self.annotation_definitions = [DefinitionFactory.cast(anno) for anno in self.annotation_definitions]
 
     def get_num_frames(self):
         """
@@ -230,7 +286,7 @@ class SoloDataset:
         return self.metadata.totalFrames
 
 
-class DataFactory:
+class DefinitionFactory:
     switcher = {
         "type.unity.com/unity.solo.RGBCamera": RGBCameraCapture,
         "type.unity.com/unity.solo.KeypointAnnotation": KeypointAnnotation,
