@@ -1,19 +1,5 @@
 #!/usr/bin/env python
 
-"""
-Provides a base parser to import solo datasets.
-
-Solo:
-    Returns an iterator to read datasets which have 1 frame per sequence. This essentially flattens
-    all the sequences and gives an iterator to loop through all the frames in the dataset along with
-     the corresponding sensors and their annotations.
-
-SoloSequence:
-    Returns iterator to read all steps in a sequence.
-
-"""
-
-
 import glob
 import json
 import time
@@ -22,10 +8,10 @@ from typing import Iterable
 
 from google.protobuf.json_format import MessageToDict, Parse
 
-from unity_vision.protos.solo_pb2 import (BoundingBox2DAnnotation, Frame,
-                                          InstanceSegmentationAnnotation,
-                                          KeypointAnnotation, RGBCamera,
-                                          SemanticSegmentationAnnotation)
+from pysolo.protos.solo_pb2 import (BoundingBox2DAnnotation, Frame,
+                                    InstanceSegmentationAnnotation,
+                                    KeypointAnnotation, RGBCamera,
+                                    SemanticSegmentationAnnotation)
 
 __SENSORS__ = [
     {
@@ -125,7 +111,7 @@ class SoloBase(ABC):
         raise NotImplementedError
 
 
-class Solo(SoloBase):
+class SoloPb(SoloBase):
     """
     Parser for solo dataset with 1 frame per sequence. Returns a list of frames from each sequence.
     Essentially flattens the sequence.
@@ -154,13 +140,6 @@ class Solo(SoloBase):
         self.path = path
         self.frame_idx = start
 
-        """
-        Default metadata location is expected at root/metadata.json but
-        if an annotation_file path is provided that is used as the annotation
-
-        Metadata can be in one of two locations, depending if it was a part of a singular build,
-        or if it was a part of a distributed build.
-        """
         metadata_f = self.__open_metadata__(annotation_file)
         pre = time.time()
         metadata = json.load(metadata_f)
@@ -224,7 +203,7 @@ class Solo(SoloBase):
         return self.total_frames
 
 
-class SoloSequence(SoloBase):
+class SoloSequencePb(SoloBase):
     def __init__(self, path, sensors=None, start=0, end=None):
         """
         Parses frames of a sequence in a solo dataset. Each sequence has > 1 frames
