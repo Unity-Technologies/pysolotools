@@ -3,11 +3,11 @@ from .solo import (Annotation, AnnotationDefinition, AnnotationLabel,
                    BoundingBoxAnnotationDefinition, Capture, DatasetMetadata,
                    Frame, InstanceSegmentationAnnotation, KeypointAnnotation,
                    RGBCameraCapture, SemanticSegmentationAnnotation,
-                   SoloDataset)
+                   DatasetAnnotations)
 from .ucvd import UCVDArchive, UCVDAttachment, UCVDDataset
 
 __all__ = [
-    "SoloDataset",
+    "DatasetAnnotations",
     "DatasetMetadata",
     "RGBCameraCapture",
     "Frame",
