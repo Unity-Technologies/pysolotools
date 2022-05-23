@@ -218,15 +218,6 @@ class InstanceSegmentationAnnotationDefinition(AnnotationDefinition):
     spec: List[LabelNameSpec]
 
 
-@dataclass_json
-@dataclass
-class DatasetAnnotations(object):
-    annotationDefinitions: List[dataclass]
-
-    def __post_init__(self):
-        self.annotationDefinitions = [DefinitionFactory.cast(anno) for anno in self.annotationDefinitions]
-
-
 @dataclass
 class BoundingBoxAnnotationDefinitionSpec:
     label_id: int
@@ -291,34 +282,9 @@ class KeypointTemplateDefinition:
 
 
 @dataclass
-class KeypointAnnotationDefinition(AnnotationDefinition):
-    template: KeypointTemplateDefinition
-
-
-@dataclass
 class LabelNameSpec:
     label_id: int
     label_name: str
-
-
-@dataclass
-class BoundingBox2DAnnotationDefinition(AnnotationDefinition):
-    spec: List[LabelNameSpec]
-
-
-@dataclass
-class SemanticSegmentationAnnotationDefinition(AnnotationDefinition):
-    pass  # Adds not additional fields
-
-
-@dataclass
-class BoundingBox3DAnnotationDefinition(AnnotationDefinition):
-    spec: List[LabelNameSpec]
-
-
-@dataclass
-class InstanceSegmentationAnnotationDefinition(AnnotationDefinition):
-    spec: List[LabelNameSpec]
 
 
 @dataclass_json

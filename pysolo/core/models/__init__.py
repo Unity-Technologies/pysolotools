@@ -1,9 +1,9 @@
 from .solo import (Annotation, AnnotationDefinition, AnnotationLabel,
                    BoundingBox2DAnnotation, BoundingBox3DAnnotation,
-                   BoundingBoxAnnotationDefinition, Capture, DatasetMetadata,
-                   Frame, InstanceSegmentationAnnotation, KeypointAnnotation,
-                   RGBCameraCapture, SemanticSegmentationAnnotation,
-                   DatasetAnnotations)
+                   BoundingBoxAnnotationDefinition, Capture,
+                   DatasetAnnotations, DatasetMetadata, Frame,
+                   InstanceSegmentationAnnotation, KeypointAnnotation,
+                   RGBCameraCapture, SemanticSegmentationAnnotation)
 from .ucvd import UCVDArchive, UCVDAttachment, UCVDDataset
 
 __all__ = [
