@@ -269,21 +269,65 @@ class DatasetMetadata(object):
     annotators: List[object]
 
 
+@dataclass_json
 @dataclass
-class SoloDataset:
-    metadata: DatasetMetadata
-    annotation_definitions: List[dataclass]
+class AnnotationDefinition:
+    id: str
+    description: str
+
+
+@dataclass
+class KeypointDefinition:
+    label: str
+    index: int
+    color: List[int]
+
+
+@dataclass
+class KeypointTemplateDefinition:
+    templateId: str
+    templateName: str
+    keypoints: List[KeypointDefinition]
+
+
+@dataclass
+class KeypointAnnotationDefinition(AnnotationDefinition):
+    template: KeypointTemplateDefinition
+
+
+@dataclass
+class LabelNameSpec:
+    label_id: int
+    label_name: str
+
+
+@dataclass
+class BoundingBox2DAnnotationDefinition(AnnotationDefinition):
+    spec: List[LabelNameSpec]
+
+
+@dataclass
+class SemanticSegmentationAnnotationDefinition(AnnotationDefinition):
+    pass  # Adds not additional fields
+
+
+@dataclass
+class BoundingBox3DAnnotationDefinition(AnnotationDefinition):
+    spec: List[LabelNameSpec]
+
+
+@dataclass
+class InstanceSegmentationAnnotationDefinition(AnnotationDefinition):
+    spec: List[LabelNameSpec]
+
+
+@dataclass_json
+@dataclass
+class DatasetAnnotations(object):
+    annotationDefinitions: List[dataclass]
 
     def __post_init__(self):
-        self.annotation_definitions = [DefinitionFactory.cast(anno) for anno in self.annotation_definitions]
-
-    def get_num_frames(self):
-        """
-
-        Returns:
-
-        """
-        return self.metadata.totalFrames
+        self.annotationDefinitions = [DefinitionFactory.cast(anno) for anno in self.annotationDefinitions]
 
 
 class DataFactory:
