@@ -118,7 +118,7 @@ class Capture:
         return pd.DataFrame(self.annotations)
 
     def __post_init__(self):
-        self.annotations = [DefinitionFactory.cast(anno) for anno in self.annotations]
+        self.annotations = [DataFactory.cast(anno) for anno in self.annotations]
 
     def __eq__(self, other):
         if other == self.id:
@@ -136,7 +136,7 @@ class Frame:
     metrics: List[object]
 
     def __post_init__(self):
-        self.captures = [DefinitionFactory.cast(capture) for capture in self.captures]
+        self.captures = [DataFactory.cast(capture) for capture in self.captures]
 
     def get_captures_df(self) -> pd.DataFrame:
         """
@@ -286,7 +286,7 @@ class SoloDataset:
         return self.metadata.totalFrames
 
 
-class DefinitionFactory:
+class DataFactory:
     switcher = {
         "type.unity.com/unity.solo.RGBCamera": RGBCameraCapture,
         "type.unity.com/unity.solo.KeypointAnnotation": KeypointAnnotation,
@@ -294,7 +294,6 @@ class DefinitionFactory:
         "type.unity.com/unity.solo.BoundingBox3DAnnotation": BoundingBox3DAnnotation,
         "type.unity.com/unity.solo.InstanceSegmentationAnnotation": InstanceSegmentationAnnotation,
         "type.unity.com/unity.solo.SemanticSegmentationAnnotation": SemanticSegmentationAnnotation,
-        "type.unity.com/unity.solo.BoundingBoxAnnotationDefinition": BoundingBoxAnnotationDefinition
 
     }
 
@@ -305,5 +304,25 @@ class DefinitionFactory:
         dtype = data['@type']
         if dtype not in cls.switcher.keys():
             raise Exception("Unknown data type")
+        klass = cls.switcher[dtype]
+        return klass.from_dict(data)
+
+
+class DefinitionFactory:
+    switcher = {
+        "type.unity.com/unity.solo.KeypointAnnotation": KeypointAnnotationDefinition,
+        "type.unity.com/unity.solo.BoundingBox2DAnnotation": BoundingBox2DAnnotationDefinition,
+        "type.unity.com/unity.solo.BoundingBox3DAnnotation": BoundingBox3DAnnotationDefinition,
+        "type.unity.com/unity.solo.SemanticSegmentationAnnotation": SemanticSegmentationAnnotationDefinition,
+        "type.unity.com/unity.solo.InstanceSegmentationAnnotation": InstanceSegmentationAnnotationDefinition,
+    }
+
+    @classmethod
+    def cast(cls, data):
+        if '@type' not in data.keys():
+            raise Exception("No type provided in annotation")
+        dtype = data['@type']
+        if dtype not in cls.switcher.keys():
+            raise Exception(f"Unknown data type: {dtype}")
         klass = cls.switcher[dtype]
         return klass.from_dict(data)
