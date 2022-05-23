@@ -1,0 +1,44 @@
+{
+  "unityVersion": "2020.3.34f1",
+  "perceptionVersion": "0.10.0-preview.1",
+  "renderPipeline": "HDRP",
+  "simulationStartTime": "5/20/2022 1:54:42 PM",
+  "scenarioRandomSeed": 539662031,
+  "scenarioActiveRandomizers": [
+    "AnimationRandomizer"
+  ],
+  "totalFrames": 1,
+  "totalSequences": 1,
+  "sensors": [
+    "camera"
+  ],
+  "metricCollectors": [
+    "ObjectCount",
+    "RenderedObjectInfo",
+    "scenario_iteration",
+    "random-seed"
+  ],
+  "simulationEndTime": "5/20/2022 1:55:40 PM",
+  "annotators": [
+    {
+      "name": "8b3ef246-daa7-4dd5-a0e8-a943f6e7f8c2",
+      "type": "type.unity.com/unity.solo.KeypointAnnotation"
+    },
+    {
+      "name": "bounding box",
+      "type": "type.unity.com/unity.solo.BoundingBox2DAnnotation"
+    },
+    {
+      "name": "bounding box 3D",
+      "type": "type.unity.com/unity.solo.BoundingBox3DAnnotation"
+    },
+    {
+      "name": "instance segmentation",
+      "type": "type.unity.com/unity.solo.InstanceSegmentationAnnotation"
+    },
+    {
+      "name": "semantic segmentation",
+      "type": "type.unity.com/unity.solo.SemanticSegmentationAnnotation"
+    }
+  ]
+}
