@@ -143,3 +143,4 @@ __MACOSX/
 detectron2
 
 docs/make.bat
+/examples/pytorch/data/

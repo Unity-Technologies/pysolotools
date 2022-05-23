@@ -1,0 +1,494 @@
+{
+  "frame": 263,
+  "sequence": 261,
+  "step": 0,
+  "captures": [
+    {
+      "@type": "type.unity.com/unity.solo.RGBCamera",
+      "id": "camera",
+      "description": "The main camera",
+      "position": [
+        1.929,
+        1.123,
+        -3.057
+      ],
+      "rotation": [
+        0.11266163,
+        -0.260020733,
+        0.0305620581,
+        0.958521068
+      ],
+      "velocity": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "acceleration": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filename": "step0.camera.png",
+      "imageFormat": "Png",
+      "dimension": [
+        1024.0,
+        768.0
+      ],
+      "projection": "Perspective",
+      "matrix": [
+        1.299259,
+        0.0,
+        0.0,
+        0.0,
+        1.73234534,
+        0.0,
+        0.0,
+        0.0,
+        -1.0006001
+      ],
+      "annotations": [
+        {
+          "@type": "type.unity.com/unity.solo.BoundingBox3DAnnotation",
+          "id": "bounding box 3D",
+          "sensorId": "camera",
+          "description": "Produces 3D bounding box ground truth data for all visible objects that bear a label defined in this labeler's associated label configuration.",
+          "values": [
+            {
+              "instanceId": 3,
+              "labelId": 1,
+              "labelName": "Crate",
+              "translation": [
+                -1.5434798,
+                -0.061360918,
+                4.585796
+              ],
+              "size": [
+                1.0,
+                1.0,
+                1.0
+              ],
+              "rotation": [
+                -0.11266163,
+                0.260020733,
+                -0.0305620581,
+                0.958521068
+              ],
+              "velocity": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "acceleration": [
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "instanceId": 2,
+              "labelId": 1,
+              "labelName": "Crate",
+              "translation": [
+                1.59413409,
+                -0.750773966,
+                3.84993672
+              ],
+              "size": [
+                1.00000024,
+                1.0,
+                1.00000024
+              ],
+              "rotation": [
+                0.09706425,
+                0.5517214,
+                -0.06484763,
+                -0.825819
+              ],
+              "velocity": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "acceleration": [
+                0.0,
+                0.0,
+                0.0
+              ]
+            }
+          ]
+        },
+        {
+          "@type": "type.unity.com/unity.solo.SemanticSegmentationAnnotation",
+          "id": "semantic segmentation",
+          "sensorId": "camera",
+          "description": "Generates a semantic segmentation image for each captured frame. Each object is rendered to the semantic segmentation image using the color associated with it based on this labeler's associated semantic segmentation label configuration. Semantic segmentation images are saved to the dataset in PNG format. Please note that only one SemanticSegmentationLabeler can render at once across all cameras.",
+          "imageFormat": "Png",
+          "dimension": [
+            1024.0,
+            768.0
+          ],
+          "filename": "step0.camera.semantic segmentation.png",
+          "instances": [
+            {
+              "labelName": "Crate",
+              "pixelValue": [
+                0,
+                255,
+                43,
+                255
+              ]
+            }
+          ]
+        },
+        {
+          "@type": "type.unity.com/unity.solo.InstanceSegmentationAnnotation",
+          "id": "instance segmentation",
+          "sensorId": "camera",
+          "description": "Produces an instance segmentation image for each frame. The image will render the pixels of each labeled object in a distinct color.",
+          "imageFormat": "Png",
+          "dimension": [
+            1024.0,
+            768.0
+          ],
+          "filename": "step0.camera.instance segmentation.png",
+          "instances": [
+            {
+              "instanceId": 3,
+              "labelId": 1,
+              "labelName": "Crate",
+              "color": [
+                149,
+                255,
+                0,
+                255
+              ]
+            },
+            {
+              "instanceId": 1,
+              "labelId": 5,
+              "labelName": "Character",
+              "color": [
+                255,
+                0,
+                0,
+                255
+              ]
+            },
+            {
+              "instanceId": 2,
+              "labelId": 1,
+              "labelName": "Crate",
+              "color": [
+                0,
+                74,
+                255,
+                255
+              ]
+            }
+          ]
+        },
+        {
+          "@type": "type.unity.com/unity.solo.KeypointAnnotation",
+          "id": "8b3ef246-daa7-4dd5-a0e8-a943f6e7f8c2",
+          "sensorId": "camera",
+          "description": "Produces keypoint annotations for all visible labeled objects that have a humanoid animation avatar component.",
+          "templateId": "4a7b253a-334e-460c-bc81-3f4e2c4871c0",
+          "values": [
+            {
+              "instanceId": 1,
+              "labelId": 5,
+              "pose": "unset",
+              "keypoints": [
+                {
+                  "index": 0,
+                  "location": [
+                    0.0,
+                    0.0
+                  ],
+                  "state": 0
+                },
+                {
+                  "index": 1,
+                  "location": [
+                    497.3517,
+                    296.141876
+                  ],
+                  "state": 2
+                },
+                {
+                  "index": 2,
+                  "location": [
+                    473.560852,
+                    314.3433
+                  ],
+                  "state": 2
+                },
+                {
+                  "index": 3,
+                  "location": [
+                    465.365784,
+                    356.298157
+                  ],
+                  "state": 1
+                },
+                {
+                  "index": 4,
+                  "location": [
+                    448.789429,
+                    392.943268
+                  ],
+                  "state": 2
+                },
+                {
+                  "index": 5,
+                  "location": [
+                    520.2347,
+                    307.913544
+                  ],
+                  "state": 2
+                },
+                {
+                  "index": 6,
+                  "location": [
+                    552.175659,
+                    346.72
+                  ],
+                  "state": 2
+                },
+                {
+                  "index": 7,
+                  "location": [
+                    516.3037,
+                    369.8605
+                  ],
+                  "state": 2
+                },
+                {
+                  "index": 8,
+                  "location": [
+                    466.5399,
+                    387.458984
+                  ],
+                  "state": 1
+                },
+                {
+                  "index": 9,
+                  "location": [
+                    456.33255,
+                    452.368
+                  ],
+                  "state": 2
+                },
+                {
+                  "index": 10,
+                  "location": [
+                    476.7167,
+                    493.2951
+                  ],
+                  "state": 2
+                },
+                {
+                  "index": 11,
+                  "location": [
+                    492.1959,
+                    396.748016
+                  ],
+                  "state": 2
+                },
+                {
+                  "index": 12,
+                  "location": [
+                    519.6381,
+                    456.886475
+                  ],
+                  "state": 2
+                },
+                {
+                  "index": 13,
+                  "location": [
+                    543.8803,
+                    518.884338
+                  ],
+                  "state": 2
+                },
+                {
+                  "index": 14,
+                  "location": [
+                    477.189545,
+                    265.5155
+                  ],
+                  "state": 2
+                },
+                {
+                  "index": 15,
+                  "location": [
+                    490.22995,
+                    261.4334
+                  ],
+                  "state": 2
+                },
+                {
+                  "index": 16,
+                  "location": [
+                    0.0,
+                    0.0
+                  ],
+                  "state": 0
+                },
+                {
+                  "index": 17,
+                  "location": [
+                    0.0,
+                    0.0
+                  ],
+                  "state": 0
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "@type": "type.unity.com/unity.solo.BoundingBox2DAnnotation",
+          "id": "bounding box",
+          "sensorId": "camera",
+          "description": "Produces 2D bounding box annotations for all visible objects that bear a label defined in this labeler's associated label configuration.",
+          "values": [
+            {
+              "instanceId": 3,
+              "labelId": 1,
+              "labelName": "Crate",
+              "origin": [
+                167.0,
+                308.0
+              ],
+              "dimension": [
+                228.0,
+                192.0
+              ]
+            },
+            {
+              "instanceId": 1,
+              "labelId": 5,
+              "labelName": "Character",
+              "origin": [
+                446.0,
+                225.0
+              ],
+              "dimension": [
+                117.0,
+                334.0
+              ]
+            },
+            {
+              "instanceId": 2,
+              "labelId": 1,
+              "labelName": "Crate",
+              "origin": [
+                681.0,
+                401.0
+              ],
+              "dimension": [
+                231.0,
+                260.0
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "metrics": [
+    {
+      "@type": "type.unity.com/unity.solo.GenericMetric",
+      "id": "scenario_iteration",
+      "sensorId": "",
+      "annotationId": "",
+      "description": "Iteration information for dataset sequences",
+      "value": 261
+    },
+    {
+      "@type": "type.unity.com/unity.solo.RenderedObjectInfoMetric",
+      "id": "RenderedObjectInfo",
+      "sensorId": "camera",
+      "annotationId": "",
+      "description": "Produces label id, instance id, and visible pixel count in a single metric each frame for each object which takes up one or more pixels in the camera's frame, based on this labeler's associated label configuration.",
+      "values": [
+        {
+          "labelId": 1,
+          "instanceId": 3,
+          "color": [
+            149,
+            255,
+            0,
+            255
+          ],
+          "visiblePixels": 35950
+        },
+        {
+          "labelId": 5,
+          "instanceId": 1,
+          "color": [
+            255,
+            0,
+            0,
+            255
+          ],
+          "visiblePixels": 16661
+        },
+        {
+          "labelId": 1,
+          "instanceId": 2,
+          "color": [
+            0,
+            74,
+            255,
+            255
+          ],
+          "visiblePixels": 48567
+        }
+      ]
+    },
+    {
+      "@type": "type.unity.com/unity.solo.GenericMetric",
+      "id": "random-seed",
+      "sensorId": "",
+      "annotationId": "",
+      "description": "The random seed used to initialize the random state of the simulation. Only triggered once per simulation.",
+      "value": 539662031
+    },
+    {
+      "@type": "type.unity.com/unity.solo.ObjectCountMetric",
+      "id": "ObjectCount",
+      "sensorId": "camera",
+      "annotationId": "",
+      "description": "Produces object counts for each label defined in this labeler's associated label configuration.",
+      "values": [
+        {
+          "labelId": 1,
+          "labelName": "Crate",
+          "count": 2
+        },
+        {
+          "labelId": 2,
+          "labelName": "Cube",
+          "count": 0
+        },
+        {
+          "labelId": 3,
+          "labelName": "Box",
+          "count": 0
+        },
+        {
+          "labelId": 4,
+          "labelName": "Terrain",
+          "count": 0
+        },
+        {
+          "labelId": 5,
+          "labelName": "Character",
+          "count": 1
+        }
+      ]
+    }
+  ]
+}
