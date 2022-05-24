@@ -1,4 +1,4 @@
-class UnityVisionException(Exception):
+class PySoloException(Exception):
     """Base class for Exceptions"""
 
     def __init__(self, message, source=None):
@@ -13,31 +13,31 @@ class UnityVisionException(Exception):
         self.source = source
 
 
-class UnrecognizedAuthException(UnityVisionException):
+class UnrecognizedAuthException(PySoloException):
     """Raise when unknown authentiction methods are used"""
 
     pass
 
 
-class UCVDException(UnityVisionException):
+class UCVDException(PySoloException):
     pass
 
 
-class AuthenticationException(UnityVisionException):
+class AuthenticationException(PySoloException):
     """Raised when no Auth Token is provided"""
 
     pass
 
 
-class TimeoutException(UnityVisionException):
+class TimeoutException(PySoloException):
     """Raised when request times-out."""
 
     pass
 
 
-class MalformedQueryException(UnityVisionException):
+class MalformedQueryException(PySoloException):
     pass
 
 
-class DatasetException(UnityVisionException):
+class DatasetException(PySoloException):
     pass
