@@ -1,0 +1,278 @@
+{
+  "frame": 2,
+  "sequence": 0,
+  "step": 0,
+  "captures": [
+    {
+      "@type": "type.unity.com/unity.solo.RGBCamera",
+      "id": "camera",
+      "description": "The main RGB camera",
+      "position": [
+        1.929,
+        1.123,
+        -3.057
+      ],
+      "rotation": [
+        0.11266163,
+        -0.260020733,
+        0.0305620581,
+        0.958521068
+      ],
+      "velocity": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "acceleration": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filename": "step0.camera.png",
+      "imageFormat": "PNG",
+      "dimension": [
+        822.0,
+        509.0
+      ],
+      "projection": "Perspective",
+      "matrix": [
+        1.07270539,
+        0.0,
+        0.0,
+        0.0,
+        1.73234534,
+        0.0,
+        0.0,
+        0.0,
+        -1.0006001
+      ],
+      "annotations": [
+        {
+          "@type": "type.unity.com/unity.solo.KeypointAnnotation",
+          "id": "8b3ef246-daa7-4dd5-a0e8-a943f6e7f8c2",
+          "sensorId": "camera",
+          "description": "8b3ef246-daa7-4dd5-a0e8-a943f6e7f8c2",
+          "templateId": "4a7b253a-334e-460c-bc81-3f4e2c4871c0",
+          "values": [
+            {
+              "instanceId": 1,
+              "labelId": 5,
+              "pose": "unset",
+              "keypoints": [
+                {
+                  "index": 0,
+                  "location": [
+                    0.0,
+                    0.0
+                  ],
+                  "state": 0
+                },
+                {
+                  "index": 1,
+                  "location": [
+                    396.958771,
+                    204.892456
+                  ],
+                  "state": 2
+                },
+                {
+                  "index": 2,
+                  "location": [
+                    384.4599,
+                    215.848419
+                  ],
+                  "state": 2
+                },
+                {
+                  "index": 3,
+                  "location": [
+                    385.3887,
+                    244.177032
+                  ],
+                  "state": 1
+                },
+                {
+                  "index": 4,
+                  "location": [
+                    384.2036,
+                    268.709717
+                  ],
+                  "state": 1
+                },
+                {
+                  "index": 5,
+                  "location": [
+                    414.220825,
+                    218.420288
+                  ],
+                  "state": 2
+                },
+                {
+                  "index": 6,
+                  "location": [
+                    420.453552,
+                    249.905945
+                  ],
+                  "state": 2
+                },
+                {
+                  "index": 7,
+                  "location": [
+                    424.157,
+                    277.060028
+                  ],
+                  "state": 2
+                },
+                {
+                  "index": 8,
+                  "location": [
+                    386.2963,
+                    269.2615
+                  ],
+                  "state": 2
+                },
+                {
+                  "index": 9,
+                  "location": [
+                    381.984,
+                    312.054565
+                  ],
+                  "state": 2
+                },
+                {
+                  "index": 10,
+                  "location": [
+                    386.977631,
+                    350.0133
+                  ],
+                  "state": 2
+                },
+                {
+                  "index": 11,
+                  "location": [
+                    404.827118,
+                    272.070374
+                  ],
+                  "state": 2
+                },
+                {
+                  "index": 12,
+                  "location": [
+                    405.665924,
+                    314.2643
+                  ],
+                  "state": 2
+                },
+                {
+                  "index": 13,
+                  "location": [
+                    409.126343,
+                    356.4823
+                  ],
+                  "state": 2
+                },
+                {
+                  "index": 14,
+                  "location": [
+                    384.559,
+                    185.150757
+                  ],
+                  "state": 2
+                },
+                {
+                  "index": 15,
+                  "location": [
+                    393.543335,
+                    185.488281
+                  ],
+                  "state": 2
+                },
+                {
+                  "index": 16,
+                  "location": [
+                    0.0,
+                    0.0
+                  ],
+                  "state": 0
+                },
+                {
+                  "index": 17,
+                  "location": [
+                    0.0,
+                    0.0
+                  ],
+                  "state": 0
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "@type": "type.unity.com/unity.solo.BoundingBox2DAnnotation",
+          "id": "bounding box",
+          "sensorId": "camera",
+          "description": "Produces 2D bounding box annotations for all visible objects that bear a label defined in this labeler's associated label configuration.",
+          "values": [
+            {
+              "instanceId": 3,
+              "labelId": 1,
+              "labelName": "Crate",
+              "origin": [
+                182.0,
+                204.0
+              ],
+              "dimension": [
+                151.0,
+                128.0
+              ]
+            },
+            {
+              "instanceId": 1,
+              "labelId": 5,
+              "labelName": "Character",
+              "origin": [
+                372.0,
+                158.0
+              ],
+              "dimension": [
+                57.0,
+                225.0
+              ]
+            },
+            {
+              "instanceId": 2,
+              "labelId": 1,
+              "labelName": "Crate",
+              "origin": [
+                515.0,
+                265.0
+              ],
+              "dimension": [
+                155.0,
+                176.0
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "metrics": [
+    {
+      "@type": "type.unity.com/unity.solo.GenericMetric",
+      "id": "scenario_iteration",
+      "sensorId": null,
+      "annotationId": null,
+      "description": "Iteration information for dataset sequences",
+      "value": 0
+    },
+    {
+      "@type": "type.unity.com/unity.solo.GenericMetric",
+      "id": "random-seed",
+      "sensorId": null,
+      "annotationId": null,
+      "description": "The random seed used to initialize the random state of the simulation. Only triggered once per simulation.",
+      "value": 539662031
+    }
+  ]
+}

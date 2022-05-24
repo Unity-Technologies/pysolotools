@@ -2,18 +2,16 @@ from typing import List
 
 import numpy as np
 
-from pysolo.consumers.solo.parser import Solo
-from pysolo.core.models.solo import (BoundingBox2DAnnotation,
-                                     BoundingBox2DAnnotationDefinition)
+from pysolo.core import BoundingBox2DAnnotation
+from pysolo.core.iterators import FramesIterator
 
 
 class SoloStats:
 
-    def __init__(self, path: str):
-        self.solo = Solo(path=path)
+        self.frames = iterator
 
     def _reset_frame_idx(self):
-        self.solo.frame_idx = 0
+        self.frames.frame_idx = 0
 
     def get_categories(self):
         categories = {}
@@ -27,7 +25,7 @@ class SoloStats:
 
         while True:
             try:
-                frame = next(self.solo)
+                frame = next(self.frames)
                 ids.append(frame.frame)
             except StopIteration:
                 break
@@ -39,7 +37,7 @@ class SoloStats:
         num_bbox = 0
         while True:
             try:
-                frame = next(self.solo)
+                frame = next(self.frames)
                 for f in frame.captures:
                     for ann in filter(
                             lambda k: isinstance(k, BoundingBox2DAnnotation),
@@ -58,7 +56,7 @@ class SoloStats:
         bbox_dist = {}
         while True:
             try:
-                frame = next(self.solo)
+                frame = next(self.frames)
                 for f in frame.captures:
                     for ann in filter(
                             lambda k: isinstance(k, BoundingBox2DAnnotation),
@@ -83,7 +81,7 @@ class SoloStats:
 
         while True:
             try:
-                frame = next(self.solo)
+                frame = next(self.frames)
 
                 for f in frame.captures:
                     if bbox_heatmap is None:
@@ -108,7 +106,7 @@ class SoloStats:
         bbox_relative_size = []
         while True:
             try:
-                frame = next(self.solo)
+                frame = next(self.frames)
                 for f in frame.captures:
                     w, h = f.dimension[0], f.dimension[1]
                     img_area = w * h

@@ -1,6 +1,5 @@
-from .solo import Solo, SoloPb
+from .solo import Solo
 
 __all__ = [
     "Solo",
-    "SoloPb"
 ]
