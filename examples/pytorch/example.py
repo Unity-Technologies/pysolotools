@@ -8,7 +8,9 @@ def run():
     while True:
         try:
             frame = next(solo)
-            annotations, metrics = [cap.annotations for cap in frame.captures], frame.metrics
+            annotations, metrics = [
+                cap.annotations for cap in frame.captures
+            ], frame.metrics
             print(annotations)
             print(metrics)
         except StopIteration:
