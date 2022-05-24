@@ -16,7 +16,7 @@ class Solo:
         self.metadata = self.__open_metadata__(metadata_file)
         self.annotation_definitions = self.__open_annotation_definitions__()
 
-    def frames(self):
+    def frames(self) -> FramesIterator:
         return FramesIterator(
             self.data_path,
             self.metadata,
@@ -25,7 +25,7 @@ class Solo:
             self.end
         )
 
-    def stats(self):
+    def stats(self) -> SoloStats:
         return SoloStats(self.frames())
 
     def get_metadata(self) -> DatasetMetadata:
