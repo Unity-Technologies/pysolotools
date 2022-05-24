@@ -104,6 +104,7 @@ class Capture:
     id (str): Id
     type(str):
     """
+
     id: str
     type: str = field(metadata=config(field_name="@type"))
     description: str
@@ -276,7 +277,9 @@ class DatasetAnnotations(object):
     annotationDefinitions: List[dataclass]
 
     def __post_init__(self):
-        self.annotationDefinitions = [DefinitionFactory.cast(anno) for anno in self.annotationDefinitions]
+        self.annotationDefinitions = [
+            DefinitionFactory.cast(anno) for anno in self.annotationDefinitions
+        ]
 
 
 class DataFactory:
@@ -287,14 +290,13 @@ class DataFactory:
         "type.unity.com/unity.solo.BoundingBox3DAnnotation": BoundingBox3DAnnotation,
         "type.unity.com/unity.solo.InstanceSegmentationAnnotation": InstanceSegmentationAnnotation,
         "type.unity.com/unity.solo.SemanticSegmentationAnnotation": SemanticSegmentationAnnotation,
-
     }
 
     @classmethod
     def cast(cls, data):
-        if '@type' not in data.keys():
+        if "@type" not in data.keys():
             raise Exception("No type provided in annotation")
-        dtype = data['@type']
+        dtype = data["@type"]
         if dtype not in cls.switcher.keys():
             raise Exception("Unknown data type")
         klass = cls.switcher[dtype]
@@ -312,9 +314,9 @@ class DefinitionFactory:
 
     @classmethod
     def cast(cls, data):
-        if '@type' not in data.keys():
+        if "@type" not in data.keys():
             raise Exception("No type provided in annotation")
-        dtype = data['@type']
+        dtype = data["@type"]
         if dtype not in cls.switcher.keys():
             raise Exception(f"Unknown data type: {dtype}")
         klass = cls.switcher[dtype]

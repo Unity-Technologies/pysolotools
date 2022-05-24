@@ -8,10 +8,14 @@ from typing import Iterable
 
 from google.protobuf.json_format import MessageToDict, Parse
 
-from pysolo.protos.solo_pb2 import (BoundingBox2DAnnotation, Frame,
-                                    InstanceSegmentationAnnotation,
-                                    KeypointAnnotation, RGBCamera,
-                                    SemanticSegmentationAnnotation)
+from pysolo.protos.solo_pb2 import (
+    BoundingBox2DAnnotation,
+    Frame,
+    InstanceSegmentationAnnotation,
+    KeypointAnnotation,
+    RGBCamera,
+    SemanticSegmentationAnnotation,
+)
 
 __SENSORS__ = [
     {
@@ -89,9 +93,9 @@ class SoloBase(ABC):
         )
         sensors = self._unpack_sensors(frame.captures)
         for s in sensors.values():
-            s['frame'] = frame.frame
-            s['sequence'] = frame.sequence
-            s['step'] = frame.step
+            s["frame"] = frame.frame
+            s["sequence"] = frame.sequence
+            s["step"] = frame.step
 
         return sensors
 
@@ -117,14 +121,16 @@ class SoloPb(SoloBase):
     Essentially flattens the sequence.
     """
 
-    def __init__(self,
-                 path,
-                 annotation_file=None,
-                 sensors=None,
-                 start=0,
-                 end=None,
-                 *args,
-                 **kwargs):
+    def __init__(
+        self,
+        path,
+        annotation_file=None,
+        sensors=None,
+        start=0,
+        end=None,
+        *args,
+        **kwargs,
+    ):
         """
         Constructor of Unity SOLO class for reading annotations.
         Args:
@@ -143,7 +149,7 @@ class SoloPb(SoloBase):
         metadata_f = self.__open_metadata__(annotation_file)
         pre = time.time()
         metadata = json.load(metadata_f)
-        print('DONE (t={:0.5f}s)'.format(time.time() - pre))
+        print("DONE (t={:0.5f}s)".format(time.time() - pre))
 
         self.total_frames = metadata["totalFrames"]
         self.total_sequences = metadata["totalSequences"]

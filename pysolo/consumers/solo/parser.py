@@ -3,17 +3,22 @@ import os
 import time
 from abc import ABC, abstractmethod
 
-from pysolo.core.models import (BoundingBox2DAnnotation,
-                                BoundingBox3DAnnotation, DatasetAnnotations,
-                                DatasetMetadata, Frame,
-                                InstanceSegmentationAnnotation,
-                                SemanticSegmentationAnnotation)
+from pysolo.core.models import (
+    BoundingBox2DAnnotation,
+    BoundingBox3DAnnotation,
+    DatasetAnnotations,
+    DatasetMetadata,
+    Frame,
+    InstanceSegmentationAnnotation,
+    SemanticSegmentationAnnotation,
+)
 
 
 class SoloBase(ABC):
     """
     Map of sensor to its relevant annotations available for the sensor.
     """
+
     SENSORS = [
         {
             "sensor": "type.unity.com/unity.solo.RGBCamera",
@@ -21,8 +26,8 @@ class SoloBase(ABC):
                 BoundingBox2DAnnotation,
                 BoundingBox3DAnnotation,
                 InstanceSegmentationAnnotation,
-                SemanticSegmentationAnnotation
-            ]
+                SemanticSegmentationAnnotation,
+            ],
         }
     ]
 
@@ -40,13 +45,15 @@ class Solo(SoloBase):
     Essentially flattens the sequence.
     """
 
-    def __init__(self,
-                 path: str,
-                 annotation_file: str = None,
-                 start: int = 0,
-                 end: int = None,
-                 *args,
-                 **kwargs):
+    def __init__(
+        self,
+        path: str,
+        annotation_file: str = None,
+        start: int = 0,
+        end: int = None,
+        *args,
+        **kwargs,
+    ):
         """
 
         Args:
@@ -79,8 +86,10 @@ class Solo(SoloBase):
         self.frame_idx = start
         pre = time.time()
         self.metadata = self.__open_metadata__(annotation_file)
-        self.annotation_definitions = self.__open_annotation_definitions__(annotation_file)
-        print('DONE (t={:0.5f}s)'.format(time.time() - pre))
+        self.annotation_definitions = self.__open_annotation_definitions__(
+            annotation_file
+        )
+        print("DONE (t={:0.5f}s)".format(time.time() - pre))
 
         self.total_frames = self.metadata.totalFrames
         self.total_sequences = self.metadata.totalSequences
@@ -126,10 +135,10 @@ class Solo(SoloBase):
             discovered_path = [annotation_file]
         else:
             discovered_path = glob.glob(
-                self.path + "/annotation_definitions.json", recursive=True)
+                self.path + "/annotation_definitions.json", recursive=True
+            )
             if len(discovered_path) != 1:
-                raise Exception(
-                    "Found none or multiple annottion definition files.")
+                raise Exception("Found none or multiple annottion definition files.")
         metadata_f = open(discovered_path[0])
         ann_def = DatasetAnnotations.from_json(metadata_f.read())
         return ann_def.annotationDefinitions

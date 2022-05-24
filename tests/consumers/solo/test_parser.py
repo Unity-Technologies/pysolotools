@@ -1,8 +1,13 @@
 import unittest
 
 from pysolo.consumers import Solo
-from pysolo.core.models import (DataFactory, DatasetAnnotations,
-                                DatasetMetadata, Frame, RGBCameraCapture)
+from pysolo.core.models import (
+    DataFactory,
+    DatasetAnnotations,
+    DatasetMetadata,
+    Frame,
+    RGBCameraCapture,
+)
 
 
 class TestSolo(unittest.TestCase):
@@ -15,7 +20,9 @@ class TestSolo(unittest.TestCase):
         self.assertIsInstance(metadata, DatasetMetadata)
 
     def test_get_annotation_definitions(self):
-        self.assertIsInstance(self.solo.get_annotation_definitions(), DatasetAnnotations)
+        self.assertIsInstance(
+            self.solo.get_annotation_definitions(), DatasetAnnotations
+        )
 
     def test_parse_frame(self):
         self.assertIsInstance(self.frame, Frame)

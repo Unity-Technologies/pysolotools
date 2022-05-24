@@ -13,7 +13,7 @@ from pysolo.core.models import Archive, Attachment, Dataset
 logger = logging.getLogger(__name__)
 logging.basicConfig(level=logging.WARNING)
 
-BASE_URI_V1 = 'https://services.api.unity.com/computer-vision-datasets/v1'
+BASE_URI_V1 = "https://services.api.unity.com/computer-vision-datasets/v1"
 UNITY_AUTH_SA_KEY = "UNITY_AUTH_SA_KEY"
 UNITY_AUTH_API_SECRET = "UNITY_AUTH_API_SECRET"
 _SDK_VERSION = "v0.0.1"
@@ -25,15 +25,15 @@ class UCVDClient:
     """
 
     def __init__(
-            self,
-            org_id,
-            project_id,
-            sa_key=None,
-            api_secret=None,
-            api_version="v1",
-            base_uri=BASE_URI_V1,
-            rate_limit_period=900,
-            **kwargs,
+        self,
+        org_id,
+        project_id,
+        sa_key=None,
+        api_secret=None,
+        api_version="v1",
+        base_uri=BASE_URI_V1,
+        rate_limit_period=900,
+        **kwargs,
     ):
         """
         Creates and initializes a UCVDClient
@@ -67,8 +67,8 @@ class UCVDClient:
         self.org_id = org_id
         if sa_key is None or api_secret is None:
             if (
-                    UNITY_AUTH_SA_KEY not in os.environ
-                    or UNITY_AUTH_API_SECRET not in os.environ
+                UNITY_AUTH_SA_KEY not in os.environ
+                or UNITY_AUTH_API_SECRET not in os.environ
             ):
                 raise AuthenticationException(
                     "UNITY_AUTH_SA_KEY and UNITY_AUTH_API_SECRET both must be present."
@@ -77,7 +77,9 @@ class UCVDClient:
             self.api_secret = os.environ[UNITY_AUTH_API_SECRET]
         self.sa_key = sa_key
         self.api_secret = api_secret
-        self.endpoint = f"{base_uri}/organizations/{self.org_id}/projects/{self.project_id}"
+        self.endpoint = (
+            f"{base_uri}/organizations/{self.org_id}/projects/{self.project_id}"
+        )
         self.api_version = api_version
         self.auth = HTTPBasicAuth(self.sa_key, self.api_secret)
         self.rate_limit_period = rate_limit_period
@@ -95,7 +97,9 @@ class UCVDClient:
             dataset["description"] = description
         if license_uri:
             dataset["licenseURI"] = license_uri
-        return self.__make_request(method="post", url=entity_uri, body=dataset, auth=self.auth)
+        return self.__make_request(
+            method="post", url=entity_uri, body=dataset, auth=self.auth
+        )
 
     def describe_dataset(self, dataset_id):
         entity_uri = f"{self.endpoint}/datasets/{dataset_id}"
@@ -115,7 +119,9 @@ class UCVDClient:
     def create_dataset_archive(self, dataset_id, archive_name="Archive.tar"):
         entity_uri = f"{self.endpoint}/datasets/{dataset_id}/archives"
         body = {"name": archive_name}
-        return self.__make_request(method="post", url=entity_uri, body=body, auth=self.auth)
+        return self.__make_request(
+            method="post", url=entity_uri, body=body, auth=self.auth
+        )
 
     def describe_dataset_archive(self, dataset_id, archive_id):
         entity_uri = f"{self.endpoint}/datasets/{dataset_id}/archives/{archive_id}"
@@ -135,7 +141,9 @@ class UCVDClient:
     def create_dataset_attachment(self, dataset_id, attachment_name, description):
         entity_uri = f"{self.endpoint}/datasets/{dataset_id}/attachment"
         body = {"name": attachment_name, "description": description}
-        return self.__make_request(method="post", url=entity_uri, body=body, auth=self.auth)
+        return self.__make_request(
+            method="post", url=entity_uri, body=body, auth=self.auth
+        )
 
     @limits(calls=15, period=900)
     def iterate_datasets(self):
@@ -155,12 +163,17 @@ class UCVDClient:
         for res in self.__iterable_get(entity_uri, auth=self.auth):
             yield Attachment(**res)
 
-    def download_dataset_archives(self, dataset_id: str, dest_dir: str, chunk_size=1024 ** 2,
-                                  skip_on_error: bool = True):
+    def download_dataset_archives(
+        self,
+        dataset_id: str,
+        dest_dir: str,
+        chunk_size=1024**2,
+        skip_on_error: bool = True,
+    ):
         if not os.path.isdir(dest_dir):
             os.mkdir(dest_dir)
         for archive in self.iterate_dataset_archives(dataset_id):
-            if archive.state['status'] != 'READY':
+            if archive.state["status"] != "READY":
                 continue
             r = requests.get(archive.downloadURL, stream=True)
             if not r.ok:
@@ -168,18 +181,23 @@ class UCVDClient:
                     continue
                 else:
                     r.raise_for_status()
-            with open(os.path.join(dest_dir, archive.name), 'wb') as f:
+            with open(os.path.join(dest_dir, archive.name), "wb") as f:
                 for chunk in r.iter_content(chunk_size=chunk_size):
                     f.write(chunk)
         logger.info("Downloaded successfully")
 
-    def download_dataset_attachment(self, dataset_id: str, attachment_id: str, dest_dir: str = '.',
-                                    chunk_size: int = 1024 ** 2):
+    def download_dataset_attachment(
+        self,
+        dataset_id: str,
+        attachment_id: str,
+        dest_dir: str = ".",
+        chunk_size: int = 1024**2,
+    ):
         attachment = self.describe_dataset_attachment(dataset_id, attachment_id)
-        if attachment.state['status'] == 'READY':
+        if attachment.state["status"] == "READY":
             r = requests.get(attachment.downloadURL, stream=True)
             r.raise_for_status()
-            with open(os.path.join(dest_dir, attachment.name), 'wb') as f:
+            with open(os.path.join(dest_dir, attachment.name), "wb") as f:
                 for chunk in r.iter_content(chunk_size=chunk_size):
                     f.write(chunk)
             return
@@ -188,38 +206,27 @@ class UCVDClient:
     @staticmethod
     def upload_file(url: str, filename: str) -> requests.Response:
         size = os.path.getsize(filename)
-        with open(filename, 'rb') as fd:
+        with open(filename, "rb") as fd:
             stream = requests_toolbelt.StreamingIterator(size, fd)
             return requests.put(url, data=stream)
 
     @staticmethod
-    def __iterable_get(
-            base_url,
-            headers=None,
-            auth=None,
-            params=None
-    ):
+    def __iterable_get(base_url, headers=None, auth=None, params=None):
         url = base_url
         params = params or {}
         while True:
             res = requests.get(url, params=params, headers=headers, auth=auth)
             res.raise_for_status()
             payload = res.json()
-            for result in payload['results']:
+            for result in payload["results"]:
                 yield result
-            if 'next' not in payload:
+            if "next" not in payload:
                 break
             url = f"{base_url}?next={payload['next']}"
 
     @staticmethod
     def __make_request(
-            method,
-            url,
-            headers=None,
-            auth=None,
-            params=None,
-            body=None,
-            data=None
+        method, url, headers=None, auth=None, params=None, body=None, data=None
     ):
         params = params or {}
         session = requests.Session()
@@ -231,7 +238,7 @@ class UCVDClient:
                 auth=auth,
                 params=params,
                 json=body,
-                data=data
+                data=data,
             )
             res.raise_for_status()
             session.close()

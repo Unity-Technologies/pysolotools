@@ -18,14 +18,14 @@ import sys
 PATH_HERE = os.path.abspath(os.path.dirname(__file__))
 PATH_ROOT = os.path.join(PATH_HERE, "..", "..")
 sys.path.insert(0, os.path.abspath(PATH_ROOT))
-sys.path.insert(0, os.path.abspath('../..'))
+sys.path.insert(0, os.path.abspath("../.."))
 
 
 # -- Project information -----------------------------------------------------
 
-project = 'pysolo'
-copyright = '2022, unity technologies'
-author = 'unity technologies'
+project = "pysolo"
+copyright = "2022, unity technologies"
+author = "unity technologies"
 
 
 # -- General configuration ---------------------------------------------------
@@ -35,15 +35,15 @@ master_doc = "index"
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
-    'sphinx.ext.autodoc',
-    'sphinx.ext.coverage',
-    'sphinx.ext.napoleon',
+    "sphinx.ext.autodoc",
+    "sphinx.ext.coverage",
+    "sphinx.ext.napoleon",
     "sphinx_rtd_theme",
-    "sphinx.ext.autosectionlabel"
+    "sphinx.ext.autosectionlabel",
 ]
 
 # Add any paths that contain templates here, relative to this directory.
-templates_path = ['_templates']
+templates_path = ["_templates"]
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
@@ -59,8 +59,8 @@ source_suffix = {
 
 # autodoc settings
 autodoc_default_options = {
-    'members': True,
-    'undoc-members': True,
+    "members": True,
+    "undoc-members": True,
 }
 
 # -- Options for HTML output -------------------------------------------------
@@ -73,4 +73,4 @@ html_theme = "sphinx_rtd_theme"
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
-html_static_path = ['_static']
+html_static_path = ["_static"]

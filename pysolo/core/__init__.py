@@ -1,8 +1,19 @@
-from .models import (Annotation, AnnotationLabel, Archive, Attachment,
-                     BoundingBox2DAnnotation, BoundingBox3DAnnotation, Capture,
-                     Dataset, DatasetMetadata, Frame,
-                     InstanceSegmentationAnnotation, KeypointAnnotation,
-                     RGBCameraCapture, SemanticSegmentationAnnotation)
+from .models import (
+    Annotation,
+    AnnotationLabel,
+    Archive,
+    Attachment,
+    BoundingBox2DAnnotation,
+    BoundingBox3DAnnotation,
+    Capture,
+    Dataset,
+    DatasetMetadata,
+    Frame,
+    InstanceSegmentationAnnotation,
+    KeypointAnnotation,
+    RGBCameraCapture,
+    SemanticSegmentationAnnotation,
+)
 
 __all__ = [
     "Frame",
@@ -18,5 +29,5 @@ __all__ = [
     "DatasetMetadata",
     "Dataset",
     "Archive",
-    "Attachment"
+    "Attachment",
 ]

@@ -18,7 +18,9 @@ class SoloDataset(IterableDataset):
         self.sequences = glob.glob(f"{self.base_path}/sequence.*")
         self.sensor = "unity.solo.RGBCamera"
         # TODO: Support allowing custom annotation protobufs
-        self.solo = Solo(self.base_path, annotation_file=annotation_file, start=0, end=self.__len__())
+        self.solo = Solo(
+            self.base_path, annotation_file=annotation_file, start=0, end=self.__len__()
+        )
 
     def __len__(self):
         return len(self.sequences)
