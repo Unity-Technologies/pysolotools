@@ -131,7 +131,8 @@ class Solo(SoloBase):
                 raise Exception(
                     "Found none or multiple annottion definition files.")
         metadata_f = open(discovered_path[0])
-        return DatasetAnnotations.from_json(metadata_f.read())
+        ann_def = DatasetAnnotations.from_json(metadata_f.read())
+        return ann_def.annotationDefinitions
 
     def __load_frame__(self, frame_id: int) -> Frame:
         """
