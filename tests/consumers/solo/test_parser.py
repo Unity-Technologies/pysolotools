@@ -3,8 +3,8 @@ import unittest
 from pysolo.consumers import Solo
 from pysolo.core.models import (
     DataFactory,
-    DatasetAnnotations,
     DatasetMetadata,
+    DefinitionFactory,
     Frame,
     RGBCameraCapture,
 )
@@ -20,9 +20,9 @@ class TestSolo(unittest.TestCase):
         self.assertIsInstance(metadata, DatasetMetadata)
 
     def test_get_annotation_definitions(self):
-        self.assertIsInstance(
-            self.solo.get_annotation_definitions(), DatasetAnnotations
-        )
+        annotation_def_types = DefinitionFactory.switcher.values()
+        for ann_def in self.solo.get_annotation_definitions():
+            self.assertIn(type(ann_def), annotation_def_types)
 
     def test_parse_frame(self):
         self.assertIsInstance(self.frame, Frame)
