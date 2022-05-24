@@ -82,8 +82,8 @@ setup(
     packages=[
         "pysolo",
         "pysolo.core",
-        "pysolo.consumers.solo",
-        "pysolo.clients",
-        "pysolo.protos"
+        "pysolo.core.iterators",
+        "pysolo.consumers",
+        "pysolo.clients"
     ]
 )
