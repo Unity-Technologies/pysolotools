@@ -84,6 +84,6 @@ setup(
         "pysolo.core",
         "pysolo.core.iterators",
         "pysolo.consumers",
-        "pysolo.clients"
-    ]
+        "pysolo.clients",
+    ],
 )

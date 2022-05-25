@@ -7,7 +7,9 @@ from pysolo.core.stats import SoloStats
 
 
 class Solo:
-    def __init__(self, data_path: str, metadata_file: str = None, start: int = 0, end: int = None):
+    def __init__(
+        self, data_path: str, metadata_file: str = None, start: int = 0, end: int = None
+    ):
         self.data_path = data_path
         # self.metadata_file = metadata_file
         self.start = start
@@ -22,7 +24,7 @@ class Solo:
             self.metadata,
             self.annotation_definitions,
             self.start,
-            self.end
+            self.end,
         )
 
     def stats(self) -> SoloStats:
@@ -55,7 +57,9 @@ class Solo:
         if metadata_file:
             discovered_path = [metadata_file]
         else:
-            discovered_path = glob.glob(self.data_path + "/metadata.json", recursive=True)
+            discovered_path = glob.glob(
+                self.data_path + "/metadata.json", recursive=True
+            )
             if len(discovered_path) != 1:
                 raise Exception("Found none or multiple metadata files.")
         metadata_f = open(discovered_path[0])
@@ -63,9 +67,9 @@ class Solo:
 
     def __open_annotation_definitions__(self) -> DatasetAnnotations:
         discovered_path = glob.glob(
-            self.data_path + "/annotation_definitions.json", recursive=True)
+            self.data_path + "/annotation_definitions.json", recursive=True
+        )
         if len(discovered_path) != 1:
-            raise Exception(
-                "Found none or multiple annotation definition files.")
+            raise Exception("Found none or multiple annotation definition files.")
         metadata_f = open(discovered_path[0])
         return DatasetAnnotations.from_json(metadata_f.read())

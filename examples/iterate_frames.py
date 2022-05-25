@@ -9,7 +9,9 @@ def run():
     print(stats.get_frame_ids())
 
     for frame in solo.frames():
-        annotations, metrics = [cap.annotations for cap in frame.captures], frame.metrics
+        annotations, metrics = [
+            cap.annotations for cap in frame.captures
+        ], frame.metrics
         print(annotations)
         print(metrics)
 

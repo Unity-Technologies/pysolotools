@@ -1,9 +1,20 @@
-from .models import (Annotation, AnnotationLabel, BoundingBox2DAnnotation,
-                     BoundingBox2DAnnotationDefinition,
-                     BoundingBox3DAnnotation, Capture, DatasetMetadata, Frame,
-                     InstanceSegmentationAnnotation, KeypointAnnotation,
-                     RGBCameraCapture, SemanticSegmentationAnnotation,
-                     UCVDArchive, UCVDAttachment, UCVDDataset)
+from .models import (
+    Annotation,
+    AnnotationLabel,
+    BoundingBox2DAnnotation,
+    BoundingBox2DAnnotationDefinition,
+    BoundingBox3DAnnotation,
+    Capture,
+    DatasetMetadata,
+    Frame,
+    InstanceSegmentationAnnotation,
+    KeypointAnnotation,
+    RGBCameraCapture,
+    SemanticSegmentationAnnotation,
+    UCVDArchive,
+    UCVDAttachment,
+    UCVDDataset,
+)
 
 __all__ = [
     "Frame",
@@ -20,5 +31,5 @@ __all__ = [
     "UCVDDataset",
     "UCVDArchive",
     "UCVDAttachment",
-    "BoundingBox2DAnnotationDefinition"
+    "BoundingBox2DAnnotationDefinition",
 ]
