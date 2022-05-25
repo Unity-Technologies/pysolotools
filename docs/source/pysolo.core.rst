@@ -1,6 +1,15 @@
 pysolo.core package
 ===================
 
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   pysolo.core.iterators
+   pysolo.core.models
+
 Submodules
 ----------
 
@@ -12,10 +21,10 @@ pysolo.core.exceptions module
    :undoc-members:
    :show-inheritance:
 
-pysolo.core.models module
--------------------------
+pysolo.core.stats module
+------------------------
 
-.. automodule:: pysolo.core.models
+.. automodule:: pysolo.core.stats
    :members:
    :undoc-members:
    :show-inheritance:

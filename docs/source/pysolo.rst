@@ -10,7 +10,6 @@ Subpackages
    pysolo.clients
    pysolo.consumers
    pysolo.core
-   pysolo.protos
 
 Module contents
 ---------------
