@@ -1,4 +1,5 @@
 from .models import (Annotation, AnnotationLabel, BoundingBox2DAnnotation,
+                     BoundingBox2DAnnotationDefinition,
                      BoundingBox3DAnnotation, Capture, DatasetMetadata, Frame,
                      InstanceSegmentationAnnotation, KeypointAnnotation,
                      RGBCameraCapture, SemanticSegmentationAnnotation,
@@ -18,5 +19,6 @@ __all__ = [
     "DatasetMetadata",
     "UCVDDataset",
     "UCVDArchive",
-    "UCVDAttachment"
+    "UCVDAttachment",
+    "BoundingBox2DAnnotationDefinition"
 ]

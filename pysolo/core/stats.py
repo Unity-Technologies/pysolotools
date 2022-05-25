@@ -2,12 +2,14 @@ from typing import List
 
 import numpy as np
 
-from pysolo.core import BoundingBox2DAnnotation
+from pysolo.core import (BoundingBox2DAnnotation,
+                         BoundingBox2DAnnotationDefinition)
 from pysolo.core.iterators import FramesIterator
 
 
 class SoloStats:
 
+    def __init__(self, iterator: FramesIterator):
         self.frames = iterator
 
     def _reset_frame_idx(self):
