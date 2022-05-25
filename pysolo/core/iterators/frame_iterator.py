@@ -2,11 +2,15 @@ import glob
 import os
 import time
 
-from pysolo.core.models import (BoundingBox2DAnnotation,
-                                BoundingBox3DAnnotation, DatasetAnnotations,
-                                DatasetMetadata, Frame,
-                                InstanceSegmentationAnnotation,
-                                SemanticSegmentationAnnotation)
+from pysolo.core.models import (
+    BoundingBox2DAnnotation,
+    BoundingBox3DAnnotation,
+    DatasetAnnotations,
+    DatasetMetadata,
+    Frame,
+    InstanceSegmentationAnnotation,
+    SemanticSegmentationAnnotation,
+)
 
 
 class FramesIterator:
@@ -25,8 +29,8 @@ class FramesIterator:
                 BoundingBox2DAnnotation,
                 BoundingBox3DAnnotation,
                 InstanceSegmentationAnnotation,
-                SemanticSegmentationAnnotation
-            ]
+                SemanticSegmentationAnnotation,
+            ],
         }
     ]
 

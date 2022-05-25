@@ -46,7 +46,7 @@ def _read_requirements():
         results = []
         for line in f:
             line = line.strip()
-            if '-i' not in line:
+            if "-i" not in line:
                 results.append(line)
         return results
 
@@ -69,7 +69,7 @@ setup(
         "tqdm~=4.62.3",
         "responses~=0.20.0",
         "ratelimit~=2.2.1",
-        "dataclasses-json==0.5.7"
+        "dataclasses-json==0.5.7",
     ],
     classifiers=[
         # Trove classifiers
