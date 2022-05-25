@@ -27,7 +27,3 @@ html:
 	@sphinx-build -M $@ "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
 	@echo
 	@echo "Build finished. The HTML doumentation pages are in $(BUILDDIR)/html."
-
-github:
-	@make html
-	@cp -a build/html/. ../docs
