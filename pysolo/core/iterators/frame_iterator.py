@@ -14,14 +14,6 @@ from pysolo.core.models import (
 
 
 class FramesIterator:
-    """
-    Parser for solo dataset with 1 frame per sequence. Returns a list of frames from each sequence.
-    Essentially flattens the sequence.
-    """
-
-    """
-        Map of sensor to its relevant annotations available for the sensor.
-        """
     SENSORS = [
         {
             "sensor": "type.unity.com/unity.solo.RGBCamera",
@@ -43,29 +35,15 @@ class FramesIterator:
         end: int = None,
     ):
         """
+        Constructor for an Iterator that loads a Solo Frame from a Solo Dataset.
 
         Args:
             data_path (str): Path to dataset. This should have all sequences.
             metadata (DatasetMetadata): DatasetMetadata object
+            annotation_definitions (DatasetAnnotations): Dataset Annotation Definitions
             start (int): Start sequence
             end (int): End sequence
-            metadata_path (str): Optional kwarg for providing custom metadata json file path.
 
-        Example:
-        └── solo
-            ├── annotation_definitions.json
-            ├── metadata.json
-            ├── metric_definitions.json
-            ├── sensor_definitions.json
-            ├── sequence.0
-            │         ├── step0.camera.png
-            │         └── step0.frame_data.json
-            ├── sequence.1
-            │         ├── step0.camera.png
-            │         └── step0.frame_data.json
-            ├── sequence.2
-            │         ├── step0.camera.png
-            │         └── step0.frame_data.json
 
         """
         super().__init__()
@@ -83,34 +61,15 @@ class FramesIterator:
 
         self.end = end or self.__len__()
 
-    def __load_frame__(self, frame_id: int) -> Frame:
-        """
-
-        Args:
-            frame_id (int): Frame id in the sequence.
-
-        Returns:
-
-        """
-        sequence = int(frame_id / self.steps_per_sequence)
-        step = frame_id % self.steps_per_sequence
-        self.sequence_path = f"{self.data_path}/*sequence.{sequence}"
-        filename_pattern = f"{self.sequence_path}/step{step}.frame_data.json"
-        files = glob.glob(filename_pattern)
-        # There should be exactly 1 frame_data for a particular sequence.
-        if len(files) != 1:
-            raise Exception(f"Metadata file not found for sequence {sequence}")
-        self.frame_idx += 1
-        return self.parse_frame(files[0])
-
     def parse_frame(self, f_path: str) -> Frame:
         """
+        Parses a json file to a pysolo Frame model.
 
         Args:
             f_path (str): Path to a step in a sequence for a frame.
 
         Returns:
-            Frame: Returns a Frame object.
+            Frame:
 
         """
         f = open(f_path, "r")
@@ -128,3 +87,15 @@ class FramesIterator:
 
     def __len__(self):
         return self.total_frames
+
+    def __load_frame__(self, frame_id: int) -> Frame:
+        sequence = int(frame_id / self.steps_per_sequence)
+        step = frame_id % self.steps_per_sequence
+        self.sequence_path = f"{self.data_path}/*sequence.{sequence}"
+        filename_pattern = f"{self.sequence_path}/step{step}.frame_data.json"
+        files = glob.glob(filename_pattern)
+        # There should be exactly 1 frame_data for a particular sequence.
+        if len(files) != 1:
+            raise Exception(f"Metadata file not found for sequence {sequence}")
+        self.frame_idx += 1
+        return self.parse_frame(files[0])

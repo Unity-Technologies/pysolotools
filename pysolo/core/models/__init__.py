@@ -10,6 +10,7 @@ from .solo import (
     DataFactory,
     DatasetAnnotations,
     DatasetMetadata,
+    DefinitionFactory,
     Frame,
     InstanceSegmentationAnnotation,
     KeypointAnnotation,
@@ -28,6 +29,7 @@ __all__ = [
     "AnnotationLabel",
     "KeypointAnnotation",
     "BoundingBox2DAnnotation",
+    "BoundingBox2DAnnotationDefinition",
     "BoundingBox3DAnnotation",
     "InstanceSegmentationAnnotation",
     "SemanticSegmentationAnnotation",
@@ -37,5 +39,5 @@ __all__ = [
     "UCVDAttachment",
     "UCVDArchive",
     "DataFactory",
-    "BoundingBox2DAnnotationDefinition",
+    "DefinitionFactory",
 ]
