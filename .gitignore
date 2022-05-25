@@ -1,4 +1,5 @@
 # Byte-compiled / optimized / DLL files
+data/
 __pycache__/
 *.py[cod]
 *$py.class
@@ -143,3 +144,5 @@ __MACOSX/
 detectron2
 
 docs/make.bat
+/examples/pytorch/data/
+/examples/ucvd-solo-to-coco/solo_dir/

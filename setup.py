@@ -16,7 +16,7 @@ URL = "https://https://github.com/Unity-Technologies/pysolo"
 EMAIL = "souranil@unity3d.com"
 AUTHOR = "Unity Technologies"
 REQUIRES_PYTHON = ">=3.7"
-VERSION = "0.3.0"
+VERSION = "0.3.2"
 
 
 here = os.path.abspath(os.path.dirname(__file__))
@@ -82,8 +82,9 @@ setup(
     packages=[
         "pysolo",
         "pysolo.core",
-        "pysolo.consumers.solo",
+        "pysolo.core.models",
+        "pysolo.core.iterators",
+        "pysolo.consumers",
         "pysolo.clients",
-        "pysolo.protos",
     ],
 )

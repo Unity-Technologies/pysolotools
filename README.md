@@ -61,9 +61,9 @@ pip install pysolo --index-url=https://artifactory.prd.it.unity3d.com/artifactor
 ##### Local Datasets
 
 ```python
-from pysolo.consumers.solo.parser import Solo
+from pysolo.consumers import Solo
+solo = Solo(data_path="<<dataset-path>>")
 
-solo = Solo(path="<<dataset-path>>")
 ```
 
 ##### Cloud Datasets

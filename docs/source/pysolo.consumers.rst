@@ -1,13 +1,16 @@
 pysolo.consumers package
 ========================
 
-Subpackages
------------
+Submodules
+----------
 
-.. toctree::
-   :maxdepth: 4
+pysolo.consumers.solo module
+----------------------------
 
-   pysolo.consumers.solo
+.. automodule:: pysolo.consumers.solo
+   :members:
+   :undoc-members:
+   :show-inheritance:
 
 Module contents
 ---------------

@@ -1,4 +1,3 @@
-import datetime
 from dataclasses import dataclass, field
 from typing import List
 
@@ -168,57 +167,6 @@ class RGBCameraCapture(Capture):
     matrix: List[float]
 
 
-@dataclass(frozen=True)
-class Dataset:
-    id: str
-    name: str
-    createdAt: datetime.date = None
-    updatedAt: datetime.date = None
-    description: str = None
-    licenseURI: str = None
-
-
-@dataclass(frozen=True)
-class Archive(object):
-    id: str
-    name: str
-    type: str
-    state: dict = None
-    downloadURL: str = None
-    uploadURL: str = None
-    createdAt: datetime.date = None
-    updatedAt: datetime.date = None
-
-
-@dataclass(frozen=True)
-class Attachment(object):
-    id: str
-    name: str
-    description: str = None
-    state: dict = None
-    downloadURL: str = None
-    uploadURL: str = None
-    createdAt: datetime.date = None
-    updatedAt: datetime.date = None
-
-
-@dataclass_json
-@dataclass
-class DatasetMetadata(object):
-    unityVersion: str
-    perceptionVersion: str
-    renderPipeline: str
-    simulationStartTime: str
-    scenarioRandomSeed: float
-    scenarioActiveRandomizers: List[str]
-    totalFrames: int
-    totalSequences: int
-    sensors: List[str]
-    metricCollectors: List[str]
-    simulationEndTime: str
-    annotators: List[object]
-
-
 @dataclass_json
 @dataclass
 class AnnotationDefinition:
@@ -269,6 +217,75 @@ class BoundingBox3DAnnotationDefinition(AnnotationDefinition):
 @dataclass
 class InstanceSegmentationAnnotationDefinition(AnnotationDefinition):
     spec: List[LabelNameSpec]
+
+
+@dataclass
+class BoundingBoxAnnotationDefinitionSpec:
+    label_id: int
+    label_name: str
+
+
+@dataclass
+class BoundingBoxAnnotationDefinition:
+    type: str
+    id: str
+    description: str
+    spec: List[BoundingBoxAnnotationDefinitionSpec]
+
+    def __post_init__(self):
+        cat_id_to_name = {}
+        cat_name_to_id = {}
+
+        for s in self.spec:
+            cat_id_to_name[s.label_id] = s.label_name
+            cat_name_to_id[s.label_name] = s.label_id
+
+    def get_cat_ids(self) -> List[int]:
+        return [s.label_id for s in self.spec]
+
+
+@dataclass_json
+@dataclass
+class DatasetMetadata(object):
+    unityVersion: str
+    perceptionVersion: str
+    renderPipeline: str
+    simulationStartTime: str
+    scenarioRandomSeed: float
+    scenarioActiveRandomizers: List[str]
+    totalFrames: int
+    totalSequences: int
+    sensors: List[str]
+    metricCollectors: List[str]
+    simulationEndTime: str
+    annotators: List[object]
+
+
+@dataclass_json
+@dataclass
+class AnnotationDefinition:
+    id: str
+    description: str
+
+
+@dataclass
+class KeypointDefinition:
+    label: str
+    index: int
+    color: List[int]
+
+
+@dataclass
+class KeypointTemplateDefinition:
+    templateId: str
+    templateName: str
+    keypoints: List[KeypointDefinition]
+
+
+@dataclass
+class LabelNameSpec:
+    label_id: int
+    label_name: str
 
 
 @dataclass_json
