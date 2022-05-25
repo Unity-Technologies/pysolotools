@@ -45,11 +45,7 @@ class SoloStats:
         return categories
 
     def get_frame_ids(self):
-        ids = []
-
-        for frame in self._frame_iter():
-            ids.append(frame.frame)
-        return ids
+        return list(map(lambda f: f.frame, self._frame_iter()))
 
     def get_num_bbox(self, cat_ids: List = None):
         num_bbox = 0
