@@ -13,7 +13,7 @@
 <a href="https://colab.research.google.com/github/Unity-Technologies/Unity-Vision-Hub/blob/main/demos/dog_detection/Notebook/Dog_Detection_Indoors_with_Unity_Datasets.ipynb">Try it Now</a> •
 <a href="https://blog.unity.com/technology/data-centric-ai-with-unity-computer-vision-datasets">Blog</a> •
 
-[![PyPI python](https://img.shields.io/pypi/pyversions/unity-vision)](https://pypi.org/project/unity-vision)
+[![PyPI version](https://github.com/pytest-dev/pytest-cov/actions/workflows/test.yml/badge.svg)](https://github.com/Unity-Technologies/pysolo/actions)
 [![PyPI version](https://badge.fury.io/py/unity-vision.svg)](https://pypi.org/project/unity-vision)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
 
