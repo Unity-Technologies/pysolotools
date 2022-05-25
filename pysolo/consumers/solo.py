@@ -26,6 +26,8 @@ Example:
 
 
 class Solo:
+    stats: SoloStats = None
+
     def __init__(
         self,
         data_path: str,
@@ -50,6 +52,13 @@ class Solo:
         self.annotation_definitions = self.__open_annotation_definitions__(
             annotation_definitions_file
         )
+        self.stats = SoloStats(
+            self.data_path,
+            self.metadata,
+            self.annotation_definitions,
+            self.start,
+            self.end,
+        )
 
     def frames(self) -> FramesIterator:
         """
@@ -61,19 +70,9 @@ class Solo:
         return FramesIterator(
             self.data_path,
             self.metadata,
-            self.annotation_definitions,
             self.start,
             self.end,
         )
-
-    def stats(self) -> SoloStats:
-        """
-        Returns a Solo Stats object
-
-        Returns:
-            SoloStats
-        """
-        return SoloStats(self.frames())
 
     def get_metadata(self) -> DatasetMetadata:
         """
@@ -128,7 +127,7 @@ class Solo:
         `annotation_definitions_file` is provided then that is used instead.
 
         Args:
-            annotation_definitions_file (str): Custom path for annotation_definitions json file
+            annotation_definitions_file (str): Custom path for annotation_definitions.json file
 
         Returns:
             DatasetAnnotations

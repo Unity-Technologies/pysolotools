@@ -5,7 +5,6 @@ import time
 from pysolo.core.models import (
     BoundingBox2DAnnotation,
     BoundingBox3DAnnotation,
-    DatasetAnnotations,
     DatasetMetadata,
     Frame,
     InstanceSegmentationAnnotation,
@@ -30,7 +29,6 @@ class FramesIterator:
         self,
         data_path: str,
         metadata: DatasetMetadata,
-        annotation_definitions: DatasetAnnotations,
         start: int = 0,
         end: int = None,
     ):
@@ -40,7 +38,6 @@ class FramesIterator:
         Args:
             data_path (str): Path to dataset. This should have all sequences.
             metadata (DatasetMetadata): DatasetMetadata object
-            annotation_definitions (DatasetAnnotations): Dataset Annotation Definitions
             start (int): Start sequence
             end (int): End sequence
 
@@ -52,7 +49,6 @@ class FramesIterator:
         self.frame_idx = start
         pre = time.time()
         self.metadata = metadata
-        self.annotation_definitions = annotation_definitions
         print("DONE (t={:0.5f}s)".format(time.time() - pre))
 
         self.total_frames = self.metadata.totalFrames

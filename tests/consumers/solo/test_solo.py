@@ -28,7 +28,7 @@ class TestSolo(unittest.TestCase):
                 next(frames_iter)
 
     def test_stats(self):
-        solo_stats = self.solo.stats()
+        solo_stats = self.solo.stats
         self.assertIsInstance(solo_stats, SoloStats)
 
     def test_len(self):
