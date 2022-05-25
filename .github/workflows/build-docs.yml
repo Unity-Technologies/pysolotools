@@ -20,7 +20,7 @@ jobs:
       - name: Install dependencies
         run: |
           pip install --requirement requirements/docs.txt
-          pip list
+          pip install -r requirements.txt
         shell: bash
       - name: Make Documentation
         working-directory: ./docs
@@ -28,7 +28,6 @@ jobs:
           make github
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
-        if: github.ref == 'refs/heads/main'
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: docs/build/html
+          deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
+          publish_dir: docs/
