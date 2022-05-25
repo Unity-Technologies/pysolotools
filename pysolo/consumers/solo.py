@@ -114,8 +114,9 @@ class Solo:
             )
             if len(discovered_path) != 1:
                 raise Exception("Found none or multiple metadata files.")
-        metadata_f = open(discovered_path[0])
-        return DatasetMetadata.from_json(metadata_f.read())
+
+        with open(discovered_path[0]) as metadata_f:
+            return DatasetMetadata.from_json(metadata_f.read())
 
     def __open_annotation_definitions__(
         self, annotation_definitions_file: str = None
@@ -139,5 +140,5 @@ class Solo:
             )
             if len(discovered_path) != 1:
                 raise Exception("Found none or multiple annotation definition files.")
-        metadata_f = open(discovered_path[0])
-        return DatasetAnnotations.from_json(metadata_f.read())
+        with open(discovered_path[0]) as metadata_f:
+            return DatasetAnnotations.from_json(metadata_f.read())

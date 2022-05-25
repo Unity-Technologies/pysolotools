@@ -68,9 +68,9 @@ class FramesIterator:
             Frame:
 
         """
-        f = open(f_path, "r")
-        frame = Frame.from_json(f.read())
-        return frame
+        with open(f_path, "r") as f:
+            frame = Frame.from_json(f.read())
+            return frame
 
     def __iter__(self):
         self.frame_idx = 0
