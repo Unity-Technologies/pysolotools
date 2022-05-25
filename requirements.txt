@@ -1,2 +1,0 @@
-# The default package dependencies
--r ./requirements/base.txt
