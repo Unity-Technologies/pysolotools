@@ -55,9 +55,10 @@ class SoloStats:
         num_bbox = 0
 
         for frame in self._frame_iter():
-            for cap in frame.captures:
+            for capture in frame.captures:
                 for ann in filter(
-                    lambda k: isinstance(k, BoundingBox2DAnnotation), cap.annotations
+                    lambda k: isinstance(k, BoundingBox2DAnnotation),
+                    capture.annotations,
                 ):
                     annotations = list(
                         filter(
@@ -96,13 +97,14 @@ class SoloStats:
         bbox_heatmap = None
 
         for frame in self._frame_iter():
-            for f in frame.captures:
+            for capture in frame.captures:
                 if bbox_heatmap is None:
-                    w, h = int(f.dimension[0]), int(f.dimension[1])
+                    w, h = int(capture.dimension[0]), int(capture.dimension[1])
                     bbox_heatmap = np.zeros([h, w, 1])
 
                 for ann in filter(
-                    lambda k: isinstance(k, BoundingBox2DAnnotation), f.annotations
+                    lambda k: isinstance(k, BoundingBox2DAnnotation),
+                    capture.annotations,
                 ):
                     for v in filter(
                         lambda x: cat_ids is None or x.labelId in cat_ids, ann.values

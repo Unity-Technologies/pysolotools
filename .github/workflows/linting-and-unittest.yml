@@ -44,4 +44,4 @@ jobs:
         run: pip install -r requirements.txt
         shell: bash
       - name: Run pytest
-        run: python -m pytest tests/
+        run: python -m pytest --cov=pysolo tests/

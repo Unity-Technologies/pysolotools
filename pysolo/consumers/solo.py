@@ -26,8 +26,6 @@ Example:
 
 
 class Solo:
-    stats: SoloStats = None
-
     def __init__(
         self,
         data_path: str,
