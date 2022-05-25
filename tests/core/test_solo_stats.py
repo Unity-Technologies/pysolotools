@@ -12,6 +12,6 @@ class TestFramesIterator(unittest.TestCase):
 
     def test_get_categories(self):
         cats = self.solo.stats.get_categories()
-        self.assertEqual(
+        self.assertDictEqual(
             cats, {1: "Crate", 2: "Cube", 3: "Box", 4: "Terrain", 5: "Character"}
         )
