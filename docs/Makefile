@@ -17,13 +17,13 @@ help:
 
 
 clean:
-	rm -rf $(BUILDDIR)
+	@rm -rf $(BUILDDIR)
 
 apidoc:
-	sphinx-apidoc -o "$(SOURCEDIR)" -d 4 "../pysolo/"
+	@sphinx-apidoc -o "$(SOURCEDIR)" -d 4 "../pysolo/"
 
 
 html:
-	sphinx-build -M $@ "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
+	@sphinx-build -M $@ "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
 	@echo
 	@echo "Build finished. The HTML doumentation pages are in $(BUILDDIR)/html."
