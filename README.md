@@ -52,7 +52,7 @@ To install, run
 pip install pysolo --index-url=https://artifactory.prd.it.unity3d.com/artifactory/api/pypi/pypi/simple
 ```
 
-** The package lives in the internal PyPi repo for now, so to install please follow -
+** The package lives in the internal PyPi repo for now.
 
 
 
