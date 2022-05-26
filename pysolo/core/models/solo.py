@@ -139,6 +139,16 @@ class Frame:
     def __post_init__(self):
         self.captures = [DataFactory.cast(capture) for capture in self.captures]
 
+    def get_rgb_image_path(self) -> str:
+        """
+        Returns:
+            str: RGB image path having current sequence as root
+        """
+        for capture in self.captures:
+            if isinstance(capture, RGBCameraCapture):
+                rgb_path = capture.filename
+        return f"sequence.{self.sequence}/{rgb_path}"
+
     def get_captures_df(self) -> pd.DataFrame:
         """
         Returns:
