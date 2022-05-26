@@ -4,14 +4,9 @@
 <!-- prettier-ignore -->
 <img src="https://blog-api.unity.com/sites/default/files/styles/focal_crop_ratio_3_1/public/2021-12/image2_3.png?imwidth=1260&h=198f7df9&itok=GYbfmeWx" height="200px">
 
-**The open-source tool for using Unity generated Synthetic Datasets**
+**The open-source tool for using Unity SOLO Datasets**
 
 ---
-
-<!-- prettier-ignore -->
-<a href="https://unity.com/products/computer-vision">Website</a> •
-<a href="https://colab.research.google.com/github/Unity-Technologies/Unity-Vision-Hub/blob/main/demos/dog_detection/Notebook/Dog_Detection_Indoors_with_Unity_Datasets.ipynb">Try it Now</a> •
-<a href="https://blog.unity.com/technology/data-centric-ai-with-unity-computer-vision-datasets">Blog</a> •
 
 [![PyPI version](https://github.com/pytest-dev/pytest-cov/actions/workflows/test.yml/badge.svg)](https://github.com/Unity-Technologies/pysolo/actions)
 [![PyPI version](https://badge.fury.io/py/unity-vision.svg)](https://pypi.org/project/unity-vision)
@@ -22,27 +17,17 @@
 
 ## Introduction
 
-The Python SDK would allow you to the following:
+pysolo would allow you to the following:
 
 - Parse SOLO datasets generated with Unity Perception.
 - Dataset iterables.
+- Dataset statistics.
 - Clients to access remote datasets
   - Unity Computer Vision Datasets (UCVD)
 
 ## Pre-Requisites
 - Install [Anaconda](https://docs.anaconda.com/anaconda/install/) or [Miniconda](https://docs.conda.io/en/latest/miniconda.html) (recommended). Install [pre-commit](https://pre-commit.com/).
 - Make sure `pip` is installed.
-
-## Using Cloud datasets from UCVD
-- Create a Unity account if you don't at [Unity Services](https://dashboard.unity3d.com/)
-- Navigate to Projects and create a project if you don't have one.
-- Navigate to Projects>Service Account in the dashboard to create a new one.
-![Service Account](images/sa.png)
-- Generate your API key.
-- Save your API key somewhere safe, it will be used later.
-- Navigate to Projects>Select the project to use and record the `Project ID`.
-- Navigate to Projects>Orgaization Settings and record the `Organization ID`.
-
 
 ## Installation
 
@@ -71,9 +56,22 @@ Access frames with `FrameIterator`:
 solo.frames()
 ```
 
+
 ##### Cloud Datasets
 
-Generated in Unity Computer Vision Dataset service
+###### Getting API Token
+
+- Create a Unity account if you don't at [Unity Services](https://dashboard.unity3d.com/)
+- Navigate to Projects and create a project if you don't have one.
+- Navigate to Projects>Service Account in the dashboard to create a new one.
+![Service Account](images/sa.png)
+- Generate your API key.
+- Save your API key somewhere safe, it will be used later.
+- Navigate to Projects>Select the project to use and record the `Project ID`.
+- Navigate to Projects>Orgaization Settings and record the `Organization ID`.
+
+
+###### Downloading datasets from UCVD
 
 ```python
 from pysolo.clients import UCVDClient
@@ -88,7 +86,9 @@ client.download_dataset_archives("<<dataset-id>>")
 
 ```
 
-## Docs
+## Sphinx Docs
+
+[Github Pages](https://effective-train-86190335.pages.github.io/)
 
 To generate docs locally:
 
