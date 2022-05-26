@@ -41,3 +41,9 @@ class MalformedQueryException(PySoloException):
 
 class DatasetException(PySoloException):
     pass
+
+
+class MissingCaptureException(PySoloException):
+    """Raise when capture is missing in the dataset."""
+
+    pass
