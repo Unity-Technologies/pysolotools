@@ -149,8 +149,8 @@ class Frame:
         c = list(filter(lambda cap: isinstance(cap, capture), self.captures))
         if not c:
             raise MissingCaptureException(f"{capture.__name__} is missing.")
-        else:
-            return f"sequence.{self.sequence}/{c[0].filename}"
+
+        return f"sequence.{self.sequence}/{c[0].filename}"
 
     def get_captures_df(self) -> pd.DataFrame:
         """
