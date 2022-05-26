@@ -63,7 +63,12 @@ pip install pysolo --index-url=https://artifactory.prd.it.unity3d.com/artifactor
 ```python
 from pysolo.consumers import Solo
 solo = Solo(data_path="<<dataset-path>>")
+```
 
+Access frames with `FrameIterator`: 
+
+```python
+solo.frames()
 ```
 
 ##### Cloud Datasets
@@ -83,9 +88,14 @@ client.download_dataset_archives("<<dataset-id>>")
 
 ```
 
-### Data Models
+## Docs
 
-Please refer - [models](pysolo/core/models.py) for the data models used by SOLO.
+To generate docs locally:
+
+1. `cd docs/`
+2. `make html`
+
+If you want to rebuild the rst files, please run: `make apidoc`. This will generate the rst files based off docstring comments. (Note: This does not update existing rst files).
 
 
 ## Additional Resources
