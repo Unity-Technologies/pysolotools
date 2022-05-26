@@ -65,7 +65,7 @@ from pysolo.consumers import Solo
 solo = Solo(data_path="<<dataset-path>>")
 ```
 
-Access frames with `FrameIterator`: 
+Access frames with `FrameIterator`:
 
 ```python
 solo.frames()
