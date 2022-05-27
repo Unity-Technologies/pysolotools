@@ -4,6 +4,8 @@ from typing import List
 import pandas as pd
 from dataclasses_json import config, dataclass_json
 
+from pysolo.core.exceptions import MissingCaptureException
+
 
 @dataclass
 class AnnotationLabel:
@@ -138,6 +140,17 @@ class Frame:
 
     def __post_init__(self):
         self.captures = [DataFactory.cast(capture) for capture in self.captures]
+
+    def get_file_path(self, capture: Capture) -> str:
+        """
+        Returns:
+            str: File path of given capture having current sequence as root
+        """
+        c = list(filter(lambda cap: isinstance(cap, capture), self.captures))
+        if not c:
+            raise MissingCaptureException(f"{capture.__name__} is missing.")
+
+        return f"sequence.{self.sequence}/{c[0].filename}"
 
     def get_captures_df(self) -> pd.DataFrame:
         """
