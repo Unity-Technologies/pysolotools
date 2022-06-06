@@ -137,6 +137,7 @@ class Frame:
     step: int
     captures: List[dataclass]
     metrics: List[object]
+    metadata: object = None
 
     def __post_init__(self):
         self.captures = [DataFactory.cast(capture) for capture in self.captures]
@@ -166,6 +167,13 @@ class Frame:
             pd.DataFrame: Solo Frame Metrics
         """
         return pd.DataFrame(self.metrics)
+
+    def get_metadata(self):
+        """
+        Returns:
+            metadata: Unstructured data dictionary
+        """
+        return self.metadata or {}
 
 
 @dataclass
