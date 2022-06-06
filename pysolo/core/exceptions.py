@@ -47,3 +47,9 @@ class MissingCaptureException(PySoloException):
     """Raise when capture is missing in the dataset."""
 
     pass
+
+
+class MissingKeypointAnnotatorException(PySoloException):
+    """Raised when keypoint annotator is missing"""
+
+    pass
