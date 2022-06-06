@@ -14,6 +14,7 @@
         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="_static/doctools.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
@@ -80,19 +81,19 @@
            <div itemprop="articleBody">
              
   <section id="pysolo-consumers-package">
-<h1>pysolo.consumers package<a class="headerlink" href="#pysolo-consumers-package" title="Permalink to this headline"></a></h1>
+<h1>pysolo.consumers package<a class="headerlink" href="#pysolo-consumers-package" title="Permalink to this heading"></a></h1>
 <section id="submodules">
-<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline"></a></h2>
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading"></a></h2>
 </section>
 <section id="module-pysolo.consumers.solo">
-<span id="pysolo-consumers-solo-module"></span><h2>pysolo.consumers.solo module<a class="headerlink" href="#module-pysolo.consumers.solo" title="Permalink to this headline"></a></h2>
+<span id="pysolo-consumers-solo-module"></span><h2>pysolo.consumers.solo module<a class="headerlink" href="#module-pysolo.consumers.solo" title="Permalink to this heading"></a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="pysolo.consumers.solo.Solo">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pysolo.consumers.solo.</span></span><span class="sig-name descname"><span class="pre">Solo</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">annotation_definitions_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pysolo.consumers.solo.Solo" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <dl class="py method">
 <dt class="sig sig-object py" id="pysolo.consumers.solo.Solo.frames">
-<span class="sig-name descname"><span class="pre">frames</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="pysolo.core.iterators.html#pysolo.core.iterators.frame_iterator.FramesIterator" title="pysolo.core.iterators.frame_iterator.FramesIterator"><span class="pre">pysolo.core.iterators.frame_iterator.FramesIterator</span></a></span></span><a class="headerlink" href="#pysolo.consumers.solo.Solo.frames" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">frames</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="pysolo.core.iterators.html#pysolo.core.iterators.frame_iterator.FramesIterator" title="pysolo.core.iterators.frame_iterator.FramesIterator"><span class="pre">FramesIterator</span></a></span></span><a class="headerlink" href="#pysolo.consumers.solo.Solo.frames" title="Permalink to this definition"></a></dt>
 <dd><p>Return a Frames Iterator</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -103,7 +104,7 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pysolo.consumers.solo.Solo.get_annotation_definitions">
-<span class="sig-name descname"><span class="pre">get_annotation_definitions</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="pysolo.core.models.html#pysolo.core.models.solo.DatasetAnnotations" title="pysolo.core.models.solo.DatasetAnnotations"><span class="pre">pysolo.core.models.solo.DatasetAnnotations</span></a></span></span><a class="headerlink" href="#pysolo.consumers.solo.Solo.get_annotation_definitions" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">get_annotation_definitions</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="pysolo.core.models.html#pysolo.core.models.solo.DatasetAnnotations" title="pysolo.core.models.solo.DatasetAnnotations"><span class="pre">DatasetAnnotations</span></a></span></span><a class="headerlink" href="#pysolo.consumers.solo.Solo.get_annotation_definitions" title="Permalink to this definition"></a></dt>
 <dd><p>Get annotation definitions for the Solo dataset</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -114,7 +115,7 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pysolo.consumers.solo.Solo.get_metadata">
-<span class="sig-name descname"><span class="pre">get_metadata</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="pysolo.core.models.html#pysolo.core.models.solo.DatasetMetadata" title="pysolo.core.models.solo.DatasetMetadata"><span class="pre">pysolo.core.models.solo.DatasetMetadata</span></a></span></span><a class="headerlink" href="#pysolo.consumers.solo.Solo.get_metadata" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">get_metadata</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="pysolo.core.models.html#pysolo.core.models.solo.DatasetMetadata" title="pysolo.core.models.solo.DatasetMetadata"><span class="pre">DatasetMetadata</span></a></span></span><a class="headerlink" href="#pysolo.consumers.solo.Solo.get_metadata" title="Permalink to this definition"></a></dt>
 <dd><p>Get metadata for the Solo dataset</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -130,14 +131,14 @@
 
 </section>
 <section id="module-pysolo.consumers">
-<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-pysolo.consumers" title="Permalink to this headline"></a></h2>
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-pysolo.consumers" title="Permalink to this heading"></a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="pysolo.consumers.Solo">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pysolo.consumers.</span></span><span class="sig-name descname"><span class="pre">Solo</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">annotation_definitions_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pysolo.consumers.Solo" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <dl class="py method">
 <dt class="sig sig-object py" id="pysolo.consumers.Solo.frames">
-<span class="sig-name descname"><span class="pre">frames</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="pysolo.core.iterators.html#pysolo.core.iterators.frame_iterator.FramesIterator" title="pysolo.core.iterators.frame_iterator.FramesIterator"><span class="pre">pysolo.core.iterators.frame_iterator.FramesIterator</span></a></span></span><a class="headerlink" href="#pysolo.consumers.Solo.frames" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">frames</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="pysolo.core.iterators.html#pysolo.core.iterators.frame_iterator.FramesIterator" title="pysolo.core.iterators.frame_iterator.FramesIterator"><span class="pre">FramesIterator</span></a></span></span><a class="headerlink" href="#pysolo.consumers.Solo.frames" title="Permalink to this definition"></a></dt>
 <dd><p>Return a Frames Iterator</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -148,7 +149,7 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pysolo.consumers.Solo.get_annotation_definitions">
-<span class="sig-name descname"><span class="pre">get_annotation_definitions</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="pysolo.core.models.html#pysolo.core.models.solo.DatasetAnnotations" title="pysolo.core.models.solo.DatasetAnnotations"><span class="pre">pysolo.core.models.solo.DatasetAnnotations</span></a></span></span><a class="headerlink" href="#pysolo.consumers.Solo.get_annotation_definitions" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">get_annotation_definitions</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="pysolo.core.models.html#pysolo.core.models.solo.DatasetAnnotations" title="pysolo.core.models.solo.DatasetAnnotations"><span class="pre">DatasetAnnotations</span></a></span></span><a class="headerlink" href="#pysolo.consumers.Solo.get_annotation_definitions" title="Permalink to this definition"></a></dt>
 <dd><p>Get annotation definitions for the Solo dataset</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -159,7 +160,7 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pysolo.consumers.Solo.get_metadata">
-<span class="sig-name descname"><span class="pre">get_metadata</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="pysolo.core.models.html#pysolo.core.models.solo.DatasetMetadata" title="pysolo.core.models.solo.DatasetMetadata"><span class="pre">pysolo.core.models.solo.DatasetMetadata</span></a></span></span><a class="headerlink" href="#pysolo.consumers.Solo.get_metadata" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">get_metadata</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="pysolo.core.models.html#pysolo.core.models.solo.DatasetMetadata" title="pysolo.core.models.solo.DatasetMetadata"><span class="pre">DatasetMetadata</span></a></span></span><a class="headerlink" href="#pysolo.consumers.Solo.get_metadata" title="Permalink to this definition"></a></dt>
 <dd><p>Get metadata for the Solo dataset</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
