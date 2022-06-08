@@ -175,6 +175,11 @@
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pysolo.core.stats.</span></span><span class="sig-name descname"><span class="pre">SoloStats</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="pysolo.core.models.html#pysolo.core.models.solo.DatasetMetadata" title="pysolo.core.models.solo.DatasetMetadata"><span class="pre">DatasetMetadata</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">dataset_annotation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="pysolo.core.models.html#pysolo.core.models.solo.DatasetAnnotations" title="pysolo.core.models.solo.DatasetAnnotations"><span class="pre">DatasetAnnotations</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pysolo.core.stats.SoloStats" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <dl class="py method">
+<dt class="sig sig-object py" id="pysolo.core.stats.SoloStats.get_average_psd_1d">
+<span class="sig-name descname"><span class="pre">get_average_psd_1d</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pysolo.core.stats.SoloStats.get_average_psd_1d" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="pysolo.core.stats.SoloStats.get_avg_keypoint_per_cat">
 <span class="sig-name descname"><span class="pre">get_avg_keypoint_per_cat</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pysolo.core.stats.SoloStats.get_avg_keypoint_per_cat" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
@@ -195,6 +200,11 @@
 <dd></dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="pysolo.core.stats.SoloStats.get_bbox_var_laplacian">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_bbox_var_laplacian</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">laplacian</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">w</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">h</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="headerlink" href="#pysolo.core.stats.SoloStats.get_bbox_var_laplacian" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="pysolo.core.stats.SoloStats.get_categories">
 <span class="sig-name descname"><span class="pre">get_categories</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pysolo.core.stats.SoloStats.get_categories" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
@@ -212,6 +222,16 @@
 <dl class="py method">
 <dt class="sig sig-object py" id="pysolo.core.stats.SoloStats.get_num_bbox">
 <span class="sig-name descname"><span class="pre">get_num_bbox</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cat_ids</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pysolo.core.stats.SoloStats.get_num_bbox" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysolo.core.stats.SoloStats.get_var_laplacian">
+<span class="sig-name descname"><span class="pre">get_var_laplacian</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pysolo.core.stats.SoloStats.get_var_laplacian" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysolo.core.stats.SoloStats.get_wt_coeffs_var">
+<span class="sig-name descname"><span class="pre">get_wt_coeffs_var</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pysolo.core.stats.SoloStats.get_wt_coeffs_var" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 </dd></dl>
