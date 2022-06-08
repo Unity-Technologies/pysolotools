@@ -281,26 +281,6 @@ class AnnotationDefinition:
     description: str
 
 
-@dataclass
-class KeypointDefinition:
-    label: str
-    index: int
-    color: List[int]
-
-
-@dataclass
-class KeypointTemplateDefinition:
-    templateId: str
-    templateName: str
-    keypoints: List[KeypointDefinition]
-
-
-@dataclass
-class LabelNameSpec:
-    label_id: int
-    label_name: str
-
-
 @dataclass_json
 @dataclass
 class DatasetAnnotations(object):
