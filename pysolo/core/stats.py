@@ -1,7 +1,6 @@
 import math
+import os
 from typing import Any, List, Tuple
-import os.path
-from typing import List, Tuple
 
 import cv2
 import numpy as np
@@ -263,6 +262,7 @@ class SoloStats:
                                 idx += 1
 
         return {kps_label_dict[key]: kp_pose_dict[key] for key in kp_pose_dict.keys()}
+
     def get_wt_coeffs_var(self):
 
         images = []
