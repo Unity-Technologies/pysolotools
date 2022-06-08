@@ -1,9 +1,9 @@
-setuptools~=58.2.0
-requests~=2.25.1
+setuptools>=59.1.1
+requests>=2.25.1
 requests-toolbelt>=0.9.1
 google~=3.0.0
-tqdm~=4.62.3
-responses~=0.20.0
+tqdm>=4.62.3
+responses>=0.20.0
 ratelimit~=2.2.1
 pytest>=6.2.2
 pytest-cov>=3.0.0
