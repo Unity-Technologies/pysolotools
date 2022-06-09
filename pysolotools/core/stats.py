@@ -9,9 +9,9 @@ from PIL import Image
 from scipy import ndimage
 from tqdm import tqdm
 
-from pysolo.core.exceptions import MissingKeypointAnnotatorException
-from pysolo.core.iterators import FramesIterator
-from pysolo.core.models import (
+from pysolotools.core.exceptions import MissingKeypointAnnotatorException
+from pysolotools.core.iterators import FramesIterator
+from pysolotools.core.models import (
     BoundingBox2DAnnotation,
     BoundingBox2DAnnotationDefinition,
     BoundingBox2DLabel,

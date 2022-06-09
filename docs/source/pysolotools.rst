@@ -1,5 +1,5 @@
-pysolo package
-==============
+pysolotools package
+===================
 
 Subpackages
 -----------
@@ -7,14 +7,14 @@ Subpackages
 .. toctree::
    :maxdepth: 4
 
-   pysolo.clients
-   pysolo.consumers
-   pysolo.core
+   pysolotools.clients
+   pysolotools.consumers
+   pysolotools.core
 
 Module contents
 ---------------
 
-.. automodule:: pysolo
+.. automodule:: pysolotools
    :members:
    :undoc-members:
    :show-inheritance:

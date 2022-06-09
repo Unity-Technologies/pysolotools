@@ -1,9 +1,9 @@
 import glob
 
-from pysolo.core import DatasetMetadata
-from pysolo.core.iterators import FramesIterator
-from pysolo.core.models import DatasetAnnotations
-from pysolo.core.stats import SoloStats
+from pysolotools.core import DatasetMetadata
+from pysolotools.core.iterators import FramesIterator
+from pysolotools.core.models import DatasetAnnotations
+from pysolotools.core.stats import SoloStats
 
 """
 Example:

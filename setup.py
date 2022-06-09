@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 """
-Installs pysolo
+Installs pysolotools
 """
 
 import io
@@ -10,9 +10,9 @@ from os.path import dirname, realpath
 from setuptools import setup
 
 # Package meta-data.
-NAME = "pysolo"
+NAME = "pysolotools"
 DESCRIPTION = "unity computer vision dataset toolchain"
-URL = "https://https://github.com/Unity-Technologies/pysolo"
+URL = "https://https://github.com/Unity-Technologies/pysolotools"
 EMAIL = "souranil@unity3d.com"
 AUTHOR = "Unity Technologies"
 REQUIRES_PYTHON = ">=3.7"
@@ -80,11 +80,11 @@ setup(
         "Programming Language :: Python :: 3.8",
     ],
     packages=[
-        "pysolo",
-        "pysolo.core",
-        "pysolo.core.models",
-        "pysolo.core.iterators",
-        "pysolo.consumers",
-        "pysolo.clients",
+        "pysolotools",
+        "pysolotools.core",
+        "pysolotools.core.models",
+        "pysolotools.core.iterators",
+        "pysolotools.consumers",
+        "pysolotools.clients",
     ],
 )

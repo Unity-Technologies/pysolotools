@@ -1,7 +1,7 @@
 import unittest
 from unittest.mock import MagicMock
 
-from pysolo.core import (
+from pysolotools.core import (
     BoundingBox2DAnnotation,
     BoundingBox3DAnnotation,
     Frame,
@@ -10,8 +10,8 @@ from pysolo.core import (
     RGBCameraCapture,
     SemanticSegmentationAnnotation,
 )
-from pysolo.core.iterators import FramesIterator
-from pysolo.core.models import DatasetAnnotations, DatasetMetadata
+from pysolotools.core.iterators import FramesIterator
+from pysolotools.core.models import DatasetAnnotations, DatasetMetadata
 
 
 class TestFramesIterator(unittest.TestCase):

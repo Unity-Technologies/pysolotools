@@ -10,7 +10,6 @@ ignore =
 exclude =
     .git,
     __pycache__,
-    pysolo/protos,
     examples,
     .yamato,
     .github

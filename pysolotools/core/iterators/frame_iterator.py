@@ -2,7 +2,7 @@ import glob
 import os
 import time
 
-from pysolo.core.models import (
+from pysolotools.core.models import (
     BoundingBox2DAnnotation,
     BoundingBox3DAnnotation,
     DatasetMetadata,

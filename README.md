@@ -46,7 +46,7 @@ pip install pysolo --index-url=https://artifactory.prd.it.unity3d.com/artifactor
 ##### Local Datasets
 
 ```python
-from pysolo.consumers import Solo
+from pysolotools.consumers import Solo
 solo = Solo(data_path="<<dataset-path>>")
 ```
 
@@ -74,7 +74,7 @@ solo.frames()
 ###### Downloading datasets from UCVD
 
 ```python
-from pysolo.clients import UCVDClient
+from pysolotools.clients import UCVDClient
 client = UCVDClient(
     org_id="unity-org-id",
     project_id="unity-project-id",

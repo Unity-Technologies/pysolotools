@@ -1,9 +1,9 @@
 import unittest
 
-from pysolo.consumers import Solo
-from pysolo.core.iterators import FramesIterator
-from pysolo.core.models import DatasetMetadata, DefinitionFactory
-from pysolo.core.stats import SoloStats
+from pysolotools.consumers import Solo
+from pysolotools.core.iterators import FramesIterator
+from pysolotools.core.models import DatasetMetadata, DefinitionFactory
+from pysolotools.core.stats import SoloStats
 
 
 class TestSolo(unittest.TestCase):
