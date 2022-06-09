@@ -4,7 +4,7 @@ from typing import List
 import pandas as pd
 from dataclasses_json import config, dataclass_json
 
-from pysolo.core.exceptions import MissingCaptureException
+from pysolotools.core.exceptions import MissingCaptureException
 
 
 @dataclass

@@ -20,7 +20,7 @@ clean:
 	@rm -rf $(BUILDDIR)
 
 apidoc:
-	@sphinx-apidoc -o "$(SOURCEDIR)" -d 4 "../pysolo/"
+	@sphinx-apidoc -o "$(SOURCEDIR)" -d 4 "../pysolotools/"
 
 
 html:

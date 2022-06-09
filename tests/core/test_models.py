@@ -3,8 +3,8 @@ import tempfile
 
 import pytest
 
-from pysolo.core.exceptions import MissingCaptureException
-from pysolo.core.models import Frame, RGBCameraCapture
+from pysolotools.core.exceptions import MissingCaptureException
+from pysolotools.core.models import Frame, RGBCameraCapture
 
 
 def test_frame_get_file_path():

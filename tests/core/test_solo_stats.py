@@ -1,8 +1,8 @@
 import numpy as np
 import pytest
 
-from pysolo.consumers import Solo
-from pysolo.core.stats import SoloStats
+from pysolotools.consumers import Solo
+from pysolotools.core.stats import SoloStats
 
 solo = Solo("tests/data/solo")
 stats = solo.stats

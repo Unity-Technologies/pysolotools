@@ -3,8 +3,8 @@ import unittest
 
 import responses
 
-from pysolo.clients.ucvd_client import UCVDClient
-from pysolo.core.models import UCVDDataset
+from pysolotools.clients.ucvd_client import UCVDClient
+from pysolotools.core.models import UCVDDataset
 
 MOCK_PROJECT_ID = "mock-proj-id"
 MOCK_ORG_ID = "mock-org-id"
@@ -192,7 +192,7 @@ class TestUCVDClient(unittest.TestCase):
         assert next(iterator).id == "id-2"
 
     @unittest.mock.patch(
-        "pysolo.clients.ucvd_client.UCVDClient.iterate_dataset_attachments",
+        "pysolotools.clients.ucvd_client.UCVDClient.iterate_dataset_attachments",
         autospec=True,
     )
     @responses.activate
@@ -220,7 +220,7 @@ class TestUCVDClient(unittest.TestCase):
             os.remove(f"test_data/{archive.name}")
 
     @unittest.mock.patch(
-        "pysolo.clients.ucvd_client.UCVDClient.iterate_dataset_attachments",
+        "pysolotools.clients.ucvd_client.UCVDClient.iterate_dataset_attachments",
         autospec=True,
     )
     @responses.activate

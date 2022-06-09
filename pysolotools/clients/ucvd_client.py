@@ -7,8 +7,8 @@ import requests_toolbelt
 from ratelimit import limits
 from requests.auth import HTTPBasicAuth
 
-from pysolo.core.exceptions import AuthenticationException, UCVDException
-from pysolo.core.models import UCVDArchive, UCVDAttachment, UCVDDataset
+from pysolotools.core.exceptions import AuthenticationException, UCVDException
+from pysolotools.core.models import UCVDArchive, UCVDAttachment, UCVDDataset
 
 logger = logging.getLogger(__name__)
 logging.basicConfig(level=logging.WARNING)
