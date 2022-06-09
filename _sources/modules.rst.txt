@@ -1,7 +1,7 @@
-pysolo
-======
+pysolotools
+===========
 
 .. toctree::
    :maxdepth: 4
 
-   pysolo
+   pysolotools
