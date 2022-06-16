@@ -1,5 +1,7 @@
 import glob
+import logging
 
+from pysolotools.clients.gcs_client import GCSClient
 from pysolotools.core import DatasetMetadata
 from pysolotools.core.iterators import FramesIterator
 from pysolotools.core.models import DatasetAnnotations
@@ -24,6 +26,8 @@ Example:
 
 """
 
+logger = logging.getLogger(__name__)
+
 
 class Solo:
     def __init__(
@@ -33,6 +37,8 @@ class Solo:
         annotation_definitions_file: str = None,
         start: int = 0,
         end: int = None,
+        gcs_path: str = None,
+        **kwargs
     ):
         """
         Constructor for Unity SOLO helper class.
@@ -41,7 +47,12 @@ class Solo:
             metadata_file (str): Location for the metadata.json file for the Solo dataset
             start (Optional[int]): Start index for frames in the dataset
             end (Optional[int]): End index for frames in the dataset
+            gcs_path (Optional[str]): Optional gcs path to download dataset from
         """
+
+        if gcs_path:
+            client = GCSClient(**kwargs)
+            client.download_directory(gcs_path, dest_path=data_path)
         self.data_path = data_path
         self.start = start
         self.end = end
