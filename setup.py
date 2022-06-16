@@ -16,7 +16,7 @@ URL = "https://https://github.com/Unity-Technologies/pysolotools"
 EMAIL = "souranil@unity3d.com"
 AUTHOR = "Unity Technologies"
 REQUIRES_PYTHON = ">=3.7"
-VERSION = "0.3.5"
+VERSION = "0.3.6"
 
 
 here = os.path.abspath(os.path.dirname(__file__))
