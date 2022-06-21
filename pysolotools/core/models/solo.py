@@ -11,6 +11,14 @@ from pysolotools.core.exceptions import MissingCaptureException
 class AnnotationLabel:
     instanceId: int
     labelId: int
+    metadata: object = None
+
+    def get_metadata(self):
+        """
+        Returns:
+            metadata: Unstructured data dictionary
+        """
+        return self.metadata or {}
 
 
 @dataclass_json
