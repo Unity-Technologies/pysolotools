@@ -7,7 +7,6 @@ from pysolotools.core.exceptions import DatasetNotFoundException
 
 
 class GCSClient:
-    GCS_PREFIX = "^gs://"
 
     def __init__(self, client=Client()):
         self.client = client
