@@ -1,3 +1,4 @@
+import logging
 from dataclasses import dataclass, field
 from typing import List
 
@@ -5,6 +6,8 @@ import pandas as pd
 from dataclasses_json import config, dataclass_json
 
 from pysolotools.core.exceptions import MissingCaptureException
+
+logger = logging.getLogger(__name__)
 
 
 @dataclass
@@ -121,7 +124,11 @@ class Capture:
         return pd.DataFrame(self.annotations)
 
     def __post_init__(self):
-        self.annotations = [DataFactory.cast(anno) for anno in self.annotations]
+        self.annotations = [
+            DataFactory.cast(anno)
+            for anno in self.annotations
+            if DataFactory.cast(anno)
+        ]
 
     def __eq__(self, other):
         if other == self.id:
@@ -166,6 +173,10 @@ class Frame:
             pd.DataFrame: Solo Frame Metrics
         """
         return pd.DataFrame(self.metrics)
+
+    def filter_captures(self, sensor):
+        res = filter(lambda capture: isinstance(capture, sensor), self.captures)
+        return list(res)
 
 
 @dataclass
@@ -308,7 +319,8 @@ class DataFactory:
             raise Exception("No type provided in annotation")
         dtype = data["@type"]
         if dtype not in cls.switcher.keys():
-            raise Exception("Unknown data type")
+            logger.error(f"Unknown data type: {dtype}")
+            return
         klass = cls.switcher[dtype]
         return klass.from_dict(data)
 
@@ -328,6 +340,7 @@ class DefinitionFactory:
             raise Exception("No type provided in annotation")
         dtype = data["@type"]
         if dtype not in cls.switcher.keys():
-            raise Exception(f"Unknown data type: {dtype}")
+            logger.error(f"Unknown data type: {dtype}")
+            return
         klass = cls.switcher[dtype]
         return klass.from_dict(data)

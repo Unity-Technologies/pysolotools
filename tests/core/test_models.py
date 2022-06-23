@@ -16,6 +16,16 @@ def test_frame_get_file_path():
         assert rgb_img_path == expected_path
 
 
+def test_frame_with_unknown_annotation():
+    f_path = "tests/data/solo/sequence.1/step0.frame_data.json"
+    with open(f_path, "r") as f:
+        frame = Frame.from_json(f.read())
+        rgb_captures = frame.filter_captures(RGBCameraCapture)
+        annotations = rgb_captures[0].annotations
+        # There are 2 annotations with 1 unknown annotation type.
+        assert len(annotations) == 1
+
+
 def test_frame_get_file_path_raises_exception():
     f_path = "tests/data/solo/sequence.0/step0.frame_data.json"
     temp_f = tempfile.NamedTemporaryFile()
