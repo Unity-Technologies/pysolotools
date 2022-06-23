@@ -53,3 +53,7 @@ class MissingKeypointAnnotatorException(PySoloException):
     """Raised when keypoint annotator is missing"""
 
     pass
+
+
+class DatasetNotFoundException(PySoloException):
+    pass
