@@ -1,13 +1,15 @@
 import os
 
+import google.cloud.storage as storage
 from google.cloud import exceptions
-from google.cloud.storage import Client
 
 from pysolotools.core.exceptions import DatasetNotFoundException
 
 
 class GCSClient:
-    def __init__(self, client=Client()):
+    def __init__(self, client=None):
+        if not client:
+            client = storage.Client()
         self.client = client
 
     def download_directory(self, uri, dest_path, verbose=False) -> bool:
