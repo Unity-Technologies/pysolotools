@@ -11,17 +11,14 @@ logger = logging.getLogger(__name__)
 
 
 @dataclass
-class AnnotationLabel:
+class _BaseMeta:
+    metadata: object = field(default_factory=lambda: {}, init=False)
+
+
+@dataclass
+class AnnotationLabel(_BaseMeta):
     instanceId: int
     labelId: int
-    metadata: object = None
-
-    def get_metadata(self):
-        """
-        Returns:
-            metadata: Unstructured data dictionary
-        """
-        return self.metadata or {}
 
 
 @dataclass_json
@@ -72,7 +69,7 @@ class InstanceSegmentationLabel(AnnotationLabel):
 
 
 @dataclass
-class SemanticSegmentationLabel:
+class SemanticSegmentationLabel(_BaseMeta):
     labelName: str
     pixelValue: List[int]
 

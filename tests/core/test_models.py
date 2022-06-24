@@ -1,5 +1,6 @@
 import json
 import tempfile
+from dataclasses import fields
 
 import pytest
 
@@ -49,6 +50,10 @@ def test_annotation_label_without_metadata():
         frame = Frame.from_json(f.read())
         for capture in frame.captures:
             for annotation in capture.annotations:
-                for annoLabel in annotation.values:
-                    assert annoLabel.get_metadata() == {}
-            
+                if "values" in [f.name for f in fields(annotation)]:
+                    v = annotation.values
+                else:
+                    v = annotation.instances
+
+                for annoLabel in v:
+                    assert annoLabel.metadata == {}
