@@ -1,5 +1,6 @@
 import json
 import tempfile
+from dataclasses import fields
 
 import pytest
 
@@ -41,3 +42,18 @@ def test_frame_get_file_path_raises_exception():
         frame.get_file_path(capture=RGBCameraCapture)
 
     temp_f.close()
+
+
+def test_annotation_label_without_metadata():
+    f_path = "tests/data/solo/sequence.0/step0.frame_data.json"
+    with open(f_path, "r") as f:
+        frame = Frame.from_json(f.read())
+        for capture in frame.captures:
+            for annotation in capture.annotations:
+                if "values" in [f.name for f in fields(annotation)]:
+                    v = annotation.values
+                else:
+                    v = annotation.instances
+
+                for annoLabel in v:
+                    assert annoLabel.metadata == {}
