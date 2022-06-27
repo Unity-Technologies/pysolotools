@@ -1,11 +1,8 @@
 <div align="center">
 <p align="center">
 
-<!-- prettier-ignore -->
-<img src="https://blog-api.unity.com/sites/default/files/styles/focal_crop_ratio_3_1/public/2021-12/image2_3.png?imwidth=1260&h=198f7df9&itok=GYbfmeWx" height="200px">
 
 **The open-source tool for using Unity SOLO Datasets**
-
 ---
 
 [![PyPI version](https://github.com/pytest-dev/pytest-cov/actions/workflows/test.yml/badge.svg)](https://github.com/Unity-Technologies/pysolo/actions)
