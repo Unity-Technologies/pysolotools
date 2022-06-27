@@ -1,5 +1,7 @@
+import glob
 import logging
 import os
+import tarfile
 
 import requests
 import requests.exceptions
@@ -162,6 +164,20 @@ class UCVDClient:
         entity_uri = f"{self.endpoint}/datasets/{dataset_id}/attachments"
         for res in self.__iterable_get(entity_uri, auth=self.auth):
             yield UCVDAttachment(**res)
+
+    def extract_dataset(self, solo_dir, subdir=False):
+        if subdir:
+            root_path = f"{solo_dir}/solo"
+        else:
+            root_path = solo_dir
+
+        if not os.path.exists(root_path):
+            os.makedirs(root_path)
+
+        for archive in glob.glob(f"{solo_dir}/*.tar"):
+            print(f"Extracting {archive} to {root_path}")
+            with tarfile.open(archive) as tar:
+                tar.extractall(root_path)
 
     def download_dataset_archives(
         self,

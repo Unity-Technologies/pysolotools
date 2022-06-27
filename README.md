@@ -31,7 +31,7 @@ pysolo would allow you to the following:
 ---
 To install, run
 ```shell
-pip install pysolo --index-url=https://artifactory.prd.it.unity3d.com/artifactory/api/pypi/pypi/simple
+pip install pysolotools --index-url=https://artifactory.prd.it.unity3d.com/artifactory/api/pypi/pypi/simple
 ```
 
 ** The package lives in the internal PyPi repo for now.
