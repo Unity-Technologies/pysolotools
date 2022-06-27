@@ -6,7 +6,6 @@
 ---
 
 [![PyPI version](https://github.com/pytest-dev/pytest-cov/actions/workflows/test.yml/badge.svg)](https://github.com/Unity-Technologies/pysolo/actions)
-[![PyPI version](https://badge.fury.io/py/unity-vision.svg)](https://pypi.org/project/unity-vision)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
 
 </p>
@@ -14,11 +13,11 @@
 
 ## Introduction
 
-pysolo would allow you to the following:
+`pysolotools` would allow you to the following:
 
 - Parse SOLO datasets generated with Unity Perception.
 - Dataset iterables.
-- Dataset statistics.
+- Interfaces for converters, stat nodes.
 - Clients to access remote datasets
   - Unity Computer Vision Datasets (UCVD)
 
@@ -31,7 +30,7 @@ pysolo would allow you to the following:
 ---
 To install, run
 ```shell
-pip install pysolo --index-url=https://artifactory.prd.it.unity3d.com/artifactory/api/pypi/pypi/simple
+pip install pysolotools --index-url=https://artifactory.prd.it.unity3d.com/artifactory/api/pypi/pypi/simple
 ```
 
 ** The package lives in the internal PyPi repo for now.
@@ -40,48 +39,22 @@ pip install pysolo --index-url=https://artifactory.prd.it.unity3d.com/artifactor
 
 #### SOLO Dataset
 
-##### Local Datasets
+##### Iterating Frames
 
 ```python
 from pysolotools.consumers import Solo
 solo = Solo(data_path="<<dataset-path>>")
+
+for frame in solo.frames():
+    frame
 ```
 
-Access frames with `FrameIterator`:
-
-```python
-solo.frames()
-```
-
+Refer to `pysolotools.core.iterator.FrameIterator`
 
 ##### Cloud Datasets
 
-###### Getting API Token
-
-- Create a Unity account if you don't at [Unity Services](https://dashboard.unity3d.com/)
-- Navigate to Projects and create a project if you don't have one.
-- Navigate to Projects>Service Account in the dashboard to create a new one.
-![Service Account](images/sa.png)
-- Generate your API key.
-- Save your API key somewhere safe, it will be used later.
-- Navigate to Projects>Select the project to use and record the `Project ID`.
-- Navigate to Projects>Orgaization Settings and record the `Organization ID`.
-
-
-###### Downloading datasets from UCVD
-
-```python
-from pysolotools.clients import UCVDClient
-client = UCVDClient(
-    org_id="unity-org-id",
-    project_id="unity-project-id",
-    sa_key="sa-key",
-    api_secret="api-secret"
-)
-
-client.download_dataset_archives("<<dataset-id>>")
-
-```
+* [Datasets from UCVD APIs](docs/UCVD.md)
+* [GCS](docs/GCS.md)
 
 ## Sphinx Docs
 
