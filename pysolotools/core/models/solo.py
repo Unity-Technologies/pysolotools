@@ -278,15 +278,15 @@ class BoundingBoxAnnotationDefinition:
 class DatasetMetadata:
     unityVersion: str
     perceptionVersion: str
-    scenarioActiveRandomizers: List[str]
     totalFrames: int
     totalSequences: int
     sensors: List[str]
     metricCollectors: List[str]
-    simulationEndTime: str
-    annotators: List[object]
-    renderPipeline: Optional[str]
     simulationStartTime: Optional[str]
+    simulationEndTime: Optional[str]
+    scenarioActiveRandomizers: Optional[List[str]]
+    annotators: Optional[List[object]]
+    renderPipeline: Optional[str]
     scenarioRandomSeed: Optional[float]
 
 
