@@ -1,6 +1,6 @@
 import logging
 from dataclasses import dataclass, field
-from typing import List
+from typing import List, Optional
 
 import pandas as pd
 from dataclasses_json import config, dataclass_json
@@ -275,12 +275,9 @@ class BoundingBoxAnnotationDefinition:
 
 @dataclass_json
 @dataclass
-class DatasetMetadata(object):
+class DatasetMetadata:
     unityVersion: str
     perceptionVersion: str
-    renderPipeline: str
-    simulationStartTime: str
-    scenarioRandomSeed: float
     scenarioActiveRandomizers: List[str]
     totalFrames: int
     totalSequences: int
@@ -288,6 +285,9 @@ class DatasetMetadata(object):
     metricCollectors: List[str]
     simulationEndTime: str
     annotators: List[object]
+    renderPipeline: Optional[str]
+    simulationStartTime: Optional[str]
+    scenarioRandomSeed: Optional[float]
 
 
 @dataclass_json
