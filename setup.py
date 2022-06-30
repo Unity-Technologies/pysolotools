@@ -41,7 +41,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 
 def _read_requirements():
-    requirements = f"{dirname(realpath(__file__))}/requirements.txt"
+    requirements = f"{dirname(realpath(__file__))}/requirements/base.txt"
     with open(requirements) as f:
         results = []
         for line in f:
@@ -63,14 +63,7 @@ setup(
     py_modules=[NAME],
     include_package_data=True,
     license="MIT",
-    install_requires=[
-        "requests~=2.25.1",
-        "requests-toolbelt>=0.9.1",
-        "tqdm~=4.62.3",
-        "responses~=0.20.0",
-        "ratelimit~=2.2.1",
-        "dataclasses-json==0.5.7",
-    ],
+    install_requires=_read_requirements(),
     classifiers=[
         # Trove classifiers
         # Full list: https://pypi.python.org/pypi?%3Aaction=list_classifiers
