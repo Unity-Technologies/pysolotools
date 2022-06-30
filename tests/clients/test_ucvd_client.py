@@ -411,10 +411,7 @@ def test___iterable_get(setup_client: TestFixture, status_code, json_response, e
     ]
 )
 @patch('requests.Session', autospec=True)
-def test___make_request(
-        mock_session, setup_client: TestFixture, raise_for_status,
-        expectation, headers, auth, params, body, data
-):
+def test___make_request(mock_session, raise_for_status, expectation, headers, auth, params, body, data):
     client = UCVDClient(
         project_id=MOCK_PROJECT_ID,
         org_id=MOCK_ORG_ID,
