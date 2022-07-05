@@ -3,13 +3,12 @@
 name: Docker Build and Deploy STG
 on:
   push:
-    branches:
-      - chore/docker-image-creation
     tags:
       - "v*"
 jobs:
   extract_tag:
     runs-on: ubuntu-latest
+    if: ${{ github.ref }} == 'refs/heads/chore/docker-image-creation'
     outputs:
       version_tag: ${{ steps.tag_extract.outputs.version_tag }}
     steps:
