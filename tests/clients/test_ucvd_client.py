@@ -270,11 +270,12 @@ def test_describe_build(setup_client: TestFixture):
 
 
 def test_create_job(setup_client: TestFixture):
-    arguments = {"name": "some-job", "description": "some-description", "specs": {"some": "things"}}
-    assert (
-        setup_client.client.create_job(**arguments)
-        == mock_make_request_response
-    )
+    arguments = {
+        "name": "some-job",
+        "description": "some-description",
+        "specs": {"some": "things"},
+    }
+    assert setup_client.client.create_job(**arguments) == mock_make_request_response
     setup_client.mock_make_request.assert_called_once_with(
         method="post",
         url="some-uri/organizations/mock-org-id/projects/mock-proj-id/jobs/",
@@ -282,7 +283,7 @@ def test_create_job(setup_client: TestFixture):
             "name": arguments.get("name"),
             "description": arguments.get("description"),
             "type": "datagen",
-            "dataGenerationSpecs": arguments.get("specs")
+            "dataGenerationSpecs": arguments.get("specs"),
         },
         auth=setup_client.client.auth,
     )
