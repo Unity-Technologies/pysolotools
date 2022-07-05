@@ -71,6 +71,8 @@ def test_annotation_label_without_metadata():
                 "totalSequences": 4,
                 "sensors": ["5"],
                 "metricCollectors": ["6"],
+                "scenarioActiveRandomizers": ["7"],
+                "annotators": ["8"],
             },
             DatasetMetadata(
                 unityVersion="1",
@@ -79,8 +81,8 @@ def test_annotation_label_without_metadata():
                 totalSequences=4,
                 sensors=["5"],
                 metricCollectors=["6"],
-                scenarioActiveRandomizers=[],
-                annotators=[],
+                scenarioActiveRandomizers=["7"],
+                annotators=["8"],
             ),
         ),
         (

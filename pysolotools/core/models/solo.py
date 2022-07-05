@@ -1,6 +1,6 @@
 import logging
 from dataclasses import dataclass, field
-from typing import List, Optional
+from typing import List
 
 import pandas as pd
 from dataclasses_json import config, dataclass_json
@@ -282,10 +282,10 @@ class DatasetMetadata:
     totalSequences: int
     sensors: List[str]
     metricCollectors: List[str]
+    scenarioActiveRandomizers: List[str]
+    annotators: List[object]
     simulationStartTime: str = None
     simulationEndTime: str = None
-    scenarioActiveRandomizers: List[str] = field(default_factory=lambda: list())
-    annotators: List[object] = field(default_factory=lambda: list())
     renderPipeline: str = None
     scenarioRandomSeed: float = None
 

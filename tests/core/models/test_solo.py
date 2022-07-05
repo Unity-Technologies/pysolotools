@@ -23,8 +23,6 @@ _mock_dataset_metadata_all = {
 __dataset_metadata_optionals = [
     "simulationStartTime",
     "simulationEndTime",
-    "scenarioActiveRandomizers",
-    "annotators",
     "renderPipeline",
     "scenarioRandomSeed",
 ]
