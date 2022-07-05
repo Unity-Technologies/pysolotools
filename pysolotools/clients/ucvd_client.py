@@ -163,6 +163,22 @@ class UCVDClient:
         entity_uri = f"{self.endpoint}/builds/{build_id}"
         return self.__make_request(method="get", url=entity_uri, auth=self.auth)
 
+    def create_job(self, name: str, description: str = None, specs: dict[str, object] = None):
+        entity_uri = f"{self.endpoint}/jobs/"
+        body = {'name': name, 'description': description, 'type': 'datagen', 'dataGenerationSpecs': specs}
+        return self.__make_request(
+            method="post", url=entity_uri, body=body, auth=self.auth
+        )
+
+    def list_jobs(self):
+        entity_uri = f"{self.endpoint}/jobs"
+        payload = self.__make_request(method="get", url=entity_uri, auth=self.auth)
+        return payload["results"]
+
+    def describe_job(self, job_id: str):
+        entity_uri = f"{self.endpoint}/jobs/{job_id}"
+        return self.__make_request(method="get", url=entity_uri, auth=self.auth)
+
     @limits(calls=15, period=900)
     def iterate_datasets(self):
         entity_uri = f"{self.endpoint}/datasets"

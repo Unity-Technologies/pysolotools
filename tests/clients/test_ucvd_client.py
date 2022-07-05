@@ -269,6 +269,46 @@ def test_describe_build(setup_client: TestFixture):
     )
 
 
+def test_create_job(setup_client: TestFixture):
+    arguments = {"name": "some-job", "description": "some-description", "specs": {"some": "things"}}
+    assert (
+        setup_client.client.create_job(**arguments)
+        == mock_make_request_response
+    )
+    setup_client.mock_make_request.assert_called_once_with(
+        method="post",
+        url="some-uri/organizations/mock-org-id/projects/mock-proj-id/jobs/",
+        body={
+            "name": arguments.get("name"),
+            "description": arguments.get("description"),
+            "type": "datagen",
+            "dataGenerationSpecs": arguments.get("specs")
+        },
+        auth=setup_client.client.auth,
+    )
+
+
+def test_list_jobs(setup_client: TestFixture):
+    assert setup_client.client.list_jobs() == "the results"
+    setup_client.mock_make_request.assert_called_once_with(
+        method="get",
+        url="some-uri/organizations/mock-org-id/projects/mock-proj-id/jobs",
+        auth=setup_client.client.auth,
+    )
+
+
+def test_describe_job(setup_client: TestFixture):
+    assert (
+        setup_client.client.describe_job(job_id="some-job")
+        == mock_make_request_response
+    )
+    setup_client.mock_make_request.assert_called_once_with(
+        method="get",
+        url="some-uri/organizations/mock-org-id/projects/mock-proj-id/jobs/some-job",
+        auth=setup_client.client.auth,
+    )
+
+
 @patch(
     "pysolotools.clients.ucvd_client.UCVDClient._UCVDClient__iterable_get",
     autospec=True,
