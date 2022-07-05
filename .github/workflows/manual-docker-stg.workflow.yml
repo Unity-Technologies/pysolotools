@@ -1,0 +1,18 @@
+---
+
+name: Manual Docker Build and Deploy STG
+on:
+  workflow_dispatch:
+    inputs:
+      version_tag:
+        description: 'Tag for Docker image'
+        required: true
+        type: string
+jobs:
+  build_and_deploy_docker_image:
+    uses: ./.github/workflows/build-docker-image.workflow.yml
+    with:
+      tag: ${{ github.event.inputs.version_tag }}
+    secrets:
+      GCP_SA_KEY: ${{ secrets.GCP_SA_KEY_STG }}
+      GCP_PROJECT: unity-ai-antojito-stg

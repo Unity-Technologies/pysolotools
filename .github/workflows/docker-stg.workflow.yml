@@ -1,18 +1,12 @@
 ---
 
-name: Docker Build and Deploy
+name: Docker Build and Deploy STG
 on:
   push:
     branches:
-      - chore/docker-image-creation
+      - main
     tags:
       - "v*"
-  workflow_dispatch:
-    inputs:
-      version_tag:
-        description: 'Tag for Docker image'
-        required: true
-        type: string
 jobs:
   extract_tag:
     runs-on: ubuntu-latest
@@ -21,11 +15,7 @@ jobs:
     steps:
       - id: tag_extract
         run: |
-          if [ -z "${{ github.event.inputs.version_tag }}" ]; then  
-            tag=$(echo ${{ github.ref }} | sed 's/refs\/tags\///')
-          else
-            tag=${{ github.event.inputs.version_tag }}
-          fi
+          tag=$(echo ${{ github.ref }} | sed 's/refs\/tags\///')
           echo "tag $tag"
           echo "::set-output name=version_tag::${tag}"
 
