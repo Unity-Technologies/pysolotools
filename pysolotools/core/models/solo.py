@@ -282,8 +282,8 @@ class DatasetMetadata:
     totalSequences: int
     sensors: List[str]
     metricCollectors: List[str]
-    scenarioActiveRandomizers: List[str]
     annotators: List[object]
+    scenarioActiveRandomizers: List[str] = field(default_factory=lambda: list())
     simulationStartTime: str = None
     simulationEndTime: str = None
     renderPipeline: str = None
