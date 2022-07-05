@@ -275,19 +275,19 @@ class BoundingBoxAnnotationDefinition:
 
 @dataclass_json
 @dataclass
-class DatasetMetadata(object):
+class DatasetMetadata:
     unityVersion: str
     perceptionVersion: str
-    renderPipeline: str
-    simulationStartTime: str
-    scenarioRandomSeed: float
-    scenarioActiveRandomizers: List[str]
     totalFrames: int
     totalSequences: int
     sensors: List[str]
     metricCollectors: List[str]
-    simulationEndTime: str
     annotators: List[object]
+    scenarioActiveRandomizers: List[str] = field(default_factory=lambda: list())
+    simulationStartTime: str = None
+    simulationEndTime: str = None
+    renderPipeline: str = None
+    scenarioRandomSeed: float = None
 
 
 @dataclass_json
