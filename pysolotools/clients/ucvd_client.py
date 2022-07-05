@@ -2,7 +2,6 @@ import glob
 import logging
 import os
 import tarfile
-from collections import defaultdict
 
 import requests
 import requests.exceptions
