@@ -52,6 +52,5 @@ jobs:
           context: .
           file: ./docker/pysolotools/Dockerfile
           tags: |
-            gcr.io/${{ secrets.GCP_PROJECT }}/pysolotools:latest
             gcr.io/${{ secrets.GCP_PROJECT }}/pysolotools:${{ inputs.tag }}
             gcr.io/${{ secrets.GCP_PROJECT }}/pysolotools:${{steps.short_names.outputs.head_sha}}

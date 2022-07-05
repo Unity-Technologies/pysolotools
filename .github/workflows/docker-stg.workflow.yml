@@ -4,7 +4,7 @@ name: Docker Build and Deploy STG
 on:
   push:
     branches:
-      - main
+      - chore/docker-image-creation
     tags:
       - "v*"
 jobs:
