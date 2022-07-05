@@ -147,6 +147,22 @@ class UCVDClient:
             method="post", url=entity_uri, body=body, auth=self.auth
         )
 
+    def create_build(self, build_name, description):
+        entity_uri = f"{self.endpoint}/builds"
+        body = {"name": build_name, "description": description}
+        return self.__make_request(
+            method="post", url=entity_uri, body=body, auth=self.auth
+        )
+
+    def list_builds(self):
+        entity_uri = f"{self.endpoint}/builds"
+        payload = self.__make_request(method="get", url=entity_uri, auth=self.auth)
+        return payload["results"]
+
+    def describe_build(self, build_id: str):
+        entity_uri = f"{self.endpoint}/builds/{build_id}"
+        return self.__make_request(method="get", url=entity_uri, auth=self.auth)
+
     @limits(calls=15, period=900)
     def iterate_datasets(self):
         entity_uri = f"{self.endpoint}/datasets"
@@ -165,7 +181,8 @@ class UCVDClient:
         for res in self.__iterable_get(entity_uri, auth=self.auth):
             yield UCVDAttachment(**res)
 
-    def extract_dataset(self, solo_dir, subdir=False):
+    @staticmethod
+    def extract_dataset(solo_dir, subdir=False):
         if subdir:
             root_path = f"{solo_dir}/solo"
         else:
