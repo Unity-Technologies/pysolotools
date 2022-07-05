@@ -4,7 +4,7 @@ name: Docker Build and Deploy STG
 on:
   push:
     tags:
-      - "v*"
+      - '[0-9]+.[0-9]+.[0-9]+'
 jobs:
   extract_tag:
     runs-on: ubuntu-latest
