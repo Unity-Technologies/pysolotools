@@ -4,6 +4,7 @@ from dataclasses import fields
 
 import pytest
 
+from pysolotools.core import DatasetMetadata
 from pysolotools.core.exceptions import MissingCaptureException
 from pysolotools.core.models import Frame, RGBCameraCapture
 
@@ -57,3 +58,63 @@ def test_annotation_label_without_metadata():
 
                 for annoLabel in v:
                     assert annoLabel.metadata == {}
+
+
+@pytest.mark.parametrize(
+    "test_input, expected",
+    [
+        (
+                {
+                    'unityVersion': '1',
+                    'perceptionVersion': '2',
+                    'totalFrames': 3,
+                    'totalSequences': 4,
+                    'sensors': ['5'],
+                    'metricCollectors': ['6']
+                },
+                DatasetMetadata(
+                    unityVersion='1',
+                    perceptionVersion='2',
+                    totalFrames=3,
+                    totalSequences=4,
+                    sensors=['5'],
+                    metricCollectors=['6'],
+                    scenarioActiveRandomizers=[],
+                    annotators=[]
+                )
+        ),
+        (
+                {
+                    'unityVersion': '1',
+                    'perceptionVersion': '2',
+                    'totalFrames': 3,
+                    'totalSequences': 4,
+                    'sensors': ['5'],
+                    'metricCollectors': ['6'],
+                    'scenarioActiveRandomizers': ['7'],
+                    'annotators': ['8'],
+                    'simulationStartTime': '9',
+                    'simulationEndTime': '10',
+                    'renderPipeline': '11',
+                    'scenarioRandomSeed': 12.0
+                },
+                DatasetMetadata(
+                    unityVersion='1',
+                    perceptionVersion='2',
+                    totalFrames=3,
+                    totalSequences=4,
+                    sensors=['5'],
+                    metricCollectors=['6'],
+                    scenarioActiveRandomizers=['7'],
+                    annotators=['8'],
+                    simulationStartTime='9',
+                    simulationEndTime='10',
+                    renderPipeline='11',
+                    scenarioRandomSeed=12.0
+                )
+        )
+    ]
+)
+def test_dataset_metadata_serialization(test_input, expected):
+    actual = DatasetMetadata.from_json(json.dumps(test_input))
+    assert actual == expected

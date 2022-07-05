@@ -275,13 +275,6 @@ class BoundingBoxAnnotationDefinition:
 
 @dataclass_json
 @dataclass
-class Test:
-    a: int
-    b: str = None
-
-
-@dataclass_json
-@dataclass
 class DatasetMetadata:
     unityVersion: str
     perceptionVersion: str
