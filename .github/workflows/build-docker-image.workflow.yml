@@ -1,0 +1,60 @@
+name: Build and Push Container UCVD API Client
+on:
+  workflow_call:
+    inputs:
+      tag:
+        required: true
+        type: string
+    secrets:
+      GCP_SA_KEY:
+        required: true
+      GCP_PROJECT:
+        required: true
+
+jobs:
+  build-pysolotools:
+    name: Build Pysolotools
+    runs-on: ubuntu-latest
+    outputs:
+      short_tag: ${{steps.short_names.outputs.short_tag}}
+      ref_name: ${{steps.short_names.outputs.ref_name}}
+      head_sha: ${{steps.short_names.outputs.head_sha}}
+      digest: ${{ steps.docker_build.outputs.digest }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+      - name: Docker Login
+        uses: docker/login-action@v1
+        with:
+          registry: gcr.io
+          username: _json_key
+          password: ${{ secrets.GCP_SA_KEY }}
+      - name: Generate Short Names
+        shell: bash
+        run: |
+          if [[ ! -z "$GITHUB_HEAD_REF" ]]
+          then
+            sha="${{ github.event.pull_request.head.sha }}"
+            echo "::set-output name=short_tag::${{ inputs.tag }}"
+            echo "::set-output name=ref_name::$(echo ${GITHUB_HEAD_REF##*/})"
+            echo "::set-output name=head_sha::$sha"
+          else
+            echo "::set-output name=short_tag::${{ inputs.tag }}"
+            echo "::set-output name=ref_name::$(echo ${GITHUB_REF##*/})"
+            echo "::set-output name=head_sha::$GITHUB_SHA"
+          fi
+        id: short_names
+      - name: Build
+        uses: docker/build-push-action@v3
+        with:
+          push: true
+          context: .
+          file: ./docker/pysolotools/Dockerfile
+          tags: |
+            gcr.io/${{ secrets.GCP_PROJECT }}/pysolotools:latest
+            gcr.io/${{ secrets.GCP_PROJECT }}/pysolotools:${{steps.short_names.outputs.short_tag}}
+            gcr.io/${{ secrets.GCP_PROJECT }}/pysolotools:${{steps.short_names.outputs.head_sha}}

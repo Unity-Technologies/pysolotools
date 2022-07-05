@@ -1,0 +1,39 @@
+---
+
+name: Docker Build and Deploy
+on:
+  push:
+    branches:
+      - chore/docker-image-creation
+    tags:
+      - "v*"
+  workflow_dispatch:
+    inputs:
+      version_tag:
+        description: 'Tag for Docker image'
+        required: true
+        type: string
+jobs:
+  extract_tag:
+    runs-on: ubuntu-latest
+    outputs:
+      version_tag: ${{ steps.tag_extract.outputs.version_tag }}
+    steps:
+      - id: tag_extract
+        run: |
+          if [ -z "${{ github.event.inputs.version_tag }}" ]; then  
+            tag=$(echo ${{ github.ref }} | sed 's/refs\/tags\///')
+          else
+            tag=${{ github.event.inputs.version_tag }}
+          fi
+          echo "tag $tag"
+          echo "::set-output name=version_tag::${tag}"
+
+  build_and_deploy_docker_image:
+    needs: [ extract_tag ]
+    uses: ./.github/workflows/build-docker-image.workflow.yml
+    with:
+      tag: ${{ needs.extract_tag.outputs.version_tag }}
+    secrets:
+      GCP_SA_KEY: ${{ secrets.GCP_SA_KEY_STG }}
+      GCP_PROJECT: unity-ai-antojito-stg
