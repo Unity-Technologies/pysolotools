@@ -8,7 +8,7 @@ on:
 jobs:
   extract_tag:
     runs-on: ubuntu-latest
-    if: ${{ github.ref }} == 'refs/heads/chore/docker-image-creation'
+    if: ${{ github.ref }} == 'refs/heads/main'
     outputs:
       version_tag: ${{ steps.tag_extract.outputs.version_tag }}
     steps:
