@@ -2,6 +2,7 @@ import glob
 import logging
 import os
 import tarfile
+from collections import defaultdict
 
 import requests
 import requests.exceptions
@@ -164,7 +165,7 @@ class UCVDClient:
         return self.__make_request(method="get", url=entity_uri, auth=self.auth)
 
     def create_job(
-        self, name: str, description: str = None, specs: dict[str, object] = None
+        self, name: str, description: str = None, specs: dict = None
     ):
         entity_uri = f"{self.endpoint}/jobs/"
         body = {
