@@ -13,7 +13,7 @@ from setuptools import setup
 NAME = "pysolotools"
 DESCRIPTION = "unity computer vision dataset toolchain"
 URL = "https://https://github.com/Unity-Technologies/pysolotools"
-EMAIL = "souranil@unity3d.com"
+EMAIL = "computer-vision@unity3d.com"
 AUTHOR = "Unity Technologies"
 REQUIRES_PYTHON = ">=3.7"
 VERSION = "0.3.11"

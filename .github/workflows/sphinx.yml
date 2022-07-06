@@ -1,16 +1,14 @@
 name: Docs
 
 on:
-  push:
-    branches:
-      - main
   pull_request:
-    branches:
-      - main
+    types:
+    - closed
 
 jobs:
   make-docs:
     runs-on: ubuntu-latest
+    if: ${{ github.ref }} == 'refs/heads/main'
     steps:
       - uses: actions/checkout@v2
       - name: Install dependencies
