@@ -211,7 +211,7 @@ def test_describe_dataset_attachment(setup_client: TestFixture):
     )
     setup_client.mock_make_request.assert_called_once_with(
         method="get",
-        url="some-uri/organizations/mock-org-id/projects/mock-proj-id/datasets/some-dataset/archives/some-attachment",
+        url="some-uri/organizations/mock-org-id/projects/mock-proj-id/datasets/some-dataset/attachments/some-attachment",
         auth=setup_client.client.auth,
     )
 
@@ -227,7 +227,7 @@ def test_create_dataset_attachment(setup_client: TestFixture):
     )
     setup_client.mock_make_request.assert_called_once_with(
         method="post",
-        url="some-uri/organizations/mock-org-id/projects/mock-proj-id/datasets/some-dataset/attachment",
+        url="some-uri/organizations/mock-org-id/projects/mock-proj-id/datasets/some-dataset/attachments",
         body={"name": "some-attachment", "description": "some-description"},
         auth=setup_client.client.auth,
     )
