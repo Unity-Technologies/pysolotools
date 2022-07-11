@@ -136,7 +136,9 @@ class UCVDClient:
         return payload["results"]
 
     def describe_dataset_attachment(self, dataset_id, attachment_id):
-        entity_uri = f"{self.endpoint}/datasets/{dataset_id}/attachments/{attachment_id}"
+        entity_uri = (
+            f"{self.endpoint}/datasets/{dataset_id}/attachments/{attachment_id}"
+        )
         payload = self.__make_request(method="get", url=entity_uri, auth=self.auth)
         return payload
 
