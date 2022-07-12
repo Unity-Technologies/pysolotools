@@ -130,6 +130,18 @@ def test_describe_dataset(setup_client: TestFixture):
     )
 
 
+def test_delete_dataset(setup_client: TestFixture):
+    assert (
+        setup_client.client.delete_dataset(dataset_id="some-dataset")
+        == mock_make_request_response
+    )
+    setup_client.mock_make_request.assert_called_once_with(
+        method="delete",
+        url="some-uri/organizations/mock-org-id/projects/mock-proj-id/datasets/some-dataset",
+        auth=setup_client.client.auth,
+    )
+
+
 def test_list_dataset(setup_client: TestFixture):
     assert setup_client.client.list_datasets() == "the results"
     setup_client.mock_make_request.assert_called_once_with(

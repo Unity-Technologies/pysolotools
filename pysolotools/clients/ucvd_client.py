@@ -108,6 +108,11 @@ class UCVDClient:
         payload = self.__make_request(method="get", url=entity_uri, auth=self.auth)
         return payload
 
+    def delete_dataset(self, dataset_id):
+        entity_uri = f"{self.endpoint}/datasets/{dataset_id}"
+        payload = self.__make_request(method="delete", url=entity_uri, auth=self.auth)
+        return payload
+
     def list_datasets(self):
         entity_uri = f"{self.endpoint}/datasets"
         payload = self.__make_request(method="get", url=entity_uri, auth=self.auth)
