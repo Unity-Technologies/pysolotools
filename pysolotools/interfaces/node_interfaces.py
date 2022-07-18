@@ -42,14 +42,9 @@ class ConverterNode(Node):
         pass
 
     @abstractmethod
-    def convert(self, solo: Solo, arguments: Dict[str, Any]):
+    def convert(self, **kwargs: Any):
         """
-        Converter node used to convert a Solo dataset into an alternate format
-        Args:
-            solo (Solo): The solo dataset to convert
-            arguments (Dict[str, Any]: a key/value dictionary of arguments that
-                                        could be passed into the converter
-
+        Converter node used to convert a Solo dataset into an alternate format or vice versa
         """
         pass
 
@@ -74,13 +69,11 @@ class TransformerNode(Node):
         pass
 
     @abstractmethod
-    def transform(self, frame: Frame, arguments: Dict[str, Any]) -> Frame:
+    def transform(self, frame: Frame, **kwargs: Any) -> Frame:
         """
         Transformer node that modifies/transforms a Solo frame of data
         Args:
             frame (Frame): The Solo frame
-            arguments (Dict[str, Any]): A key/value dictionary of arguments that
-                                        could be passed into the transformer
 
         Returns:
             The modified frame
@@ -107,14 +100,11 @@ class AnalyzerNode(Node):
         pass
 
     @abstractmethod
-    def analyze(self, frame: Frame, arguments: Dict[str, Any]) -> Frame:
+    def analyze(self, frame: Frame, **kwargs: Any) -> Frame:
         """
         Analyze node that analyzes a Solo frame of data
         Args:
             frame (Frame): The Solo frame
-            arguments (Dict[str, Any]): A key/value dictionary of arguments that
-                                        could be passed into the analyzer
-
         Returns:
             The solo frame
 
