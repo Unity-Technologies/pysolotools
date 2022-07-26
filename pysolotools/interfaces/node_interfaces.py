@@ -107,7 +107,7 @@ class AnalyzerNode(Node):
         pass
 
     @abstractmethod
-    def analyze(self, frame: Frame, arguments: Dict[str, Any]) -> Frame:
+    def analyze(self, frame: Frame, arguments: Dict[str, Any]) -> Dict:
         """
         Analyze node that analyzes a Solo frame of data
         Args:
@@ -119,4 +119,8 @@ class AnalyzerNode(Node):
             The solo frame
 
         """
+        pass
+
+    @abstractmethod
+    def aggregate(self, arguments: Dict[str, Any]) -> None:
         pass
