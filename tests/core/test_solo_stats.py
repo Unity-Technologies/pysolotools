@@ -1,10 +1,13 @@
+import os
+from pathlib import Path
+
 import numpy as np
 import pytest
 
 from pysolotools.consumers import Solo
 from pysolotools.core.stats import SoloStats
 
-solo = Solo("tests/data/solo")
+solo = Solo(os.path.join(Path(__file__).parents[1], "data", "solo"))
 stats = solo.stats
 
 

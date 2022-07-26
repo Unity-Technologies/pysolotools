@@ -1,4 +1,6 @@
+import os
 import unittest
+from pathlib import Path
 
 from pysolotools.consumers import Solo
 from pysolotools.core.iterators import FramesIterator
@@ -7,7 +9,7 @@ from pysolotools.core.stats import SoloStats
 
 
 class TestSolo(unittest.TestCase):
-    solo = Solo("tests/data/solo")
+    solo = Solo(os.path.join(Path(__file__).parents[2], "data", "solo"))
 
     def test_get_metadata(self):
         metadata = self.solo.get_metadata()

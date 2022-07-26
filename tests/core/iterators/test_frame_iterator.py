@@ -1,4 +1,6 @@
+import os
 import unittest
+from pathlib import Path
 from unittest.mock import MagicMock
 
 from pysolotools.core import (
@@ -17,7 +19,7 @@ from pysolotools.core.models import DatasetAnnotations, DatasetMetadata
 class TestFramesIterator(unittest.TestCase):
     mocked_d_metadata = MagicMock(DatasetMetadata)
     mocked_anno_def = MagicMock(DatasetAnnotations)
-    data_path = "tests/data/solo"
+    data_path = os.path.join(Path(__file__).parents[2], "data", "solo")
     f_iter = FramesIterator(data_path, mocked_d_metadata(), mocked_anno_def())
     test_frame_path = f"{data_path}/sequence.0/step0.frame_data.json"
     test_frame = f_iter.parse_frame(test_frame_path)
