@@ -109,3 +109,10 @@ class AnalyzerNode(Node):
 
         """
         pass
+
+    @abstractmethod
+    def aggregate(self, **kwargs: Any) -> None:
+        """
+        Aggregate the results of all of the solo frames into entire dataset statistics
+        """
+        pass
