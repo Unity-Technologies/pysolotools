@@ -13,7 +13,7 @@ BBOX_HEATMAP_NAME = "stats.bounding_boxes.heatmap.npz"
 class SoloStats:
     def __init__(self, solo_path):
         path = os.path.join(solo_path, STATS_PATH_NAME)
-        with open(os.path.join(path, BBOX_STATS_NAME), 'r') as f:
+        with open(os.path.join(path, BBOX_STATS_NAME), "r") as f:
             bbox_stats = json.load(f)
 
         self._stats = bbox_stats["stats"][0]
@@ -22,7 +22,7 @@ class SoloStats:
         self._id_to_count = self._stats["id_to_count"]
         self._frame_counts = bbox_stats["frame_counts"]
         self._relative_sizes = self._stats["relative_sizes"]
-        self._heatmap = np.load(os.path.join(path, BBOX_HEATMAP_NAME))['arr_0']
+        self._heatmap = np.load(os.path.join(path, BBOX_HEATMAP_NAME))["arr_0"]
 
     @property
     def total_object_count(self) -> int:
@@ -54,7 +54,11 @@ class SoloStats:
         if category_ids is None:
             return None
         else:
-            return [item[1] for item in self._id_to_labels.items() if int(item[0]) in category_ids]
+            return [
+                item[1]
+                for item in self._id_to_labels.items()
+                if int(item[0]) in category_ids
+            ]
 
     def get_bbox_per_img_dist_by_ids(self, category_ids: List[int] = None):
         cat_labels = self._to_label_list(category_ids)
@@ -66,7 +70,13 @@ class SoloStats:
             if category_ids is None or TOTAL_TOKEN in category_ids:
                 bboxes[frame] = self._frame_counts[frame][TOTAL_TOKEN]
             else:
-                bboxes[frame] = sum([x[1] for x in self._frame_counts[frame].items() if x[0] in category_ids])
+                bboxes[frame] = sum(
+                    [
+                        x[1]
+                        for x in self._frame_counts[frame].items()
+                        if x[0] in category_ids
+                    ]
+                )
 
         return bboxes
 
@@ -87,7 +97,13 @@ class SoloStats:
             return hmap
 
     def get_bbox_size_dist_by_labels(self, category_labels: List[str] = None):
-        if category_labels is None or category_labels == [] or TOTAL_TOKEN in category_labels:
+        if (
+            category_labels is None
+            or category_labels == []
+            or TOTAL_TOKEN in category_labels
+        ):
             return self._relative_sizes[TOTAL_TOKEN]
         else:
-            return [x[1] for x in self._relative_sizes.items() if x[0] in category_labels]
+            return [
+                x[1] for x in self._relative_sizes.items() if x[0] in category_labels
+            ]
