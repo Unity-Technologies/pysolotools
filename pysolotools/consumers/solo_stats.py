@@ -1,18 +1,19 @@
 import json
+import os
 from typing import List
 
 import numpy as np
 
 TOTAL_TOKEN = "_TOTAL"
-STATS_PATH_NAME = "/stats"
-BBOX_STATS_NAME = "/stats.bounding_boxes.json"
-BBOX_HEATMAP_NAME = "/stats.bounding_boxes.heatmap.npz"
+STATS_PATH_NAME = "stats"
+BBOX_STATS_NAME = "stats.bounding_boxes.json"
+BBOX_HEATMAP_NAME = "stats.bounding_boxes.heatmap.npz"
 
 
 class SoloStats:
     def __init__(self, solo_path):
-        path = solo_path + STATS_PATH_NAME
-        with open(path + BBOX_STATS_NAME, 'r') as f:
+        path = os.path.join(solo_path, STATS_PATH_NAME)
+        with open(os.path.join(path, BBOX_STATS_NAME), 'r') as f:
             bbox_stats = json.load(f)
 
         self._stats = bbox_stats["stats"][0]
@@ -21,7 +22,7 @@ class SoloStats:
         self._id_to_count = self._stats["id_to_count"]
         self._frame_counts = bbox_stats["frame_counts"]
         self._relative_sizes = self._stats["relative_sizes"]
-        self._heatmap = np.load(path + BBOX_HEATMAP_NAME)['arr_0']
+        self._heatmap = np.load(os.path.join(path, BBOX_HEATMAP_NAME))['arr_0']
 
     @property
     def total_object_count(self) -> int:

@@ -99,7 +99,6 @@ class AnalyzerNode(Node):
         pass
 
     @abstractmethod
-
     def analyze(self, frame: Frame, **kwargs: Any) -> Frame:
         """
         Analyze node that analyzes a Solo frame of data
@@ -112,5 +111,8 @@ class AnalyzerNode(Node):
         pass
 
     @abstractmethod
-    def aggregate(self, arguments: Dict[str, Any]) -> None:
+    def aggregate(self, **kwargs: Any) -> None:
+        """
+        Aggregate the results of all of the solo frames into entire dataset statistics
+        """
         pass
