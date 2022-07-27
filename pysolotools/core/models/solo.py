@@ -147,8 +147,8 @@ class Frame:
     frame: int
     sequence: int
     step: int
-    captures: List[dataclass]
     metrics: List[object]
+    captures: List[dataclass] = field(default_factory=list)
 
     def __post_init__(self):
         self.captures = [DataFactory.cast(capture) for capture in self.captures]
