@@ -45,7 +45,7 @@ jobs:
         shell: bash
       - name: Build coverage file
         run: |
-          pytest --junitxml=pytest.xml --cov-report term --cov=pysolotools/ | tee pytest-coverage.txt
+          pytest --junitxml=pytest.xml --cov-report=term-missing:skip-covered --cov=pysolotools/ | tee pytest-coverage.txt
 
       - name: Pytest coverage comment
         uses: MishaKav/pytest-coverage-comment@main
