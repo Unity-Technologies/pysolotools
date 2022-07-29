@@ -82,7 +82,7 @@ class KeypointAnnotation(Annotation):
 
 @dataclass
 class BoundingBox2DAnnotation(Annotation):
-    values: List[BoundingBox2DLabel]
+    values: List[BoundingBox2DLabel] = field(default_factory=list)
 
 
 @dataclass
@@ -95,7 +95,7 @@ class InstanceSegmentationAnnotation(Annotation):
     imageFormat: str
     dimension: List[int]
     filename: str
-    instances: List[InstanceSegmentationLabel]
+    instances: List[InstanceSegmentationLabel] = field(default_factory=list)
 
 
 @dataclass
