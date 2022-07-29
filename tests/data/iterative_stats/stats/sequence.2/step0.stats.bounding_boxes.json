@@ -1,0 +1,54 @@
+{
+  "frame": 4,
+  "sequence": 2,
+  "step": 0,
+  "stats": [
+    {
+      "@type": "type.unity.com/unity.solo.stats.bounding_box",
+      "id:": "bounding_box_stats",
+      "description": "",
+      "total_bounding_boxes": 5,
+      "id_to_label": {
+        "2": "Cube",
+        "3": "Box",
+        "1": "Crate",
+        "4": "Terrain"
+      },
+      "label_to_id": {
+        "Cube": 2,
+        "Box": 3,
+        "Crate": 1,
+        "Terrain": 4
+      },
+      "id_to_count": {
+        "_TOTAL": 5,
+        "Cube": 1,
+        "Box": 1,
+        "Crate": 2,
+        "Terrain": 1
+      },
+      "relative_sizes": {
+        "_TOTAL": [
+          0.2895421133732823,
+          0.47510278493185026,
+          0.4768399124269416,
+          0.05284854539152426,
+          0.9287087810503355
+        ],
+        "Cube": [
+          0.2895421133732823
+        ],
+        "Box": [
+          0.47510278493185026
+        ],
+        "Crate": [
+          0.4768399124269416,
+          0.05284854539152426
+        ],
+        "Terrain": [
+          0.9287087810503355
+        ]
+      }
+    }
+  ]
+}
