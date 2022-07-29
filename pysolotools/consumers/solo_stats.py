@@ -64,7 +64,7 @@ class SoloStats:
         cat_labels = self._to_label_list(category_ids)
         return self.get_bbox_per_img_dist_by_labels(cat_labels)
 
-    def get_bbox_per_img_dist_by_labels(self, category_ids: List[str] = None):
+    def get_bbox_per_img_dist_by_labels(self, category_ids: List[str] = None) -> dict:
         bboxes = {}
         for frame in self._frame_counts:
             if category_ids is None or TOTAL_TOKEN in category_ids:
@@ -80,7 +80,7 @@ class SoloStats:
 
         return bboxes
 
-    def get_bbox_heatmap_by_labels(self, category_ids: List[str] = None):
+    def get_bbox_heatmap_by_labels(self, category_ids: List[str] = None) -> np.ndarray:
         if category_ids is None or category_ids == [] or TOTAL_TOKEN in category_ids:
             return self._heatmap[:, :, len(self._id_to_labels)]
         else:
