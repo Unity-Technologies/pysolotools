@@ -6,7 +6,7 @@ import numpy as np
 import pytest
 from numpy.testing import assert_array_equal
 
-from pysolotools.consumers.solo_stats import SoloStats, TOTAL_TOKEN
+from pysolotools.consumers.solo_stats import SoloStats, TOTAL_TOKEN, BBOX_HEATMAP_NAME, STATS_PATH_NAME
 
 
 class TestConsumerSoloStats:
@@ -19,6 +19,12 @@ class TestConsumerSoloStats:
             mock_np.load.return_value = {'arr_0': np.array(mock_list)}
             solo_stats = SoloStats(solo_path=stats_path)
             yield solo_stats, mock_np
+
+    def test_constructor(self, setup):
+        _, mock_np = setup
+        mock_np.load.assert_called_once_with(
+            os.path.join(Path(__file__).parents[1], 'data', 'iterative_stats', STATS_PATH_NAME, BBOX_HEATMAP_NAME),
+        )
 
     def test_total_object_count(self, setup):
         solo_stats, _ = setup
@@ -93,5 +99,5 @@ class TestConsumerSoloStats:
         ]
     )
     def test_get_bbox_size_dist_by_labels(self, setup, test_input, expected):
-        solo_stats, mock_np = setup
+        solo_stats, _ = setup
         assert solo_stats.get_bbox_size_dist_by_labels(category_labels=test_input) == expected

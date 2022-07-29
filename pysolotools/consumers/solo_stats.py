@@ -1,6 +1,6 @@
 import json
 import os
-from typing import List, Union
+from typing import List, Union, Optional
 
 import numpy as np
 
@@ -50,7 +50,7 @@ class SoloStats:
         cat_labels = self._to_label_list(ids)
         return self.get_object_count(cat_labels)
 
-    def _to_label_list(self, category_ids: List[int] = None):
+    def _to_label_list(self, category_ids: List[int] = None) -> Optional[List[str]]:
         if category_ids is None:
             return None
         else:
@@ -60,7 +60,7 @@ class SoloStats:
                 if int(item[0]) in category_ids
             ]
 
-    def get_bbox_per_img_dist_by_ids(self, category_ids: List[int] = None):
+    def get_bbox_per_img_dist_by_ids(self, category_ids: List[int] = None) -> dict:
         cat_labels = self._to_label_list(category_ids)
         return self.get_bbox_per_img_dist_by_labels(cat_labels)
 
