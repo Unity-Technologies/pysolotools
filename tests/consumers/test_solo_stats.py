@@ -55,7 +55,7 @@ class TestConsumerSoloStats:
     @pytest.mark.parametrize(
         "test_input, expected",
         [
-            (None, 25),  # this case seems weird
+            (None, 25),
             ([], 25),
             ([TOTAL_TOKEN], 25),
             (["Box", TOTAL_TOKEN], 25),
