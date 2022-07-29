@@ -1,6 +1,6 @@
 import json
 import os
-from typing import List
+from typing import List, Union
 
 import numpy as np
 
@@ -96,7 +96,7 @@ class SoloStats:
 
             return hmap
 
-    def get_bbox_size_dist_by_labels(self, category_labels: List[str] = None):
+    def get_bbox_size_dist_by_labels(self, category_labels: List[str] = None) -> Union[List[float], List[List[float]]]:
         if (
             category_labels is None
             or category_labels == []
