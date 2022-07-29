@@ -67,7 +67,7 @@ class TestConsumerSoloStats:
         assert solo_stats.get_object_count(labels=test_input) == expected
 
     @patch.object(SoloStats, "get_object_count")
-    def test_get_object_count(self, mock_get_object_count, setup):
+    def test_get_object_count_by_id(self, mock_get_object_count, setup):
         solo_stats, _ = setup
         assert (
             solo_stats.get_object_count_by_id(ids=[1, 2])
