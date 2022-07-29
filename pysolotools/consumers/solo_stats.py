@@ -1,6 +1,6 @@
 import json
 import os
-from typing import List
+from typing import List, Optional, Union
 
 import numpy as np
 
@@ -50,7 +50,7 @@ class SoloStats:
         cat_labels = self._to_label_list(ids)
         return self.get_object_count(cat_labels)
 
-    def _to_label_list(self, category_ids: List[int] = None):
+    def _to_label_list(self, category_ids: List[int] = None) -> Optional[List[str]]:
         if category_ids is None:
             return None
         else:
@@ -60,11 +60,11 @@ class SoloStats:
                 if int(item[0]) in category_ids
             ]
 
-    def get_bbox_per_img_dist_by_ids(self, category_ids: List[int] = None):
+    def get_bbox_per_img_dist_by_ids(self, category_ids: List[int] = None) -> dict:
         cat_labels = self._to_label_list(category_ids)
         return self.get_bbox_per_img_dist_by_labels(cat_labels)
 
-    def get_bbox_per_img_dist_by_labels(self, category_ids: List[str] = None):
+    def get_bbox_per_img_dist_by_labels(self, category_ids: List[str] = None) -> dict:
         bboxes = {}
         for frame in self._frame_counts:
             if category_ids is None or TOTAL_TOKEN in category_ids:
@@ -80,7 +80,7 @@ class SoloStats:
 
         return bboxes
 
-    def get_bbox_heatmap_by_labels(self, category_ids: List[str] = None):
+    def get_bbox_heatmap_by_labels(self, category_ids: List[str] = None) -> np.ndarray:
         if category_ids is None or category_ids == [] or TOTAL_TOKEN in category_ids:
             return self._heatmap[:, :, len(self._id_to_labels)]
         else:
@@ -96,7 +96,9 @@ class SoloStats:
 
             return hmap
 
-    def get_bbox_size_dist_by_labels(self, category_labels: List[str] = None):
+    def get_bbox_size_dist_by_labels(
+        self, category_labels: List[str] = None
+    ) -> Union[List[float], List[List[float]]]:
         if (
             category_labels is None
             or category_labels == []

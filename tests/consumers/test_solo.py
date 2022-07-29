@@ -9,7 +9,7 @@ from pysolotools.core.stats import SoloStats
 
 
 class TestSolo(unittest.TestCase):
-    solo = Solo(os.path.join(Path(__file__).parents[2], "data", "solo"))
+    solo = Solo(os.path.join(Path(__file__).parents[1], "data", "solo"))
 
     def test_get_metadata(self):
         metadata = self.solo.get_metadata()
