@@ -320,8 +320,12 @@ class DataFactory:
 
     @classmethod
     def cast(cls, data):
+        if isinstance(data, Capture) or isinstance(data, Annotation):
+            return data
+
         if "@type" not in data.keys():
             raise Exception("No type provided in annotation")
+
         dtype = data["@type"]
         if dtype not in cls.switcher.keys():
             logger.error(f"Unknown data type: {dtype}")
@@ -341,6 +345,10 @@ class DefinitionFactory:
 
     @classmethod
     def cast(cls, data):
+
+        if isinstance(data, AnnotationDefinition):
+            return data
+
         if "@type" not in data.keys():
             raise Exception("No type provided in annotation")
         dtype = data["@type"]
