@@ -320,7 +320,7 @@ class DataFactory:
 
     @classmethod
     def cast(cls, data):
-        if isinstance(data, Capture) or isinstance(data, Annotation):
+        if isinstance(data, (Annotation, Capture)):
             return data
 
         if "@type" not in data.keys():
