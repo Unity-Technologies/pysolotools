@@ -5,7 +5,6 @@ from pathlib import Path
 from pysolotools.consumers import Solo
 from pysolotools.core.iterators import FramesIterator
 from pysolotools.core.models import DatasetMetadata, DefinitionFactory
-from pysolotools.core.stats import SoloStats
 
 
 class TestSolo(unittest.TestCase):
@@ -28,10 +27,6 @@ class TestSolo(unittest.TestCase):
         with self.assertRaises(StopIteration):
             while True:
                 next(frames_iter)
-
-    def test_stats(self):
-        solo_stats = self.solo.stats
-        self.assertIsInstance(solo_stats, SoloStats)
 
     def test_len(self):
         self.assertEqual(len(self.solo.frames()), 1)
