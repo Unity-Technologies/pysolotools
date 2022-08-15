@@ -5,7 +5,6 @@ from pysolotools.clients.gcs_client import GCSClient
 from pysolotools.core import DatasetMetadata
 from pysolotools.core.iterators import FramesIterator
 from pysolotools.core.models import DatasetAnnotations
-from pysolotools.core.stats import SoloStats
 
 """
 Example:
@@ -60,13 +59,6 @@ class Solo:
         self.metadata = self.__open_metadata__(metadata_file)
         self.annotation_definitions = self.__open_annotation_definitions__(
             annotation_definitions_file
-        )
-        self.stats = SoloStats(
-            self.data_path,
-            self.metadata,
-            self.annotation_definitions,
-            self.start,
-            self.end,
         )
 
     def frames(self) -> FramesIterator:
