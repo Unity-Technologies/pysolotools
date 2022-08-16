@@ -17,9 +17,11 @@
 
 - Parse SOLO datasets generated with Unity Perception.
 - Dataset iterables.
-- Interfaces for converters, stat nodes.
+- Interface for nodes.
 - Clients to access remote datasets
   - Unity Computer Vision Datasets (UCVD)
+
+You can read more about SOLO schema [here](https://github.com/Unity-Technologies/perception/blob/main/com.unity.perception/com.unity.perception/Documentation~/SoloSchema/Solo_Schema.md).
 
 ## Pre-Requisites
 - Install [Anaconda](https://docs.anaconda.com/anaconda/install/) or [Miniconda](https://docs.conda.io/en/latest/miniconda.html) (recommended). Install [pre-commit](https://pre-commit.com/).
