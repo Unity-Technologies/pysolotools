@@ -618,7 +618,7 @@ def test___make_request(
         (does_not_raise(), [500, 200]),
         (does_not_raise(), [500, 501, 502, 503, 504, 200]),
         (pytest.raises(UCVDException), [500]),
-        (pytest.raises(UCVDException), [403])
+        (pytest.raises(UCVDException), [403]),
     ],
 )
 @responses.activate
@@ -639,9 +639,5 @@ def test___make_request_retry(expectation, response_codes):
         )
 
     with expectation:
-        result = client._UCVDClient__make_request(
-            method="GET",
-            url="http://some-url"
-        )
+        result = client._UCVDClient__make_request(method="GET", url="http://some-url")
         assert result == {"some": "stuff"}
-
