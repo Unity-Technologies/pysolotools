@@ -7,7 +7,9 @@ import requests
 import requests.exceptions
 import requests_toolbelt
 from ratelimit import limits
+from requests.adapters import HTTPAdapter
 from requests.auth import HTTPBasicAuth
+from urllib3 import Retry
 
 from pysolotools.core.exceptions import AuthenticationException, UCVDException
 from pysolotools.core.models import UCVDArchive, UCVDAttachment, UCVDDataset
@@ -291,6 +293,15 @@ class UCVDClient:
     ):
         params = params or {}
         session = requests.Session()
+        retry_strategy = Retry(
+            total=6,
+            backoff_factor=1,
+            status_forcelist=[500, 501, 502, 503, 504],
+            method_whitelist=["HEAD", "GET", "POST", "PUT", "DELETE", "OPTIONS", "TRACE"]
+        )
+        adapter = HTTPAdapter(max_retries=retry_strategy)
+        session.mount("https://", adapter)
+        session.mount("http://", adapter)
         try:
             res = session.request(
                 method=method,

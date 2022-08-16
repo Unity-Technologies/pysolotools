@@ -609,3 +609,39 @@ def test___make_request(
         data=data,
     )
     mock_session.return_value.close.assert_called_once()
+
+
+@pytest.mark.parametrize(
+    "expectation,response_codes",
+    [
+        (does_not_raise(), [200]),
+        (does_not_raise(), [500, 200]),
+        (does_not_raise(), [500, 501, 502, 503, 504, 200]),
+        (pytest.raises(UCVDException), [500]),
+        (pytest.raises(UCVDException), [403])
+    ],
+)
+@responses.activate
+def test___make_request_retry(expectation, response_codes):
+    client = UCVDClient(
+        project_id=MOCK_PROJECT_ID,
+        org_id=MOCK_ORG_ID,
+        sa_key=MOCK_SA_KEY,
+        api_secret=MOCK_API_SECRET,
+        base_uri=BASE_URI,
+    )
+    for response_code in response_codes:
+        responses.add(
+            responses.GET,
+            "http://some-url",
+            status=response_code,
+            json={"some": "stuff"},
+        )
+
+    with expectation:
+        result = client._UCVDClient__make_request(
+            method="GET",
+            url="http://some-url"
+        )
+        assert result == {"some": "stuff"}
+
