@@ -15,8 +15,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      with:
-        token: ${{ secrets.GHA_TOKEN }}
+        with:
+          token: ${{ secrets.GHA_TOKEN }}
 
       - name: Conventional Changelog Action
         id: changelog
