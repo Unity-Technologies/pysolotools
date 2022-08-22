@@ -13,7 +13,7 @@
 
 ## Introduction
 
-pysolotools is a python package for managing the solo format data.
+pysolotools is a python package for managing the solo dataset.
 It helps to perform following tasks:
 
 - Parse SOLO datasets generated with Unity Perception.
