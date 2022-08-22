@@ -14,9 +14,7 @@ pozole_sample_data = os.path.join(
     Path(__file__).parents[1], "data", "format_output_by_pozole", "attempt0"
 )
 
-mysterious_sample_data = os.path.join(
-    Path(__file__).parents[1], "data", "mysterious_format_no_idea_the_source", "solo"
-)
+solo_sample_data = os.path.join(Path(__file__).parents[1], "data", "solo")
 
 
 @pytest.fixture
@@ -125,7 +123,7 @@ def test_process_annotations(
             os.path.join(pozole_sample_data, "metadata", "metadata.json"),
             os.path.join(pozole_sample_data, "metadata", "annotation_definitions.json"),
         ),
-        (mysterious_sample_data, None, None),
+        (solo_sample_data, None, None),
     ],
 )
 def test_categories(
@@ -220,7 +218,7 @@ def test_process_instances(mock_process_rgb_image, mock_process_annotations):
             os.path.join(pozole_sample_data, "metadata", "metadata.json"),
             os.path.join(pozole_sample_data, "metadata", "annotation_definitions.json"),
         ),
-        (mysterious_sample_data, None, None),
+        (solo_sample_data, None, None),
     ],
 )
 def test_get_solo_kp_map(
