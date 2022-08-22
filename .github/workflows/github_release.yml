@@ -1,0 +1,64 @@
+name: Github Release
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  changelog:
+    runs-on: ubuntu-latest
+    outputs:
+      version_tag: ${{ steps.save_tag.outputs.version_tag }}
+      skipped: ${{ steps.changelog.outputs.skipped }}
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ssh-key: ${{ secrets.COMMIT_KEY }}
+
+      - name: Conventional Changelog Action
+        id: changelog
+        uses: TriPSs/conventional-changelog-action@v3
+        with:
+          fallback-version: '0.3.16'
+          output-file: "false"
+          tag-prefix: 'v'
+          version-file: ./github_release_version.json
+
+      - name: Create Release
+        uses: actions/create-release@v1
+        if: ${{ steps.changelog.outputs.skipped == 'false' }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+        with:
+          tag_name: ${{ steps.changelog.outputs.tag }}
+          release_name: ${{ steps.changelog.outputs.tag }}
+          body: ${{ steps.changelog.outputs.clean_changelog }}
+
+      - name: Save Tag
+        id: save_tag
+        if: ${{ steps.changelog.outputs.skipped == 'false' }}
+        run: |
+          tag=${{ steps.changelog.outputs.tag }}
+          echo "tag $tag"
+          echo "::set-output name=version_tag::${tag}"
+
+  build_and_deploy_docker_image_stg:
+    needs: [ changelog ]
+    if: ${{ needs.changelog.outputs.skipped == 'false' }}
+    uses: ./.github/workflows/build-docker-image.workflow.yml
+    with:
+      tag: ${{ needs.changelog.outputs.version_tag }}
+    secrets:
+      GCP_SA_KEY: ${{ secrets.GCP_SA_KEY_STG }}
+      GCP_PROJECT: unity-ai-antojito-stg
+
+  build_and_deploy_docker_image_prd:
+    needs: [ changelog ]
+    if: ${{ needs.changelog.outputs.skipped == 'false' }}
+    uses: ./.github/workflows/build-docker-image.workflow.yml
+    with:
+      tag: ${{ needs.changelog.outputs.version_tag }}
+    secrets:
+      GCP_SA_KEY: ${{ secrets.GCP_SA_KEY_PRD }}
+      GCP_PROJECT: unity-ai-antojito-prd
