@@ -1,6 +1,6 @@
 FROM python:3.10-slim-bullseye
 
-RUN apt update && apt install ffmpeg libsm6 libxext6 -y
+RUN apt update && apt install ffmpeg libsm6 libxext6 gcc -y
 
 WORKDIR /workspace/
 ADD requirements/ /workspace/requirements/
