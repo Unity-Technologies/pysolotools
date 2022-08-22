@@ -146,3 +146,7 @@ detectron2
 docs/make.bat
 /examples/pytorch/data/
 /examples/ucvd-solo-to-coco/solo_dir/
+solo_1k_all_labelers
+Untitled.ipynb
+pytest-coverage.txt
+pytest.xml
