@@ -10,11 +10,9 @@ from pysolotools.consumers import Solo
 from pysolotools.converters import SOLO2COCOConverter
 from pysolotools.core.models import RGBCameraCapture
 
-pozole_sample_data = os.path.join(
-    Path(__file__).parents[1], "data", "format_output_by_pozole", "attempt0"
-)
-
-solo_sample_data = os.path.join(Path(__file__).parents[1], "data", "solo")
+parent_dir = Path(__file__).parent.parent.absolute()
+solo_sample_data = str(parent_dir / "data" / "solo")
+pozole_sample_data = str(parent_dir / "data" / "format_output_by_pozole" / "attempt0")
 
 
 @pytest.fixture
