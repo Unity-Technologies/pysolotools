@@ -3,6 +3,8 @@ on:
   push:
     branches:
       - main
+    paths-ignore:
+      - 'github_release_version.json'
 
 jobs:
   changelog:
@@ -13,13 +15,14 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-        with:
-          ssh-key: ${{ secrets.COMMIT_KEY }}
+      with:
+        token: ${{ secrets.GHA_TOKEN }}
 
       - name: Conventional Changelog Action
         id: changelog
         uses: TriPSs/conventional-changelog-action@v3
         with:
+          github-token: ${{ secrets.GHA_TOKEN }}
           fallback-version: '0.3.16'
           output-file: "false"
           tag-prefix: 'v'
