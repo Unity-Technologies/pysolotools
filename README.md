@@ -64,11 +64,12 @@ Supports conversion for these labels: 2d bbox, keypoints, instance, semantic.
 Python API
 
 ```python
-    from pysolotools.converters.solo2coco import SOLO2COCOConverter
-    from pysolotools.consumers import Solo
-    solo = Solo("src_data_path")
-    dataset = SOLO2COCOConverter()
-    dataset.convert(solo, {"output_path": "output_path"})
+from pysolotools.converters.solo2coco import SOLO2COCOConverter
+from pysolotools.consumers import Solo
+
+solo = Solo("src_data_path")
+dataset = SOLO2COCOConverter()
+dataset.convert(solo, {"output_path": "output_path"})
 ```
 
 
