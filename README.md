@@ -31,8 +31,6 @@ You can read more about SOLO schema [here](https://github.com/Unity-Technologies
 
 ## Installation
 
----
-To install, run
 ```shell
 pip install pysolotools --index-url=https://artifactory.prd.it.unity3d.com/artifactory/api/pypi/pypi/simple
 ```
@@ -43,7 +41,13 @@ pip install pysolotools --index-url=https://artifactory.prd.it.unity3d.com/artif
 
 #### SOLO Dataset
 
-##### Iterating Frames
+
+##### Download solo synthetic data
+
+* [Datasets from UCVD APIs](docs/UCVD.md)
+
+
+##### Load and iterate frames
 
 ```python
 from pysolotools.consumers import Solo
@@ -53,12 +57,7 @@ for frame in solo.frames():
     # perform operations on frame
 ```
 
-##### Cloud Datasets
-
-* [Datasets from UCVD APIs](docs/UCVD.md)
-* [GCS](docs/GCS.md)
-
-#### SOLO2COCO conversion
+##### SOLO2COCO conversion
 Supports conversion for these labels: 2d bbox, keypoints, instance, semantic.
 
 Python API
@@ -105,7 +104,6 @@ For feature requests, bugs, or other issues, please file a
 [GitHub issue](https://github.com/Unity-Technologies/Unity-Vision-Hub/issues)
 using the provided templates we will investigate as soon as possible.
 
-## Newsletter
 
 ## License
 [Apache License 2.0](LICENSE)
