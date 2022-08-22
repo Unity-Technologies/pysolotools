@@ -60,8 +60,6 @@ for frame in solo.frames():
 ##### SOLO2COCO conversion
 Supports conversion for these labels: 2d bbox, keypoints, instance, semantic.
 
-Python API
-
 ```python
 from pysolotools.converters.solo2coco import SOLO2COCOConverter
 from pysolotools.consumers import Solo
