@@ -10,6 +10,9 @@ Subpackages
    pysolotools.clients
    pysolotools.consumers
    pysolotools.core
+   pysolotools.converters
+   pysolotools.interfaces
+
 
 Module contents
 ---------------
