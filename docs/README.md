@@ -9,7 +9,7 @@ Automatic generate of Sphinx sources using [sphinx-apidoc](https://www.sphinx-do
 make apidoc
 ```
 
-This command only applies to newly created modules. It will not update modules that already exist. You will have to modify `docs/datasetinsighs.module_name` manually.
+This command only applies to newly created modules. It will not update modules that already exist. You will have to modify `docs/pysolotools.module_name` manually.
 
 To build html files, run
 
