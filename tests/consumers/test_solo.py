@@ -29,4 +29,4 @@ class TestSolo(unittest.TestCase):
                 next(frames_iter)
 
     def test_len(self):
-        self.assertEqual(len(self.solo.frames()), 1)
+        self.assertEqual(len(self.solo.frames()), 2)

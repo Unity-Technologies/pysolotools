@@ -11,8 +11,7 @@ from pysolotools.converters import SOLO2COCOConverter
 from pysolotools.core.models import RGBCameraCapture
 
 parent_dir = Path(__file__).parent.parent.absolute()
-solo_sample_data = str(parent_dir / "data" / "solo")
-pozole_sample_data = str(parent_dir / "data" / "format_output_by_pozole" / "attempt0")
+solo_sample_data = os.path.join(parent_dir, "data", "solo")
 
 
 @pytest.fixture
@@ -113,29 +112,9 @@ def test_process_annotations(
     )  # called in both instance and semantic seg
 
 
-@pytest.mark.parametrize(
-    "input_data_path, metadata_file_path, annotation_definitions_file_path",
-    [
-        (
-            pozole_sample_data,
-            os.path.join(pozole_sample_data, "metadata", "metadata.json"),
-            os.path.join(pozole_sample_data, "metadata", "annotation_definitions.json"),
-        ),
-        (solo_sample_data, None, None),
-    ],
-)
-def test_categories(
-    input_data_path,
-    metadata_file_path,
-    annotation_definitions_file_path,
-    solo2coco_instance,
-):
+def test_categories(solo2coco_instance):
 
-    solo = Solo(
-        data_path=input_data_path,
-        metadata_file=metadata_file_path,
-        annotation_definitions_file=annotation_definitions_file_path,
-    )
+    solo = Solo(data_path=solo_sample_data)
     solo2coco_instance._solo = solo
     return_value = solo2coco_instance._categories()
 
@@ -208,28 +187,10 @@ def test_process_instances(mock_process_rgb_image, mock_process_annotations):
     mock_process_annotations.assert_called_once()
 
 
-@pytest.mark.parametrize(
-    "input_data_path, metadata_file_path, annotation_definitions_file_path",
-    [
-        (
-            pozole_sample_data,
-            os.path.join(pozole_sample_data, "metadata", "metadata.json"),
-            os.path.join(pozole_sample_data, "metadata", "annotation_definitions.json"),
-        ),
-        (solo_sample_data, None, None),
-    ],
-)
 def test_get_solo_kp_map(
-    input_data_path,
-    metadata_file_path,
-    annotation_definitions_file_path,
     solo2coco_instance,
 ):
-    solo = Solo(
-        data_path=input_data_path,
-        metadata_file=metadata_file_path,
-        annotation_definitions_file=annotation_definitions_file_path,
-    )
+    solo = Solo(data_path=solo_sample_data)
     solo2coco_instance._solo = solo
 
     resturn_value = solo2coco_instance._get_solo_kp_map()

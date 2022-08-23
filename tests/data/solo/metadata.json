@@ -7,8 +7,8 @@
   "scenarioActiveRandomizers": [
     "AnimationRandomizer"
   ],
-  "totalFrames": 1,
-  "totalSequences": 1,
+  "totalFrames": 2,
+  "totalSequences": 2,
   "sensors": [
     "camera"
   ],
