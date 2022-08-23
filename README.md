@@ -13,13 +13,15 @@
 
 ## Introduction
 
-`pysolotools` would allow you to the following:
+pysolotools is a python package for managing the solo dataset.
+It helps to perform following tasks:
 
 - Parse SOLO datasets generated with Unity Perception.
 - Dataset iterables.
 - Interface for nodes.
 - Clients to access remote datasets
   - Unity Computer Vision Datasets (UCVD)
+- Convert solo to coco format.
 
 You can read more about SOLO schema [here](https://github.com/Unity-Technologies/perception/blob/main/com.unity.perception/com.unity.perception/Documentation~/SoloSchema/Solo_Schema.md).
 
@@ -29,8 +31,6 @@ You can read more about SOLO schema [here](https://github.com/Unity-Technologies
 
 ## Installation
 
----
-To install, run
 ```shell
 pip install pysolotools --index-url=https://artifactory.prd.it.unity3d.com/artifactory/api/pypi/pypi/simple
 ```
@@ -41,22 +41,34 @@ pip install pysolotools --index-url=https://artifactory.prd.it.unity3d.com/artif
 
 #### SOLO Dataset
 
-##### Iterating Frames
+
+##### Download solo synthetic data
+
+* [Datasets from UCVD APIs](docs/UCVD.md)
+
+
+##### Load and iterate frames
 
 ```python
 from pysolotools.consumers import Solo
-solo = Solo(data_path="<<dataset-path>>")
+solo = Solo(data_path="src_data_path")
 
 for frame in solo.frames():
-    frame
+    # perform operations on frame
 ```
 
-Refer to `pysolotools.core.iterator.FrameIterator`
+##### SOLO2COCO conversion
+Supports conversion for these labels: 2d bbox, keypoints, instance, semantic.
 
-##### Cloud Datasets
+```python
+from pysolotools.converters.solo2coco import SOLO2COCOConverter
+from pysolotools.consumers import Solo
 
-* [Datasets from UCVD APIs](docs/UCVD.md)
-* [GCS](docs/GCS.md)
+solo = Solo("src_data_path")
+dataset = SOLO2COCOConverter()
+dataset.convert(solo, {"output_path": "output_path"})
+```
+
 
 ## Sphinx Docs
 
@@ -90,7 +102,6 @@ For feature requests, bugs, or other issues, please file a
 [GitHub issue](https://github.com/Unity-Technologies/Unity-Vision-Hub/issues)
 using the provided templates we will investigate as soon as possible.
 
-## Newsletter
 
 ## License
 [Apache License 2.0](LICENSE)

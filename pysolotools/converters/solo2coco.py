@@ -31,7 +31,24 @@ logger.setLevel(logging.INFO)
 
 
 class SOLO2COCOConverter(ConverterNode):
-    """Convert SOLO to COCO format for object detection task."""
+    """Convert SOLO to COCO format.
+    This converter convert solo format to coco format.
+    It supports 4 annotations 2d bbox,keypoints,instance
+    and semantic segmentation. Based on annotation types
+    of input solo data it does the conversion into coco.
+
+
+        Examples:
+        >>> solo=Solo("src_data_path")
+        >>> dataset = SOLO2COCOConverter()
+        >>> dataset.convert(solo, {"output_path": "output_path"})
+
+    Expected output directory :
+    coco:
+        └── annotations
+            ├── file_name.json
+        └── images
+    """
 
     def __init__(self):
         self._solo = None
