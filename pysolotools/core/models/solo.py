@@ -54,6 +54,7 @@ class Keypoint:
     index: int
     location: List[float]
     state: int
+    cameraCartesianLocation: List[float] = field(default_factory=list)
 
 
 @dataclass
