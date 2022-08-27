@@ -4,7 +4,11 @@ from pathlib import Path
 
 from pysolotools.consumers import Solo
 from pysolotools.core.iterators import FramesIterator
-from pysolotools.core.models import DatasetMetadata, DefinitionFactory
+from pysolotools.core.models import (
+    AnnotationDefinition,
+    DatasetMetadata,
+    DefinitionFactory,
+)
 
 
 class TestSolo(unittest.TestCase):
@@ -15,10 +19,11 @@ class TestSolo(unittest.TestCase):
         self.assertIsInstance(metadata, DatasetMetadata)
 
     def test_get_annotation_definitions(self):
-        annotation_def_types = DefinitionFactory.switcher.values()
+        annotation_def_types = list(DefinitionFactory.switcher.values())
+        annotation_def_types.append(AnnotationDefinition)
         annotation_definition = self.solo.get_annotation_definitions()
         for ann_def in annotation_definition.annotationDefinitions:
-            self.assertIn(type(ann_def), annotation_def_types)
+            assert isinstance(ann_def, tuple(annotation_def_types))
 
     def test_frames(self):
         frames_iter = self.solo.frames()

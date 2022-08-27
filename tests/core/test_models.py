@@ -6,6 +6,7 @@ from pathlib import Path
 
 import pytest
 
+from pysolotools.consumers.solo import Solo
 from pysolotools.core import DatasetMetadata
 from pysolotools.core.exceptions import MissingCaptureException
 from pysolotools.core.models import Frame, RGBCameraCapture
@@ -30,8 +31,8 @@ def test_frame_with_unknown_annotation():
         frame = Frame.from_json(f.read())
         rgb_captures = frame.filter_captures(RGBCameraCapture)
         annotations = rgb_captures[0].annotations
-        # There are 2 annotations with 1 unknown annotation type.
-        assert len(annotations) == 1
+        # There are 3 annotations with 2 unknown annotation type.
+        assert len(annotations) == 3
 
 
 def test_frame_get_file_path_raises_exception():
@@ -129,3 +130,28 @@ def test_annotation_label_without_metadata():
 def test_dataset_metadata_serialization(test_input, expected):
     actual = DatasetMetadata.from_json(json.dumps(test_input))
     assert actual == expected
+
+
+def test_solo_read_unknown_ann_def():
+    undefined_ann_def_id = "Extra Annotation"
+    solo = Solo(data_path=os.path.join(Path(__file__).parents[1], "data", "solo"))
+    annotation_definitions = solo.get_annotation_definitions().annotationDefinitions
+    ann_def_ids = [ann_def.id for ann_def in annotation_definitions]
+    assert undefined_ann_def_id in ann_def_ids
+
+
+def test_solo_read_unknown_annotation():
+    expected_annotation_types = [
+        "type.unity.com/unity.solo.DepthAnnotation",
+        "type.unity.com/unity.solo.BoundingBox2DAnnotation",
+        "type.unity.com/unity.solo.ExtraAnnotation",
+    ]
+    f_path = os.path.join(
+        Path(__file__).parents[1], "data", "solo", "sequence.1", "step0.frame_data.json"
+    )
+    with open(f_path, "r") as f:
+        frame = Frame.from_json(f.read())
+        for capture in frame.captures:
+            assert expected_annotation_types == [
+                annotation.type for annotation in capture.annotations
+            ]
