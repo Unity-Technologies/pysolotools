@@ -3,7 +3,7 @@ from dataclasses import dataclass, field
 from typing import List
 
 import pandas as pd
-from dataclasses_json import config, dataclass_json
+from dataclasses_json import CatchAll, Undefined, config, dataclass_json
 
 from pysolotools.core.exceptions import MissingCaptureException
 
@@ -21,13 +21,14 @@ class AnnotationLabel(_BaseMeta):
     labelId: int
 
 
-@dataclass_json
+@dataclass_json(undefined=Undefined.INCLUDE)
 @dataclass
 class Annotation:
     type: str = field(metadata=config(field_name="@type"))
     id: str
     sensorId: str
     description: str
+    extra_data: CatchAll
 
 
 @dataclass_json
@@ -54,6 +55,7 @@ class Keypoint:
     index: int
     location: List[float]
     state: int
+    cameraCartesianLocation: List[float] = field(default_factory=list)
 
 
 @dataclass
@@ -196,11 +198,12 @@ class RGBCameraCapture(Capture):
     matrix: List[float]
 
 
-@dataclass_json
+@dataclass_json(undefined=Undefined.INCLUDE)
 @dataclass
 class AnnotationDefinition:
     id: str
     description: str
+    extra_data: CatchAll
 
 
 @dataclass
@@ -292,13 +295,6 @@ class DatasetMetadata:
 
 @dataclass_json
 @dataclass
-class AnnotationDefinition:
-    id: str
-    description: str
-
-
-@dataclass_json
-@dataclass
 class DatasetAnnotations(object):
     annotationDefinitions: List[dataclass]
 
@@ -328,8 +324,10 @@ class DataFactory:
 
         dtype = data["@type"]
         if dtype not in cls.switcher.keys():
-            logger.error(f"Unknown data type: {dtype}")
-            return
+            logger.info(
+                f"Unknown data type: {dtype}. Treating it as generic Annotation type."
+            )
+            return Annotation.from_dict(data)
         klass = cls.switcher[dtype]
         return klass.from_dict(data)
 
@@ -353,7 +351,9 @@ class DefinitionFactory:
             raise Exception("No type provided in annotation")
         dtype = data["@type"]
         if dtype not in cls.switcher.keys():
-            logger.error(f"Unknown data type: {dtype}")
-            return
+            logger.info(
+                f"Unknown data type: {dtype}. Treating it as generic AnnotationDefinition type."
+            )
+            return AnnotationDefinition.from_dict(data)
         klass = cls.switcher[dtype]
         return klass.from_dict(data)

@@ -163,6 +163,13 @@
               ]
             }
           ]
+        },
+ {          "@type": "type.unity.com/unity.solo.ExtraAnnotation",
+          "id": "Extra Annotation",
+          "sensorId": "camera",
+          "description": "Extra Annotation",
+          "extra_field_1": "extra_val",
+          "extra_field_2": "extra_val"
         }
       ]
     }
