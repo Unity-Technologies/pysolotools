@@ -1,7 +1,6 @@
 from typing import Any
 
 from pysolotools.consumers import Solo
-
 from pysolotools.stats.handlers.base import StatsHandler
 from pysolotools.stats.serializers.base import Serializer
 
