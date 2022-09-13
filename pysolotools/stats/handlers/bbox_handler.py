@@ -28,4 +28,14 @@ class BBoxHandler(StatsHandler):
         self.serializer = serializer
 
     def handle(self, **kwargs: Any) -> dict:
-        pass
+
+        res = {}
+        for i, frame in enumerate(self.solo.frames()):
+            for stats_analyzer in self.analyzers:
+                vals = stats_analyzer.analyze(frame)
+                if stats_analyzer not in res:
+                    res[stats_analyzer] = vals
+                else:
+                    res[stats_analyzer] += vals
+
+        return res
