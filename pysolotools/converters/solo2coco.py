@@ -24,13 +24,12 @@ from pysolotools.core.models import (
     RGBCameraCapture,
     SemanticSegmentationAnnotation,
 )
-from pysolotools.interfaces import ConverterNode
 
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 
 
-class SOLO2COCOConverter(ConverterNode):
+class SOLO2COCOConverter:
     """Convert SOLO to COCO format.
     This converter convert solo format to coco format.
     It supports 4 annotations 2d bbox,keypoints,instance
@@ -40,8 +39,8 @@ class SOLO2COCOConverter(ConverterNode):
 
         Examples:
         >>> solo=Solo("src_data_path")
-        >>> dataset = SOLO2COCOConverter()
-        >>> dataset.convert(solo, {"output_path": "output_path"})
+        >>> converter = SOLO2COCOConverter(solo=solo)
+        >>> converter.convert(output_path="output/data/path", dataset_name="coco")
 
     Expected output directory :
     coco:
@@ -50,8 +49,8 @@ class SOLO2COCOConverter(ConverterNode):
         └── images
     """
 
-    def __init__(self):
-        self._solo = None
+    def __init__(self, solo: Solo):
+        self._solo = solo
         self._pool = multiprocessing.Pool(processes=multiprocessing.cpu_count())
         self._bbox_annotations = []
         self._instance_annotations = []
@@ -435,10 +434,8 @@ class SOLO2COCOConverter(ConverterNode):
         self._instance_annotations += result[2]
         self._semantic_annotations += result[3]
 
-    def convert(self, solo: Solo, arguments: Dict[str, Any]):
-        self._solo = solo
-        name = arguments.get("dataset_name", "coco")
-        output = os.path.join(arguments["output_path"], name)
+    def convert(self, output_path: str, dataset_name: str = "coco"):
+        output = os.path.join(output_path, dataset_name)
 
         solo_kp_map = self._get_solo_kp_map()
 
@@ -453,21 +450,3 @@ class SOLO2COCOConverter(ConverterNode):
 
         self._write_out_annotations(output)
 
-
-if __name__ == "__main__":
-    dataset = SOLO2COCOConverter()
-    data_root = os.path.join(Path(__file__).parents[1], "data", "solo")
-
-    solo_path = os.path.join(Path(__file__).parents[1], "data", "solo")
-    solo_path = sys.argv[1]
-    print(f"Trying to open: {solo_path}")
-    solo = Solo(solo_path)
-
-    output_path = os.path.join(Path(__file__).parents[1], "data_output")
-    print(f"writing results to {output_path}")
-
-    print(f"solo data path: {solo.data_path}")
-
-    arguments = {"output_path": output_path}
-    dataset.convert(solo, arguments)
-    dataset.execute(output=os.path.join(Path(__file__).parents[1], "data_output"))
