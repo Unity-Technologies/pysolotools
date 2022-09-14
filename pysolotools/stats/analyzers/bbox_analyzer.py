@@ -13,6 +13,7 @@ class BBoxSizeAnalyzer(StatsAnalyzer):
         """
         Args:
             frame (Frame): metadata of one frame
+            cat_ids (list): list of category ids.
         Returns:
             bbox_relative_size_list (list): List of all bbox
              sizes relative to its image size
@@ -30,7 +31,17 @@ class BBoxSizeAnalyzer(StatsAnalyzer):
                 res.append(relative_size)
         return res
 
-    def merge(self, results, result) -> object:
+    def merge(self, results: list, result: list) -> object:
+        """
+        Merge computed stats values.
+        Args:
+            results (list): aggregated results.
+            result (list):  result of one frame.
+
+        Returns:
+            aggregated stats values.
+
+        """
         results.extend(result)
         return results
 
@@ -43,11 +54,11 @@ class BBoxHeatMapAnalyzer(StatsAnalyzer):
         """
         Args:
             frame (Frame): metadata of one frame
+            cat_ids (list): list of category ids.
         Returns:
             bbox_heatmap (np.ndarray): numpy array of size of
-            the max sized image in the dataset with values describing
-            bbox intensity over the entire dataset images
-            at a particular pixel.
+            the image in the dataset with values describing
+            bbox intensity over one frame of dataset.
         """
         img_dim, bounding_boxes = _frame_bbox_dim(frame)
         bbox_heatmap = np.zeros([img_dim[1], img_dim[0], 1])
@@ -66,7 +77,17 @@ class BBoxHeatMapAnalyzer(StatsAnalyzer):
                 ] += 1
         return bbox_heatmap
 
-    def merge(self, results, result) -> object:
+    def merge(self, results: np.ndarray, result: np.ndarray) -> object:
+        """
+        Merge computed stats values.
+        Args:
+            results (np.ndarray): aggregated results.
+            result (np.ndarray):  result of one frame.
+
+        Returns:
+            aggregated stats values.
+
+        """
         return results + result
 
 
