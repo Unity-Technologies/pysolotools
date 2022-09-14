@@ -3,10 +3,9 @@ import logging
 import multiprocessing
 import os
 import shutil
-import sys
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Dict, List, Tuple
+from typing import Dict, List, Tuple
 
 import cv2
 import numpy as np
@@ -449,4 +448,3 @@ class SOLO2COCOConverter:
         self._pool.join()
 
         self._write_out_annotations(output)
-
