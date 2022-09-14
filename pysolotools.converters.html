@@ -19,7 +19,6 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="pysolotools.interfaces package" href="pysolotools.interfaces.html" />
     <link rel="prev" title="pysolotools.core.models package" href="pysolotools.core.models.html" /> 
 </head>
 
@@ -46,7 +45,6 @@
 <li class="toctree-l4"><a class="reference internal" href="pysolotools.consumers.html">pysolotools.consumers package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="pysolotools.core.html">pysolotools.core package</a></li>
 <li class="toctree-l4 current"><a class="current reference internal" href="#">pysolotools.converters package</a></li>
-<li class="toctree-l4"><a class="reference internal" href="pysolotools.interfaces.html">pysolotools.interfaces package</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="pysolotools.html#module-pysolotools">Module contents</a></li>
@@ -91,8 +89,8 @@
 <span id="pysolotools-converters-solo2coco-module"></span><h2>pysolotools.converters.solo2coco module<a class="headerlink" href="#module-pysolotools.converters.solo2coco" title="Permalink to this heading"></a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="pysolotools.converters.solo2coco.SOLO2COCOConverter">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pysolotools.converters.solo2coco.</span></span><span class="sig-name descname"><span class="pre">SOLO2COCOConverter</span></span><a class="headerlink" href="#pysolotools.converters.solo2coco.SOLO2COCOConverter" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="pysolotools.interfaces.html#pysolotools.interfaces.node_interfaces.ConverterNode" title="pysolotools.interfaces.node_interfaces.ConverterNode"><code class="xref py py-class docutils literal notranslate"><span class="pre">ConverterNode</span></code></a></p>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pysolotools.converters.solo2coco.</span></span><span class="sig-name descname"><span class="pre">SOLO2COCOConverter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">solo</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="pysolotools.consumers.html#pysolotools.consumers.solo.Solo" title="pysolotools.consumers.solo.Solo"><span class="pre">Solo</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pysolotools.converters.solo2coco.SOLO2COCOConverter" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Convert SOLO to COCO format.
 This converter convert solo format to coco format.
 It supports 4 annotations 2d bbox,keypoints,instance
@@ -101,8 +99,8 @@ of input solo data it does the conversion into coco.</p>
 <blockquote>
 <div><p>Examples:
 &gt;&gt;&gt; solo=Solo(“src_data_path”)
-&gt;&gt;&gt; dataset = SOLO2COCOConverter()
-&gt;&gt;&gt; dataset.convert(solo, {“output_path”: “output_path”})</p>
+&gt;&gt;&gt; converter = SOLO2COCOConverter(solo=solo)
+&gt;&gt;&gt; converter.convert(output_path=”output/data/path”, dataset_name=”coco”)</p>
 </div></blockquote>
 <p>Expected output directory :
 coco:</p>
@@ -120,20 +118,13 @@ coco:</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pysolotools.converters.solo2coco.SOLO2COCOConverter.convert">
-<span class="sig-name descname"><span class="pre">convert</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">solo</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="pysolotools.consumers.html#pysolotools.consumers.solo.Solo" title="pysolotools.consumers.solo.Solo"><span class="pre">Solo</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">arguments</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pysolotools.converters.solo2coco.SOLO2COCOConverter.convert" title="Permalink to this definition"></a></dt>
-<dd><p>Converter node used to convert a Solo dataset into an alternate format or vice versa</p>
-</dd></dl>
+<span class="sig-name descname"><span class="pre">convert</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">output_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dataset_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'coco'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pysolotools.converters.solo2coco.SOLO2COCOConverter.convert" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pysolotools.converters.solo2coco.SOLO2COCOConverter.get_id">
 <span class="sig-name descname"><span class="pre">get_id</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#pysolotools.converters.solo2coco.SOLO2COCOConverter.get_id" title="Permalink to this definition"></a></dt>
-<dd><p>Returns a unique ID for plugin.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>A Unique ID for the plugin.</p>
-</dd>
-</dl>
-</dd></dl>
+<dd></dd></dl>
 
 </dd></dl>
 
@@ -142,8 +133,8 @@ coco:</p>
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-pysolotools.converters" title="Permalink to this heading"></a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="pysolotools.converters.SOLO2COCOConverter">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pysolotools.converters.</span></span><span class="sig-name descname"><span class="pre">SOLO2COCOConverter</span></span><a class="headerlink" href="#pysolotools.converters.SOLO2COCOConverter" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="pysolotools.interfaces.html#pysolotools.interfaces.node_interfaces.ConverterNode" title="pysolotools.interfaces.node_interfaces.ConverterNode"><code class="xref py py-class docutils literal notranslate"><span class="pre">ConverterNode</span></code></a></p>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pysolotools.converters.</span></span><span class="sig-name descname"><span class="pre">SOLO2COCOConverter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">solo</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="pysolotools.consumers.html#pysolotools.consumers.solo.Solo" title="pysolotools.consumers.solo.Solo"><span class="pre">Solo</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pysolotools.converters.SOLO2COCOConverter" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Convert SOLO to COCO format.
 This converter convert solo format to coco format.
 It supports 4 annotations 2d bbox,keypoints,instance
@@ -152,8 +143,8 @@ of input solo data it does the conversion into coco.</p>
 <blockquote>
 <div><p>Examples:
 &gt;&gt;&gt; solo=Solo(“src_data_path”)
-&gt;&gt;&gt; dataset = SOLO2COCOConverter()
-&gt;&gt;&gt; dataset.convert(solo, {“output_path”: “output_path”})</p>
+&gt;&gt;&gt; converter = SOLO2COCOConverter(solo=solo)
+&gt;&gt;&gt; converter.convert(output_path=”output/data/path”, dataset_name=”coco”)</p>
 </div></blockquote>
 <p>Expected output directory :
 coco:</p>
@@ -171,20 +162,13 @@ coco:</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pysolotools.converters.SOLO2COCOConverter.convert">
-<span class="sig-name descname"><span class="pre">convert</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">solo</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="pysolotools.consumers.html#pysolotools.consumers.solo.Solo" title="pysolotools.consumers.solo.Solo"><span class="pre">Solo</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">arguments</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pysolotools.converters.SOLO2COCOConverter.convert" title="Permalink to this definition"></a></dt>
-<dd><p>Converter node used to convert a Solo dataset into an alternate format or vice versa</p>
-</dd></dl>
+<span class="sig-name descname"><span class="pre">convert</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">output_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dataset_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'coco'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pysolotools.converters.SOLO2COCOConverter.convert" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pysolotools.converters.SOLO2COCOConverter.get_id">
 <span class="sig-name descname"><span class="pre">get_id</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#pysolotools.converters.SOLO2COCOConverter.get_id" title="Permalink to this definition"></a></dt>
-<dd><p>Returns a unique ID for plugin.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>A Unique ID for the plugin.</p>
-</dd>
-</dl>
-</dd></dl>
+<dd></dd></dl>
 
 </dd></dl>
 
@@ -196,7 +180,6 @@ coco:</p>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="pysolotools.core.models.html" class="btn btn-neutral float-left" title="pysolotools.core.models package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="pysolotools.interfaces.html" class="btn btn-neutral float-right" title="pysolotools.interfaces package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
