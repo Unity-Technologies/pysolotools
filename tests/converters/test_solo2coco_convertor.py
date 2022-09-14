@@ -16,7 +16,8 @@ solo_sample_data = os.path.join(parent_dir, "data", "solo")
 
 @pytest.fixture
 def solo2coco_instance():
-    mock_solo2coco = SOLO2COCOConverter()
+    solo = Solo(solo_sample_data)
+    mock_solo2coco = SOLO2COCOConverter(solo)
     return mock_solo2coco
 
 
@@ -231,9 +232,8 @@ def test_callback(solo2coco_instance):
 @patch("pysolotools.converters.solo2coco.SOLO2COCOConverter._write_out_annotations")
 @patch("pysolotools.converters.solo2coco.SOLO2COCOConverter._get_solo_kp_map")
 def test_convert(mock_get_solo_kp_map, mock_write_out_annotations, solo2coco_instance):
-    arguments = {"output_path": "test"}
     solo2coco_instance._pool = MagicMock()
     solo2coco_instance._pool = MagicMock()
-    solo2coco_instance.convert(MagicMock(), arguments)
+    solo2coco_instance.convert(output_path="test")
     mock_get_solo_kp_map.assert_called_once()
     mock_write_out_annotations.assert_called_once()
