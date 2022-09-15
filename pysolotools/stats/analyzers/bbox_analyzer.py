@@ -88,7 +88,8 @@ class BBoxHeatMapAnalyzer(StatsAnalyzer):
             aggregated stats values.
 
         """
-        return results + result
+        results += result
+        return results
 
 
 def _frame_bbox_dim(frame):
