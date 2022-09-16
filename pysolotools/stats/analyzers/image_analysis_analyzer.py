@@ -12,10 +12,11 @@ from pysolotools.core.models.solo import (
     BoundingBox2DLabel,
     RGBCameraCapture,
 )
-from pysolotools.stats.analyzers.base import StatsAnalyzer
+from pysolotools.stats.analyzers.base import AnalyzerBase, AnalyzerFactory
 
 
-class PowerSpectrumAnalyzer(StatsAnalyzer):
+@AnalyzerFactory.register(name="psd")
+class PowerSpectrumAnalyzerBase(AnalyzerBase):
     @staticmethod
     def _load_img(img_path: str):
         img = Image.open(img_path)
@@ -54,20 +55,35 @@ class PowerSpectrumAnalyzer(StatsAnalyzer):
         psd_2d = self._get_psd2d(img)
         psd_1d = self._get_psd1d(psd_2d)
 
-        return psd_1d
+        return [psd_1d]
+
+    def merge(self, agg_result: List, frame_result: List, **kwargs: Any) -> List:
+        agg_result += frame_result
+        return agg_result
 
 
-class WaveletTransformAnalyzer(StatsAnalyzer):
+@AnalyzerFactory.register(name="wavelet")
+class WaveletTransformAnalyzerBase(AnalyzerBase):
     def analyze(self, frame: object = None, **kwargs: Any) -> object:
         solo_data_path = kwargs.get("solo_data_path")
         file_path = os.path.join(solo_data_path, frame.get_file_path(RGBCameraCapture))
         im = Image.open(file_path).convert("L")
         _, (cH, cV, cD) = pywt.dwt2(im, "haar", mode="periodization")
 
-        return cH, cV, cD
+        return [[cH], [cV], [cD]]
+
+    def merge(
+        self, agg_result: List[List, List, List], frame_result: Any, **kwargs: Any
+    ) -> List:
+        agg_result[0] += frame_result[0]
+        agg_result[1] += frame_result[1]
+        agg_result[2] += frame_result[2]
+
+        return agg_result
 
 
-class LaplacianAnalyzer(StatsAnalyzer):
+@AnalyzerFactory.register(name="laplacian")
+class LaplacianAnalyzerBase(AnalyzerBase):
     @staticmethod
     def _laplacian_img(img_path: str) -> np.ndarray:
         image = cv2.imread(img_path)
@@ -100,7 +116,7 @@ class LaplacianAnalyzer(StatsAnalyzer):
             ]
             bbox_area = w * h
             if bbox_area >= 1200:  # ignoring small bbox sizes
-                bbox_var = LaplacianAnalyzer.get_bbox_var_laplacian(
+                bbox_var = LaplacianAnalyzerBase.get_bbox_var_laplacian(
                     img_laplacian, int(x), int(y), int(w), int(h)
                 )
                 img_laplacian[int(y) : int(y + h), int(x) : int(x + w)] = np.nan
@@ -128,4 +144,12 @@ class LaplacianAnalyzer(StatsAnalyzer):
                 laplacian, bbox_anns
             )
 
-            return bbox_var_laps, img_var_lap
+            return [bbox_var_laps, [img_var_lap]]
+
+    def merge(
+        self, agg_result: List[List, List], frame_result: List, **kwargs: Any
+    ) -> Any:
+        agg_result[0] += frame_result[0]
+        agg_result[1] += frame_result[1]
+
+        return agg_result
