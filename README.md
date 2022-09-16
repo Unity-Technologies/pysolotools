@@ -18,10 +18,8 @@ It helps to perform following tasks:
 
 - Parse SOLO datasets generated with Unity Perception.
 - Dataset iterables.
-- Interface for nodes.
-- Clients to access remote datasets
-  - Unity Computer Vision Datasets (UCVD)
-- Convert solo to coco format.
+- Clients to access remote GCS datasets
+- Convert SOLO to [COCO format](https://cocodataset.org/#format-data).
 
 You can read more about SOLO schema [here](https://github.com/Unity-Technologies/perception/blob/main/com.unity.perception/com.unity.perception/Documentation~/SoloSchema/Solo_Schema.md).
 
@@ -42,11 +40,6 @@ pip install pysolotools --index-url=https://artifactory.prd.it.unity3d.com/artif
 #### SOLO Dataset
 
 
-##### Download solo synthetic data
-
-* [Datasets from UCVD APIs](docs/UCVD.md)
-
-
 ##### Load and iterate frames
 
 ```python
@@ -65,8 +58,8 @@ from pysolotools.converters.solo2coco import SOLO2COCOConverter
 from pysolotools.consumers import Solo
 
 solo = Solo("src_data_path")
-dataset = SOLO2COCOConverter()
-dataset.convert(solo, {"output_path": "output_path"})
+dataset = SOLO2COCOConverter(solo)
+dataset.convert(output_path="output_path")
 ```
 
 
