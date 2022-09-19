@@ -142,7 +142,7 @@ def test_solo_read_unknown_ann_def():
 
 def test_solo_read_unknown_annotation():
     expected_annotation_types = [
-        "type.unity.com/unity.solo.DepthAnnotation",
+        "type.unity.com/unity.solo.PixelValueAnnotation",
         "type.unity.com/unity.solo.BoundingBox2DAnnotation",
         "type.unity.com/unity.solo.ExtraAnnotation",
     ]
