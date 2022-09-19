@@ -48,8 +48,8 @@
       ],
       "annotations": [
         {
-          "@type": "type.unity.com/unity.solo.DepthAnnotation",
-          "id": "Depth Annotation",
+          "@type": "type.unity.com/unity.solo.PixelValueAnnotation",
+          "id": "PixelValueAnnotation",
           "sensorId": "camera",
           "description": "Produces 3D bounding box ground truth data for all visible objects that bear a label defined in this labeler's associated label configuration.",
           "values": [
