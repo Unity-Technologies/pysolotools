@@ -81,6 +81,7 @@ class KeypointAnnotation(Annotation):
     templateId: str
     values: List[KeypointLabel]
 
+
 @dataclass
 class DepthAnnotation(Annotation):
     imageFormat: str
@@ -296,7 +297,7 @@ class DatasetMetadata:
     totalSequences: int
     sensors: List[str]
     metricCollectors: List[str]
-    annotators: List[object]
+    annotators: List[object] = field(default_factory=lambda: list())
     scenarioActiveRandomizers: List[str] = field(default_factory=lambda: list())
     simulationStartTime: str = None
     simulationEndTime: str = None
