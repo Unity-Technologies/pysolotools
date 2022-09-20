@@ -5,6 +5,7 @@ on:
     branches:
       - main
       - download-api
+      - chore/add-tests-to-something
   pull_request:
     branches:
       - main
@@ -25,10 +26,11 @@ jobs:
           pre-commit run --all-files
   tests:
     # reference from https://github.com/python-poetry/poetry/blob/master/.github/workflows/main.yml
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     strategy:
       matrix:
         python-version: [3.8, 3.9]
+        os: [ubuntu-latest, windows-latest]
 
     steps:
       - uses: actions/checkout@v2
