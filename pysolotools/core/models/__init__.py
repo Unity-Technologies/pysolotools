@@ -29,7 +29,6 @@ from .solo import (
     SemanticSegmentationAnnotationDefinition,
     SemanticSegmentationLabel,
 )
-from .ucvd import UCVDArchive, UCVDAttachment, UCVDDataset
 
 __all__ = [
     "Frame",
@@ -61,7 +60,4 @@ __all__ = [
     "KeypointAnnotationDefinition",
     "SemanticSegmentationAnnotationDefinition",
     "InstanceSegmentationAnnotationDefinition",
-    "UCVDArchive",
-    "UCVDAttachment",
-    "UCVDDataset",
 ]

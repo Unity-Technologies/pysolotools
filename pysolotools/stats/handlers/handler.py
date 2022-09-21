@@ -1,6 +1,7 @@
-from typing import Any
+from typing import Any, List
 
 from pysolotools.consumers import Solo
+from pysolotools.stats.analyzers.base import StatsAnalyzer
 from pysolotools.stats.serializers.base import Serializer
 
 
@@ -9,7 +10,10 @@ class StatsHandler:
         self.solo = solo
 
     def handle(
-        self, analyzers, cat_ids: list = None, serializer: Serializer = None
+        self,
+        analyzers: List[StatsAnalyzer],
+        cat_ids: list = None,
+        serializer: Serializer = None,
     ) -> dict:
         """
         Handle stats computation and returns dictionary where key is stat class name and value are computed stats.
