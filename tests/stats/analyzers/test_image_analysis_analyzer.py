@@ -159,14 +159,14 @@ class TestLaplacianAnalyzer:
     @pytest.mark.parametrize(
         "agg_result, expected_result",
         [
-            (None, [1, [2]]),
-            ([], [1, [2]]),
-            ([3, 4], [3, 1, [4, 2]]),
+            (None, [[1], [2]]),
+            ([], [[1], [2]]),
+            ([[3], [4]], [[3, 1], [4, 2]]),
         ],
     )
     def test_merge(self, agg_result, expected_result):
         analyzer = LaplacianAnalyzer()
-        result = analyzer.merge(agg_result=agg_result, frame_result=[1, [2]])
+        result = analyzer.merge(agg_result=agg_result, frame_result=[[1], [2]])
 
         assert result == expected_result
 
