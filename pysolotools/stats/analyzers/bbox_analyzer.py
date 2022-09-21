@@ -3,7 +3,7 @@ from typing import Any, List
 import numpy as np
 
 from pysolotools.core.models import BoundingBox2DAnnotation, Frame
-from pysolotools.stats.analyzers.base import StatsAnalyzer, AnalyzerFactory
+from pysolotools.stats.analyzers.base import StatsAnalyzer
 
 
 @AnalyzerFactory.register(name="bbox_size")
