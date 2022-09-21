@@ -13,20 +13,20 @@ from pysolotools.core import (
 )
 from pysolotools.core.models import BoundingBox2DLabel
 from pysolotools.stats.analyzers import (
-    LaplacianAnalyzer,
-    PowerSpectrumAnalyzer,
-    WaveletTransformAnalyzer,
+    LaplacianStatsAnalyzer,
+    PowerSpectrumStatsAnalyzer,
+    WaveletTransformStatsAnalyzer,
 )
 
 
 class TestPowerSpectrumAnalyzer:
-    @patch.object(PowerSpectrumAnalyzer, "_get_psd1d", autospec=True)
-    @patch.object(PowerSpectrumAnalyzer, "_get_psd2d", autospec=True)
-    @patch.object(PowerSpectrumAnalyzer, "_load_img", autospec=True)
+    @patch.object(PowerSpectrumStatsAnalyzer, "_get_psd1d", autospec=True)
+    @patch.object(PowerSpectrumStatsAnalyzer, "_get_psd2d", autospec=True)
+    @patch.object(PowerSpectrumStatsAnalyzer, "_load_img", autospec=True)
     def test_analyze(self, mock_load_img, mock_get_psd2d, mock_get_psd1d):
         mock_frame = create_autospec(spec=Frame, spec_set=True)
         mock_frame.get_file_path.return_value = "some-path"
-        analyzer = PowerSpectrumAnalyzer()
+        analyzer = PowerSpectrumStatsAnalyzer()
         result = analyzer.analyze(frame=mock_frame, solo_data_path="some-solo-path")
 
         mock_load_img.assert_called_once_with(
@@ -45,7 +45,7 @@ class TestPowerSpectrumAnalyzer:
         ],
     )
     def test_merge(self, agg_result, expected_result):
-        analyzer = PowerSpectrumAnalyzer()
+        analyzer = PowerSpectrumStatsAnalyzer()
         result = analyzer.merge(agg_result=agg_result, frame_result=["some-frame"])
 
         assert result == expected_result
@@ -58,7 +58,7 @@ class TestPowerSpectrumAnalyzer:
         ],
     )
     def test_get_psd1d(self, input_array, expected_result):
-        analyzer = PowerSpectrumAnalyzer()
+        analyzer = PowerSpectrumStatsAnalyzer()
         result = analyzer._get_psd1d(psd_2d=input_array)
 
         np.testing.assert_array_equal(result, expected_result)
@@ -73,7 +73,7 @@ class TestPowerSpectrumAnalyzer:
         ],
     )
     def test_get_psd2d(self, input_array, expected_result):
-        analyzer = PowerSpectrumAnalyzer()
+        analyzer = PowerSpectrumStatsAnalyzer()
         result = analyzer._get_psd2d(image=input_array)
         np.testing.assert_allclose(result, expected_result)
 
@@ -85,7 +85,7 @@ class TestPowerSpectrumAnalyzer:
         mock_image = create_autospec(spec=Image)
         mock_image_open.return_value = mock_image
 
-        analyzer = PowerSpectrumAnalyzer()
+        analyzer = PowerSpectrumStatsAnalyzer()
         result = analyzer._load_img(img_path="some-path")
 
         mock_image_open.assert_called_once_with("some-path")
@@ -109,7 +109,7 @@ class TestWaveletTransformAnalyzer:
         mock_image = create_autospec(spec=Image)
         mock_image_open.return_value = mock_image
         mock_dwt2.return_value = ("foo", (1, 2, 3))
-        analyzer = WaveletTransformAnalyzer()
+        analyzer = WaveletTransformStatsAnalyzer()
         result = analyzer.analyze(frame=mock_frame, solo_data_path="some-solo-path")
 
         mock_image_open.assert_called_once_with(
@@ -126,15 +126,15 @@ class TestWaveletTransformAnalyzer:
         [(None, [[1], [2], [3]]), ([[4], [5], [6]], [[4, 1], [5, 2], [6, 3]])],
     )
     def test_merge(self, agg_result, expected_result):
-        analyzer = WaveletTransformAnalyzer()
+        analyzer = WaveletTransformStatsAnalyzer()
         result = analyzer.merge(agg_result=agg_result, frame_result=[[1], [2], [3]])
 
         assert result == expected_result
 
 
 class TestLaplacianAnalyzer:
-    @patch.object(LaplacianAnalyzer, "_get_bbox_fg_bg_var_laplacian", autospec=True)
-    @patch.object(LaplacianAnalyzer, "_laplacian_img", autospec=True)
+    @patch.object(LaplacianStatsAnalyzer, "_get_bbox_fg_bg_var_laplacian", autospec=True)
+    @patch.object(LaplacianStatsAnalyzer, "_laplacian_img", autospec=True)
     def test_analyzer(self, mock_laplacian_img, mock_bbox_laplacian):
         mock_bbox_laplacian.return_value = ("bbox_var_laps", "img_var_lap")
         mock_frame = create_autospec(spec=Frame(1, 2, 3))
@@ -145,7 +145,7 @@ class TestLaplacianAnalyzer:
             self._create_semantic_segmentation_annotation(),
         ]
 
-        analyzer = LaplacianAnalyzer()
+        analyzer = LaplacianStatsAnalyzer()
         result = analyzer.analyze(frame=mock_frame, solo_data_path="some-solo-path")
 
         mock_laplacian_img.assert_called_once_with(
@@ -165,14 +165,14 @@ class TestLaplacianAnalyzer:
         ],
     )
     def test_merge(self, agg_result, expected_result):
-        analyzer = LaplacianAnalyzer()
+        analyzer = LaplacianStatsAnalyzer()
         result = analyzer.merge(agg_result=agg_result, frame_result=[[1], [2]])
 
         assert result == expected_result
 
     @patch("pysolotools.stats.analyzers.image_analysis_analyzer.cv2", autospec=True)
     def test_laplacian_img(self, mock_cv2):
-        analyzer = LaplacianAnalyzer()
+        analyzer = LaplacianStatsAnalyzer()
         result = analyzer._laplacian_img(img_path="some-path")
 
         mock_cv2.imread.assert_called_once_with("some-path")
@@ -200,13 +200,13 @@ class TestLaplacianAnalyzer:
     def test_get_bbox_var_laplacian(
         self, input_laplacian, input_coordinates, expected_result
     ):
-        analyzer = LaplacianAnalyzer()
+        analyzer = LaplacianStatsAnalyzer()
         result = analyzer._get_bbox_var_laplacian(
             laplacian=input_laplacian, **input_coordinates
         )
         assert result == expected_result
 
-    @patch.object(LaplacianAnalyzer, "_get_bbox_var_laplacian", autospec=True)
+    @patch.object(LaplacianStatsAnalyzer, "_get_bbox_var_laplacian", autospec=True)
     def test_get_bbox_fg_bg_var_laplacian(self, mock_bbox_laplacian):
         mock_bbox_laplacian.return_value = 0.25
         input_laplacian = np.ones((1200, 4))
@@ -219,7 +219,7 @@ class TestLaplacianAnalyzer:
                 labelId=2,
             )
         ]
-        analyzer = LaplacianAnalyzer()
+        analyzer = LaplacianStatsAnalyzer()
         result = analyzer._get_bbox_fg_bg_var_laplacian(
             laplacian=input_laplacian, annotations=input_annotations
         )

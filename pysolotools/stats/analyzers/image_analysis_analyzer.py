@@ -13,10 +13,10 @@ from pysolotools.core.models.solo import (
     Frame,
     RGBCameraCapture,
 )
-from pysolotools.stats.analyzers.base import AnalyzerBase
+from pysolotools.stats.analyzers.base import StatsAnalyzer
 
 
-class PowerSpectrumAnalyzer(AnalyzerBase):
+class PowerSpectrumStatsAnalyzer(StatsAnalyzer):
     @staticmethod
     def _load_img(img_path: str):
         img = Image.open(img_path)
@@ -65,7 +65,7 @@ class PowerSpectrumAnalyzer(AnalyzerBase):
         return agg_result
 
 
-class WaveletTransformAnalyzer(AnalyzerBase):
+class WaveletTransformStatsAnalyzer(StatsAnalyzer):
     def analyze(self, frame: Frame = None, **kwargs: Any) -> object:
         solo_data_path = kwargs.get("solo_data_path")
         file_path = os.path.join(solo_data_path, frame.get_file_path(RGBCameraCapture))
@@ -84,7 +84,7 @@ class WaveletTransformAnalyzer(AnalyzerBase):
         return agg_result
 
 
-class LaplacianAnalyzer(AnalyzerBase):
+class LaplacianStatsAnalyzer(StatsAnalyzer):
     @staticmethod
     def _laplacian_img(img_path: str) -> np.ndarray:
         image = cv2.imread(img_path)
@@ -118,7 +118,7 @@ class LaplacianAnalyzer(AnalyzerBase):
             ]
             bbox_area = w * h
             if bbox_area >= 1200:  # ignoring small bbox sizes
-                bbox_var = LaplacianAnalyzer._get_bbox_var_laplacian(
+                bbox_var = LaplacianStatsAnalyzer._get_bbox_var_laplacian(
                     img_laplacian, int(x), int(y), int(w), int(h)
                 )
                 print(x, y, h, w)

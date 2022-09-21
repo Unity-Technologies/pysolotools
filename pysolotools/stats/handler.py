@@ -24,23 +24,18 @@ class StatsHandler:
             serializer (Serializer): serializer object.
 
         """
-        stats_analyzers = []
-        for analyzer in analyzers:
-            stats_analyzers.append(AnalyzerFactory.create_analyzer(name=analyzer))
 
         res = {}
         for i, frame in enumerate(self.solo.frames()):
-            for stats_analyzer in stats_analyzers:
-                one_frame_stats = stats_analyzer.analyze(
-                    frame, cat_ids=cat_ids, solo_data_path=self.solo.data_path
-                )
+            for stats_analyzer in analyzers:
+                one_frame_stats = stats_analyzer.analyze(frame, cat_ids=cat_ids)
 
                 class_name = stats_analyzer.__class__.__name__
                 if class_name not in res:
                     res[class_name] = one_frame_stats
                 else:
                     res[class_name] = stats_analyzer.merge(
-                        results=res[class_name], result=one_frame_stats
+                        agg_result=res[class_name], frame_result=one_frame_stats
                     )
         if serializer:
             serializer.serialize(res)

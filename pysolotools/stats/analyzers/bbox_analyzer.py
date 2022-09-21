@@ -3,11 +3,11 @@ from typing import Any, List
 import numpy as np
 
 from pysolotools.core.models import BoundingBox2DAnnotation, Frame
-from pysolotools.stats.analyzers.base import AnalyzerBase, AnalyzerFactory
+from pysolotools.stats.analyzers.base import StatsAnalyzer, AnalyzerFactory
 
 
 @AnalyzerFactory.register(name="bbox_size")
-class BBoxSizeAnalyzerBase(AnalyzerBase):
+class BBoxSizeStatsAnalyzer(StatsAnalyzer):
     def analyze(self, frame: Frame = None, cat_ids: list = None, **kwargs: Any) -> List:
         """
         Args:
@@ -46,7 +46,7 @@ class BBoxSizeAnalyzerBase(AnalyzerBase):
 
 
 @AnalyzerFactory.register(name="bbox_heatmap")
-class BBoxHeatMapAnalyzerBase(AnalyzerBase):
+class BBoxHeatMapStatsAnalyzer(StatsAnalyzer):
     def analyze(
         self, frame: Frame = None, cat_ids: list = None, **kwargs: Any
     ) -> np.ndarray:

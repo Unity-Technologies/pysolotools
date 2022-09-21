@@ -7,7 +7,7 @@ from pysolotools.core.models import Frame
 logger = logging.getLogger(__name__)
 
 
-class AnalyzerBase(ABC):
+class StatsAnalyzer(ABC):
     """
     Abstract class defining the essential interfaces to compute the stats.
     """
