@@ -58,7 +58,7 @@ class FakeAnalyzer2(StatsAnalyzer):
             {"FakeAnalyzer1": "merge-return-1-analyze-return-1-some-other-frame-data"},
         ),
         (
-            "2 analyzer, 1 frame, no serializer",
+            "2 analyzer, 1  frame, no serializer",
             None,
             [FakeAnalyzer1(), FakeAnalyzer2()],
             ["some-frame-data", "some-other-frame-data"],
