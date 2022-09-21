@@ -68,7 +68,7 @@ class PowerSpectrumAnalyzerBase(AnalyzerBase):
 
 @AnalyzerFactory.register(name="wavelet")
 class WaveletTransformAnalyzerBase(AnalyzerBase):
-    def analyze(self, frame: object = None, **kwargs: Any) -> object:
+    def analyze(self, frame: Frame = None, **kwargs: Any) -> object:
         solo_data_path = kwargs.get("solo_data_path")
         file_path = os.path.join(solo_data_path, frame.get_file_path(RGBCameraCapture))
         im = Image.open(file_path).convert("L")
@@ -76,7 +76,9 @@ class WaveletTransformAnalyzerBase(AnalyzerBase):
 
         return [[cH], [cV], [cD]]
 
-    def merge(self, agg_result: List, frame_result: Any, **kwargs: Any) -> List:
+    def merge(self, agg_result: Any, frame_result: Any, **kwargs: Any) -> List:
+        if not agg_result:
+            return frame_result
         agg_result[0] += frame_result[0]
         agg_result[1] += frame_result[1]
         agg_result[2] += frame_result[2]
