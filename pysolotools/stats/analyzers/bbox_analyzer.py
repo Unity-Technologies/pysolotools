@@ -6,7 +6,6 @@ from pysolotools.core.models import BoundingBox2DAnnotation, Frame
 from pysolotools.stats.analyzers.base import StatsAnalyzer
 
 
-@AnalyzerFactory.register(name="bbox_size")
 class BBoxSizeStatsAnalyzer(StatsAnalyzer):
     def analyze(self, frame: Frame = None, cat_ids: list = None, **kwargs: Any) -> List:
         """
@@ -45,7 +44,6 @@ class BBoxSizeStatsAnalyzer(StatsAnalyzer):
         return agg_result
 
 
-@AnalyzerFactory.register(name="bbox_heatmap")
 class BBoxHeatMapStatsAnalyzer(StatsAnalyzer):
     def analyze(
         self, frame: Frame = None, cat_ids: list = None, **kwargs: Any
