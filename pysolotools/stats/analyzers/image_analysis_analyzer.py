@@ -10,6 +10,7 @@ from scipy import ndimage
 from pysolotools.core.models.solo import (
     BoundingBox2DAnnotation,
     BoundingBox2DLabel,
+    Frame,
     RGBCameraCapture,
 )
 from pysolotools.stats.analyzers.base import AnalyzerBase, AnalyzerFactory
@@ -47,7 +48,7 @@ class PowerSpectrumAnalyzerBase(AnalyzerBase):
         psd_1d = ndimage.sum(psd_2d, r, index=idx)
         return psd_1d
 
-    def analyze(self, frame: object = None, **kwargs: Any) -> object:
+    def analyze(self, frame: Frame = None, **kwargs: Any) -> object:
         solo_data_path = kwargs.get("solo_data_path")
         file_path = os.path.join(solo_data_path, frame.get_file_path(RGBCameraCapture))
         img = self._load_img(file_path)
@@ -57,7 +58,10 @@ class PowerSpectrumAnalyzerBase(AnalyzerBase):
 
         return [psd_1d]
 
-    def merge(self, agg_result: List, frame_result: List, **kwargs: Any) -> List:
+    def merge(self, agg_result: Any, frame_result: List, **kwargs: Any) -> List:
+        if not agg_result:
+            return frame_result
+
         agg_result += frame_result
         return agg_result
 
@@ -72,9 +76,7 @@ class WaveletTransformAnalyzerBase(AnalyzerBase):
 
         return [[cH], [cV], [cD]]
 
-    def merge(
-        self, agg_result: List[List, List, List], frame_result: Any, **kwargs: Any
-    ) -> List:
+    def merge(self, agg_result: List, frame_result: Any, **kwargs: Any) -> List:
         agg_result[0] += frame_result[0]
         agg_result[1] += frame_result[1]
         agg_result[2] += frame_result[2]
@@ -146,9 +148,7 @@ class LaplacianAnalyzerBase(AnalyzerBase):
 
             return [bbox_var_laps, [img_var_lap]]
 
-    def merge(
-        self, agg_result: List[List, List], frame_result: List, **kwargs: Any
-    ) -> Any:
+    def merge(self, agg_result: List, frame_result: List, **kwargs: Any) -> Any:
         agg_result[0] += frame_result[0]
         agg_result[1] += frame_result[1]
 
