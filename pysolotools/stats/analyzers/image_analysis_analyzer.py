@@ -13,10 +13,9 @@ from pysolotools.core.models.solo import (
     Frame,
     RGBCameraCapture,
 )
-from pysolotools.stats.analyzers.base import AnalyzerBase, AnalyzerFactory
+from pysolotools.stats.analyzers.base import AnalyzerBase
 
 
-@AnalyzerFactory.register(name="psd")
 class PowerSpectrumAnalyzer(AnalyzerBase):
     @staticmethod
     def _load_img(img_path: str):
@@ -66,7 +65,6 @@ class PowerSpectrumAnalyzer(AnalyzerBase):
         return agg_result
 
 
-@AnalyzerFactory.register(name="wavelet")
 class WaveletTransformAnalyzer(AnalyzerBase):
     def analyze(self, frame: Frame = None, **kwargs: Any) -> object:
         solo_data_path = kwargs.get("solo_data_path")
@@ -86,7 +84,6 @@ class WaveletTransformAnalyzer(AnalyzerBase):
         return agg_result
 
 
-@AnalyzerFactory.register(name="laplacian")
 class LaplacianAnalyzer(AnalyzerBase):
     @staticmethod
     def _laplacian_img(img_path: str) -> np.ndarray:

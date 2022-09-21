@@ -1,7 +1,6 @@
 from typing import Dict, List
 
 from pysolotools.consumers import Solo
-from pysolotools.stats.analyzers.base import AnalyzerFactory
 from pysolotools.stats.serializers.base import Serializer
 
 

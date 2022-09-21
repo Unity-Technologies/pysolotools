@@ -1,6 +1,6 @@
 import logging
 from abc import ABC, abstractmethod
-from typing import Any, Callable, List
+from typing import Any, List
 
 from pysolotools.core.models import Frame
 
@@ -39,33 +39,3 @@ class AnalyzerBase(ABC):
 
         """
         pass
-
-
-class AnalyzerFactory:
-    """Factory class for creating Analyzers with a dynamic registry."""
-
-    registry = {}
-
-    @classmethod
-    def register(cls, name: str) -> Callable:
-        """Class method to register analyzers"""
-
-        def wrapper(analyzer_class: AnalyzerBase) -> Callable:
-            if name in cls.registry:
-                logger.warning("Analyzer %s already exists. Will replace it", name)
-            cls.registry[name] = analyzer_class
-            return analyzer_class
-
-        return wrapper
-
-    @classmethod
-    def create_analyzer(cls, name: str, **kwargs) -> AnalyzerBase:
-        """Class method to create ana analyzers instance"""
-
-        if name not in cls.registry:
-            logger.warning("Analyzer %s does not exist in the registry", name)
-            return None
-
-        analyzer_class = cls.registry[name]
-        analyzer = analyzer_class(**kwargs)
-        return analyzer
