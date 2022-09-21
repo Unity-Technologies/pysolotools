@@ -13,9 +13,6 @@ from .models import (
     KeypointAnnotationDefinition,
     RGBCameraCapture,
     SemanticSegmentationAnnotation,
-    UCVDArchive,
-    UCVDAttachment,
-    UCVDDataset,
 )
 
 __all__ = [
@@ -32,8 +29,5 @@ __all__ = [
     "KeypointAnnotation",
     "KeypointAnnotationDefinition",
     "DatasetMetadata",
-    "UCVDDataset",
-    "UCVDArchive",
-    "UCVDAttachment",
     "BoundingBox2DAnnotationDefinition",
 ]
