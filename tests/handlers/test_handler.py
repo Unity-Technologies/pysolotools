@@ -5,7 +5,7 @@ import pytest
 
 from pysolotools.consumers import Solo
 from pysolotools.stats.analyzers.base import StatsAnalyzer
-from pysolotools.stats.handlers.handler import StatsHandler
+from pysolotools.stats.handler import StatsHandler
 from pysolotools.stats.serializers.base import Serializer
 
 
@@ -15,10 +15,8 @@ class FakeAnalyzer1(StatsAnalyzer):
     ) -> object:
         return f"analyze-return-1-{frame}"
 
-    def merge(
-        self, results: object = None, result: object = None, **kwargs: Any
-    ) -> object:
-        return f"merge-return-1-{result}"
+    def merge(self, agg_result: Any, frame_result: Any, **kwargs: Any) -> Any:
+        return f"merge-return-1-{frame_result}"
 
 
 class FakeAnalyzer2(StatsAnalyzer):
@@ -27,10 +25,8 @@ class FakeAnalyzer2(StatsAnalyzer):
     ) -> object:
         return f"analyze-return-2-{frame}"
 
-    def merge(
-        self, results: object = None, result: object = None, **kwargs: Any
-    ) -> object:
-        return f"merge-return-2-{result}"
+    def merge(self, agg_result: Any, frame_result: Any, **kwargs: Any) -> Any:
+        return f"merge-return-2-{frame_result}"
 
 
 @pytest.mark.parametrize(

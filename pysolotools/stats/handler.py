@@ -1,4 +1,4 @@
-from typing import Any, List
+from typing import List
 
 from pysolotools.consumers import Solo
 from pysolotools.stats.analyzers.base import StatsAnalyzer

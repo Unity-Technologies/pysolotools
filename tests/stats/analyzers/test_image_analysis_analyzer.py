@@ -133,7 +133,9 @@ class TestWaveletTransformAnalyzer:
 
 
 class TestLaplacianAnalyzer:
-    @patch.object(LaplacianStatsAnalyzer, "_get_bbox_fg_bg_var_laplacian", autospec=True)
+    @patch.object(
+        LaplacianStatsAnalyzer, "_get_bbox_fg_bg_var_laplacian", autospec=True
+    )
     @patch.object(LaplacianStatsAnalyzer, "_laplacian_img", autospec=True)
     def test_analyzer(self, mock_laplacian_img, mock_bbox_laplacian):
         mock_bbox_laplacian.return_value = ("bbox_var_laps", "img_var_lap")
