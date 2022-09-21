@@ -17,7 +17,7 @@ from pysolotools.stats.analyzers.base import AnalyzerBase, AnalyzerFactory
 
 
 @AnalyzerFactory.register(name="psd")
-class PowerSpectrumAnalyzerBase(AnalyzerBase):
+class PowerSpectrumAnalyzer(AnalyzerBase):
     @staticmethod
     def _load_img(img_path: str):
         img = Image.open(img_path)
@@ -67,7 +67,7 @@ class PowerSpectrumAnalyzerBase(AnalyzerBase):
 
 
 @AnalyzerFactory.register(name="wavelet")
-class WaveletTransformAnalyzerBase(AnalyzerBase):
+class WaveletTransformAnalyzer(AnalyzerBase):
     def analyze(self, frame: Frame = None, **kwargs: Any) -> object:
         solo_data_path = kwargs.get("solo_data_path")
         file_path = os.path.join(solo_data_path, frame.get_file_path(RGBCameraCapture))
@@ -87,7 +87,7 @@ class WaveletTransformAnalyzerBase(AnalyzerBase):
 
 
 @AnalyzerFactory.register(name="laplacian")
-class LaplacianAnalyzerBase(AnalyzerBase):
+class LaplacianAnalyzer(AnalyzerBase):
     @staticmethod
     def _laplacian_img(img_path: str) -> np.ndarray:
         image = cv2.imread(img_path)
@@ -97,10 +97,11 @@ class LaplacianAnalyzerBase(AnalyzerBase):
         return laplacian
 
     @staticmethod
-    def get_bbox_var_laplacian(
+    def _get_bbox_var_laplacian(
         laplacian: np.ndarray, x: int, y: int, w: int, h: int
     ) -> np.ndarray:
         bbox_var = laplacian[y : y + h, x : x + w]
+
         return np.nanvar(bbox_var)
 
     @staticmethod
@@ -120,9 +121,10 @@ class LaplacianAnalyzerBase(AnalyzerBase):
             ]
             bbox_area = w * h
             if bbox_area >= 1200:  # ignoring small bbox sizes
-                bbox_var = LaplacianAnalyzerBase.get_bbox_var_laplacian(
+                bbox_var = LaplacianAnalyzer._get_bbox_var_laplacian(
                     img_laplacian, int(x), int(y), int(w), int(h)
                 )
+                print(x, y, h, w)
                 img_laplacian[int(y) : int(y + h), int(x) : int(x + w)] = np.nan
                 bbox_var_lap.append(bbox_var)
 
@@ -130,7 +132,7 @@ class LaplacianAnalyzerBase(AnalyzerBase):
 
         return bbox_var_lap, img_var_laplacian
 
-    def analyze(self, frame: object = None, **kwargs: Any) -> object:
+    def analyze(self, frame: Frame = None, **kwargs: Any) -> object:
         solo_data_path = kwargs.get("solo_data_path")
         file_path = os.path.join(solo_data_path, frame.get_file_path(RGBCameraCapture))
         laplacian = self._laplacian_img(file_path)
@@ -151,6 +153,9 @@ class LaplacianAnalyzerBase(AnalyzerBase):
             return [bbox_var_laps, [img_var_lap]]
 
     def merge(self, agg_result: List, frame_result: List, **kwargs: Any) -> Any:
+        if not agg_result:
+            return frame_result
+
         agg_result[0] += frame_result[0]
         agg_result[1] += frame_result[1]
 

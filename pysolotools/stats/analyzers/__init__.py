@@ -1,14 +1,14 @@
 from .bbox_analyzer import BBoxHeatMapAnalyzerBase, BBoxSizeAnalyzerBase
 from .image_analysis_analyzer import (
-    LaplacianAnalyzerBase,
-    PowerSpectrumAnalyzerBase,
-    WaveletTransformAnalyzerBase,
+    LaplacianAnalyzer,
+    PowerSpectrumAnalyzer,
+    WaveletTransformAnalyzer,
 )
 
 __all__ = [
     "BBoxHeatMapAnalyzerBase",
     "BBoxSizeAnalyzerBase",
-    "PowerSpectrumAnalyzerBase",
-    "WaveletTransformAnalyzerBase",
-    "LaplacianAnalyzerBase",
+    "PowerSpectrumAnalyzer",
+    "WaveletTransformAnalyzer",
+    "LaplacianAnalyzer",
 ]
