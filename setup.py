@@ -78,7 +78,6 @@ setup(
         "pysolotools.core",
         "pysolotools.core.models",
         "pysolotools.core.iterators",
-        "pysolotools.interfaces",
         "pysolotools.consumers",
         "pysolotools.clients",
     ],
