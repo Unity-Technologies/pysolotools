@@ -1,4 +1,4 @@
-from typing import Any, List
+from typing import List
 
 from pysolotools.consumers import Solo
 from pysolotools.stats.analyzers.base import StatsAnalyzer
@@ -6,7 +6,7 @@ from pysolotools.stats.serializers.base import Serializer
 
 
 class StatsHandler:
-    def __init__(self, solo: Solo = None, **kwargs: Any):
+    def __init__(self, solo: Solo):
         self.solo = solo
 
     def handle(
@@ -35,7 +35,7 @@ class StatsHandler:
                     res[class_name] = one_frame_stats
                 else:
                     res[class_name] = stats_analyzer.merge(
-                        results=res[class_name], result=one_frame_stats
+                        agg_result=res[class_name], frame_result=one_frame_stats
                     )
         if serializer:
             serializer.serialize(res)

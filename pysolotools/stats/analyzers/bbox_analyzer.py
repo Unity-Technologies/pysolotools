@@ -1,4 +1,4 @@
-from typing import Any
+from typing import Any, List
 
 import numpy as np
 
@@ -6,10 +6,8 @@ from pysolotools.core.models import BoundingBox2DAnnotation, Frame
 from pysolotools.stats.analyzers.base import StatsAnalyzer
 
 
-class BBoxSizeAnalyzer(StatsAnalyzer):
-    def analyze(
-        self, frame: Frame = None, cat_ids: list = None, **kwargs: Any
-    ) -> object:
+class BBoxSizeStatsAnalyzer(StatsAnalyzer):
+    def analyze(self, frame: Frame = None, cat_ids: list = None, **kwargs: Any) -> List:
         """
         Args:
             frame (Frame): metadata of one frame
@@ -31,25 +29,25 @@ class BBoxSizeAnalyzer(StatsAnalyzer):
                 res.append(relative_size)
         return res
 
-    def merge(self, results: list, result: list) -> object:
+    def merge(self, agg_result: List, frame_result: List, **kwargs) -> List:
         """
         Merge computed stats values.
         Args:
-            results (list): aggregated results.
-            result (list):  result of one frame.
+            agg_result (list): aggregated results.
+            frame_result (list):  result of one frame.
 
         Returns:
             aggregated stats values.
 
         """
-        results.extend(result)
-        return results
+        agg_result.extend(frame_result)
+        return agg_result
 
 
-class BBoxHeatMapAnalyzer(StatsAnalyzer):
+class BBoxHeatMapStatsAnalyzer(StatsAnalyzer):
     def analyze(
         self, frame: Frame = None, cat_ids: list = None, **kwargs: Any
-    ) -> object:
+    ) -> np.ndarray:
 
         """
         Args:
@@ -77,19 +75,21 @@ class BBoxHeatMapAnalyzer(StatsAnalyzer):
                 ] += 1
         return bbox_heatmap
 
-    def merge(self, results: np.ndarray, result: np.ndarray) -> object:
+    def merge(
+        self, agg_result: np.ndarray, frame_result: np.ndarray, **kwargs
+    ) -> np.ndarray:
         """
         Merge computed stats values.
         Args:
-            results (np.ndarray): aggregated results.
-            result (np.ndarray):  result of one frame.
+            agg_result (np.ndarray): aggregated results.
+            frame_result (np.ndarray):  result of one frame.
 
         Returns:
             aggregated stats values.
 
         """
-        results += result
-        return results
+        agg_result += frame_result
+        return agg_result
 
 
 def _frame_bbox_dim(frame):
