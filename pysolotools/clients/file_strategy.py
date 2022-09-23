@@ -24,7 +24,7 @@ class FileStrategy(ABC):
     @abstractmethod
     def read(self) -> str:
         """
-        Returns None.
+        Returns string of the contents of a file.
         Args:
 
         Returns:
