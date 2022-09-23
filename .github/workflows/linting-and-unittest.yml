@@ -53,6 +53,7 @@ jobs:
           pytest-coverage-path: pytest-coverage.txt
           junitxml-path: pytest.xml
       - name: Test Failure Check
+        uses: actions/github-script@v6
         if: ${{ steps.steps.coverageComment.outputs.failures }} > 0
         with:
           script: |
