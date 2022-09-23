@@ -7,16 +7,22 @@ from pysolotools.core import KeypointAnnotation, KeypointAnnotationDefinition
 from pysolotools.core.models import DatasetAnnotations, Frame
 from pysolotools.stats.analyzers.base import StatsAnalyzer
 
+RIGHT_SHOULDER = "right_shoulder"
+LEFT_SHOULDER = "left_shoulder"
+RIGHT_HIP = "right_hip"
+LEFT_HIP = "left_hip"
+
 
 class KPPoseDict(StatsAnalyzer):
     def __init__(self, anno_def: DatasetAnnotations, **kwargs: Any):
         self.kp_lbl_map = _kp_label_dict(anno_def)
+        self.label_idx_map = _reverse_map(self.kp_lbl_map)
 
     def analyze(
         self, frame: Frame = None, cat_ids: list = None, **kwargs: Any
     ) -> object:
         """
-        Computes keypoints scaled co-ordinates per frame.
+        Computes keypoints position stats.
         Args:
             frame (Frame): metadata of one frame
             cat_ids (list): list of category ids.
@@ -28,13 +34,13 @@ class KPPoseDict(StatsAnalyzer):
         annotations = _frame_keypoints(frame)
         for ann in annotations:
             for kp_ann in ann.values:
-                if _is_torso_visible_or_labeled(kp_ann.keypoints):
+                if _is_torso_visible_or_labeled(kp_ann.keypoints, self.label_idx_map):
                     x_loc, y_loc = [], []
                     for kp in kp_ann.keypoints:
                         x_loc.append(kp.location[0])
                         y_loc.append(kp.location[1])
                     x_loc, y_loc = _translate_and_scale_xy(
-                        np.array(x_loc), np.array(y_loc)
+                        np.array(x_loc), np.array(y_loc), self.label_idx_map
                     )
 
                     idx = 0
@@ -82,10 +88,16 @@ def _frame_keypoints(frame):
     return keypoints
 
 
-def _is_torso_visible_or_labeled(kp: List) -> bool:
+def _is_torso_visible_or_labeled(kp: List, label_idx: dict) -> bool:
     torso = []
     for keypoint in filter(
-        lambda k: k.index in [2, 5, 8, 11],
+        lambda k: k.index
+        in [
+            label_idx[RIGHT_SHOULDER],
+            label_idx[LEFT_SHOULDER],
+            label_idx[RIGHT_HIP],
+            label_idx[LEFT_HIP],
+        ],
         kp,
     ):
         torso.append(keypoint.state)
@@ -95,9 +107,12 @@ def _is_torso_visible_or_labeled(kp: List) -> bool:
     return True
 
 
-def _translate_and_scale_xy(x_arr: np.ndarray, y_arr: np.ndarray):
+def _translate_and_scale_xy(x_arr: np.ndarray, y_arr: np.ndarray, label_idx: dict):
 
-    left_hip, right_hip = (x_arr[11], y_arr[11]), (x_arr[8], y_arr[8])
+    left_hip, right_hip = (
+        x_arr[label_idx[LEFT_HIP]],
+        y_arr[label_idx[LEFT_HIP]],
+    ), (x_arr[label_idx[RIGHT_HIP]], y_arr[label_idx[RIGHT_HIP]])
     left_shoulder, right_shoulder = (x_arr[5], y_arr[5]), (x_arr[2], y_arr[2])
 
     # Translate all points according to mid_hip being at 0,0
@@ -129,6 +144,14 @@ def _kp_label_dict(dataset_annotation):
         )
     )[0].template.keypoints
     return {kp.index: kp.label for kp in kps}
+
+
+def _reverse_map(label_map):
+    reverse_map = {}
+    for k, v in label_map.items():
+        reverse_map[v] = k
+
+    return reverse_map
 
 
 class AvgKPPerKPCat(StatsAnalyzer):
