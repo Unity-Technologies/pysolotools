@@ -15,7 +15,7 @@ class TestJsonSerializer:
         expected_data = json.dumps(data)
         mock_pre_process.return_value = data
         mock_file_strategy = create_autospec(spec=FileStrategy)
-        subject = JsonSerializer()
+        subject = JsonSerializer(file_strategy=mock_file_strategy)
         subject.serialize(data=data)
         mock_pre_process.assert_called_once_with(data)
         mock_file_strategy.write.assert_called_once_with(contents=expected_data)
