@@ -49,12 +49,13 @@ jobs:
           echo `cat pytest-coverage.txt`
       - name: Pytest coverage comment
         id: coverageComment
+        if: runner.os == 'Linux'
         uses: MishaKav/pytest-coverage-comment@main
         with:
           pytest-coverage-path: pytest-coverage.txt
           junitxml-path: pytest.xml
       - name: Test Failure Check
-        if: ${{ steps.steps.coverageComment.outputs.failures > 0}}
+        if: ${{ steps.steps.coverageComment.outputs.failures > 0 && runner.os == 'Linux'}}
         uses: actions/github-script@v6
         with:
           script: |
