@@ -162,7 +162,7 @@ class TestLaplacianAnalyzer:
         "agg_result, expected_result",
         [
             (None, [[1], [2]]),
-            ([], [[1], [2]]),
+            ([], [1, [2]]),
             ([[3], [4]], [[3, 1], [4, 2]]),
         ],
     )

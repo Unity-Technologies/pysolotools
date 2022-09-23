@@ -43,14 +43,17 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
         shell: bash
-      - name: Run Tests
-        run: |
-          python -m pytest tests/
       - name: Build coverage file
         run: |
           pytest --junitxml=pytest.xml --cov-report=term-missing:skip-covered --cov=pysolotools/ | tee pytest-coverage.txt
       - name: Pytest coverage comment
+        id: coverageComment
         uses: MishaKav/pytest-coverage-comment@main
         with:
           pytest-coverage-path: pytest-coverage.txt
           junitxml-path: pytest.xml
+      - name: Test Failure Check
+        if: ${{ steps.steps.coverageComment.outputs.failures }} > 0
+        with:
+          script: |
+            core.setFailed("Tests Failed: ${{ steps.coverageComment.outputs.notSuccessTestInfo }}")
