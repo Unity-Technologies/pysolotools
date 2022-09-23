@@ -1,14 +1,18 @@
 import json
+import logging
 
 import numpy as np
 
 from pysolotools.clients.file_strategy import FileStrategy, NoOpFileStrategy
 from pysolotools.stats.serializers.base import Serializer
 
+logger = logging.getLogger(__name__)
+
 
 class JsonSerializer(Serializer):
     def __init__(self, file_strategy: FileStrategy = NoOpFileStrategy()):
         self.file_strategy = file_strategy
+        logger.info(f"Using file_strategy: {type(self.file_strategy).__name__}")
 
     def serialize(self, data: object = None, **kwargs):
         """
