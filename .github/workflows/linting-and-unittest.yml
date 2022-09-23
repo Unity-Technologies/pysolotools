@@ -9,9 +9,9 @@ on:
       - main
 
 jobs:
-  linting:
-    runs-on: ubuntu-latest
 
+  Linting:
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - name: Set up Python 3.8
@@ -22,14 +22,46 @@ jobs:
         run: |
           pip install pre-commit
           pre-commit run --all-files
-  tests:
-    # reference from https://github.com/python-poetry/poetry/blob/master/.github/workflows/main.yml
-    runs-on: ${{ matrix.os }}
+
+  Test-Linux:
+    runs-on: ubuntu-latest
     strategy:
       matrix:
         python-version: [3.8, 3.9]
-        os: [ubuntu-latest, windows-latest]
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Get full Python version
+        id: full-python-version
+        shell: bash
+        run: echo ::set-output name=version::$(python -c "import sys; print('-'.join(str(v) for v in sys.version_info))")
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+        shell: bash
+      - name: Build coverage file
+        run: |
+          pytest --junitxml=pytest.xml --cov-report=term-missing:skip-covered --cov=pysolotools/ | tee pytest-coverage.txt
+      - name: Pytest coverage comment
+        id: coverageComment
+        uses: MishaKav/pytest-coverage-comment@main
+        with:
+          pytest-coverage-path: pytest-coverage.txt
+          junitxml-path: pytest.xml
+      - name: Test Failure Check
+        if: ${{ steps.steps.coverageComment.outputs.failures > 0}}
+        uses: actions/github-script@v6
+        with:
+          script: |
+            core.setFailed("Tests Failed")
 
+  Test-Windows:
+    runs-on: windows-latest
+    strategy:
+      matrix:
+        python-version: [ 3.8, 3.9 ]
     steps:
       - uses: actions/checkout@v2
       - name: Set up Python ${{ matrix.python-version }}
@@ -45,12 +77,4 @@ jobs:
         shell: bash
       - name: Run Tests
         run: |
-          python -m pytest tests/
-      - name: Build coverage file
-        run: |
-          pytest --junitxml=pytest.xml --cov-report=term-missing:skip-covered --cov=pysolotools/ | tee pytest-coverage.txt
-      - name: Pytest coverage comment
-        uses: MishaKav/pytest-coverage-comment@main
-        with:
-          pytest-coverage-path: pytest-coverage.txt
-          junitxml-path: pytest.xml
+          pytest tests/
