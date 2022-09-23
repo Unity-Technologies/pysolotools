@@ -52,6 +52,11 @@ jobs:
         with:
           pytest-coverage-path: pytest-coverage.txt
           junitxml-path: pytest.xml
+      - name: Check the output coverage
+        run: |
+          echo "Coverage Percentage - ${{ steps.coverageComment.outputs.coverage }}"
+          echo "Summary Report - ${{ steps.coverageComment.outputs.summaryReport }}"
+          echo "Not Success Test Info - ${{ steps.coverageComment.outputs.notSuccessTestInfo }}"
       - name: Test Failure Check
         uses: actions/github-script@v6
         if: ${{ steps.steps.coverageComment.outputs.failures }} > 0
