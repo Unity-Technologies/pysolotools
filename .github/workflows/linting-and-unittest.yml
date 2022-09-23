@@ -57,4 +57,5 @@ jobs:
         if: ${{ steps.steps.coverageComment.outputs.failures }} > 0
         with:
           script: |
-            core.setFailed("Tests Failed: ${{ steps.coverageComment.outputs.notSuccessTestInfo }}")
+            echo "Not Success Test Info - ${{ steps.coverageComment.outputs.notSuccessTestInfo }}"
+            core.setFailed("Tests Failed")
