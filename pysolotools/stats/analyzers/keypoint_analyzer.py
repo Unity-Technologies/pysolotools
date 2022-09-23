@@ -113,7 +113,10 @@ def _translate_and_scale_xy(x_arr: np.ndarray, y_arr: np.ndarray, label_idx: dic
         x_arr[label_idx[LEFT_HIP]],
         y_arr[label_idx[LEFT_HIP]],
     ), (x_arr[label_idx[RIGHT_HIP]], y_arr[label_idx[RIGHT_HIP]])
-    left_shoulder, right_shoulder = (x_arr[5], y_arr[5]), (x_arr[2], y_arr[2])
+    left_shoulder, right_shoulder = (
+        x_arr[label_idx[LEFT_SHOULDER]],
+        y_arr[label_idx[LEFT_SHOULDER]],
+    ), (x_arr[label_idx[RIGHT_SHOULDER]], y_arr[label_idx[RIGHT_SHOULDER]])
 
     # Translate all points according to mid_hip being at 0,0
     mid_hip = _calc_mid(right_hip, left_hip)
