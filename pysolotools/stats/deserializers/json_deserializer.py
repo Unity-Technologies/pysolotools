@@ -1,20 +1,21 @@
 import json
 
-from pysolotools.stats.deserializers.base import DeSerializer
+from pysolotools.clients.file_strategy import FileStrategy, NoOpFileStrategy
+from pysolotools.stats.deserializers.base import Deserializer
 
 
-class JsonDeSerializer(DeSerializer):
-    def deserialize(self, src_path: str) -> dict:
+class JsonDeserializer(Deserializer):
+    def __init__(self, file_strategy: FileStrategy = NoOpFileStrategy()):
+        self.file_strategy = file_strategy
+
+    def deserialize(self) -> dict:
         """
         Deserialize data from file and map it to dictionary.
         Args:
-            src_path (str): source file path.
 
         Returns:
             Deserialized object.
 
         """
 
-        with open(src_path, "r") as file:
-            res = json.load(file)
-        return res
+        return json.loads(self.file_strategy.read())

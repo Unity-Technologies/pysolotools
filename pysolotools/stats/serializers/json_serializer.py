@@ -1,17 +1,16 @@
 import json
-from pathlib import Path
 
 import numpy as np
 
+from pysolotools.clients.file_strategy import FileStrategy, NoOpFileStrategy
 from pysolotools.stats.serializers.base import Serializer
 
 
 class JsonSerializer(Serializer):
-    def __init__(self, dest_dir: str = "", file_name: str = ""):
-        self.dest_dir = dest_dir
-        self.file_name = file_name
+    def __init__(self, file_strategy: FileStrategy = NoOpFileStrategy()):
+        self.file_strategy = file_strategy
 
-    def serialize(self, data: object = None):
+    def serialize(self, data: object = None, **kwargs):
         """
         Serialize object to json file.
 
@@ -19,22 +18,20 @@ class JsonSerializer(Serializer):
             data (object): data that we want to serialize.
 
         """
-        dest_dir = Path(self.dest_dir)
-        dest_dir.mkdir(parents=True, exist_ok=True)
-        output_file = dest_dir / f"{self.file_name}.json"
         compatible_data = _pre_process(data)
-        print("writing data to file", output_file)
-        with open(output_file, "w") as out:
-            json.dump(compatible_data, out)
+        contents = json.dumps(compatible_data)
+        self.file_strategy.write(contents=contents)
 
 
-def _pre_process(data):
+def _pre_process(data: object):
     """
     pre-process the data to make json data type
 
     """
-    compatible_data = data.copy()
+    compatible_data = data.copy() if data else {}
     for k, v in compatible_data.items():
+        if isinstance(v, dict):
+            compatible_data[k] = _pre_process(v)
         if isinstance(v, np.ndarray):
             compatible_data[k] = v.tolist()
 
