@@ -94,29 +94,3 @@ def test_avg_kp_merge(mock_kp_label_dict):
     actual = kp_avg.merge(MOCK_DATA, MOCK_DATA)
     assert actual == MOCK_DATA
     mock_kp_label_dict.assert_called_once()
-
-
-#
-#
-# def test_frame_keypoints():
-#     pass
-#
-#
-# def test_is_torso_visible_or_labeled():
-#     pass
-#
-#
-# def test_translate_and_scale_xy():
-#     pass
-#
-#
-# def test_calc_dist():
-#     pass
-#
-#
-# def test_calc_mid():
-#     pass
-#
-#
-# def tes_kp_label_dict():
-#     pass
