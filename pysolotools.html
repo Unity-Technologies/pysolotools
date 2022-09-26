@@ -16,6 +16,7 @@
         <script src="_static/underscore.js"></script>
         <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -89,13 +90,35 @@
 <li class="toctree-l1"><a class="reference internal" href="pysolotools.clients.html">pysolotools.clients package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="pysolotools.clients.html#submodules">Submodules</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pysolotools.clients.html#pysolotools-clients-ucvd-client-module">pysolotools.clients.ucvd_client module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pysolotools.clients.html#module-pysolotools.clients">Module contents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pysolotools.clients.html#module-pysolotools.clients">Module contents</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pysolotools.clients.html#pysolotools.clients.GCSClient"><code class="docutils literal notranslate"><span class="pre">GCSClient</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pysolotools.clients.html#pysolotools.clients.GCSClient.download_directory"><code class="docutils literal notranslate"><span class="pre">GCSClient.download_directory()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="pysolotools.consumers.html">pysolotools.consumers package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="pysolotools.consumers.html#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pysolotools.consumers.html#module-pysolotools.consumers.solo">pysolotools.consumers.solo module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pysolotools.consumers.html#module-pysolotools.consumers">Module contents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pysolotools.consumers.html#module-pysolotools.consumers.solo">pysolotools.consumers.solo module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pysolotools.consumers.html#pysolotools.consumers.solo.Solo"><code class="docutils literal notranslate"><span class="pre">Solo</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pysolotools.consumers.html#pysolotools.consumers.solo.Solo.frames"><code class="docutils literal notranslate"><span class="pre">Solo.frames()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pysolotools.consumers.html#pysolotools.consumers.solo.Solo.get_annotation_definitions"><code class="docutils literal notranslate"><span class="pre">Solo.get_annotation_definitions()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pysolotools.consumers.html#pysolotools.consumers.solo.Solo.get_metadata"><code class="docutils literal notranslate"><span class="pre">Solo.get_metadata()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pysolotools.consumers.html#module-pysolotools.consumers">Module contents</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pysolotools.consumers.html#pysolotools.consumers.Solo"><code class="docutils literal notranslate"><span class="pre">Solo</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pysolotools.consumers.html#pysolotools.consumers.Solo.frames"><code class="docutils literal notranslate"><span class="pre">Solo.frames()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pysolotools.consumers.html#pysolotools.consumers.Solo.get_annotation_definitions"><code class="docutils literal notranslate"><span class="pre">Solo.get_annotation_definitions()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pysolotools.consumers.html#pysolotools.consumers.Solo.get_metadata"><code class="docutils literal notranslate"><span class="pre">Solo.get_metadata()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="pysolotools.core.html">pysolotools.core package</a><ul>
@@ -117,15 +140,169 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="pysolotools.core.html#submodules">Submodules</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pysolotools.core.html#pysolotools-core-constants-module">pysolotools.core.constants module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pysolotools.core.html#module-pysolotools.core.exceptions">pysolotools.core.exceptions module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pysolotools.core.html#module-pysolotools.core.exceptions">pysolotools.core.exceptions module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pysolotools.core.html#pysolotools.core.exceptions.AuthenticationException"><code class="docutils literal notranslate"><span class="pre">AuthenticationException</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pysolotools.core.html#pysolotools.core.exceptions.DatasetException"><code class="docutils literal notranslate"><span class="pre">DatasetException</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pysolotools.core.html#pysolotools.core.exceptions.DatasetNotFoundException"><code class="docutils literal notranslate"><span class="pre">DatasetNotFoundException</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pysolotools.core.html#pysolotools.core.exceptions.MalformedQueryException"><code class="docutils literal notranslate"><span class="pre">MalformedQueryException</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pysolotools.core.html#pysolotools.core.exceptions.MissingCaptureException"><code class="docutils literal notranslate"><span class="pre">MissingCaptureException</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pysolotools.core.html#pysolotools.core.exceptions.MissingKeypointAnnotatorException"><code class="docutils literal notranslate"><span class="pre">MissingKeypointAnnotatorException</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pysolotools.core.html#pysolotools.core.exceptions.PySoloException"><code class="docutils literal notranslate"><span class="pre">PySoloException</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pysolotools.core.html#pysolotools.core.exceptions.TimeoutException"><code class="docutils literal notranslate"><span class="pre">TimeoutException</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pysolotools.core.html#pysolotools.core.exceptions.UCVDException"><code class="docutils literal notranslate"><span class="pre">UCVDException</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pysolotools.core.html#pysolotools.core.exceptions.UnrecognizedAuthException"><code class="docutils literal notranslate"><span class="pre">UnrecognizedAuthException</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="pysolotools.core.html#pysolotools-core-stats-module">pysolotools.core.stats module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pysolotools.core.html#module-pysolotools.core">Module contents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pysolotools.core.html#module-pysolotools.core">Module contents</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pysolotools.core.html#pysolotools.core.Annotation"><code class="docutils literal notranslate"><span class="pre">Annotation</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pysolotools.core.html#pysolotools.core.Annotation.dataclass_json_config"><code class="docutils literal notranslate"><span class="pre">Annotation.dataclass_json_config</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pysolotools.core.html#pysolotools.core.Annotation.description"><code class="docutils literal notranslate"><span class="pre">Annotation.description</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pysolotools.core.html#pysolotools.core.Annotation.extra_data"><code class="docutils literal notranslate"><span class="pre">Annotation.extra_data</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pysolotools.core.html#pysolotools.core.Annotation.from_dict"><code class="docutils literal notranslate"><span class="pre">Annotation.from_dict()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pysolotools.core.html#pysolotools.core.Annotation.from_json"><code class="docutils literal notranslate"><span class="pre">Annotation.from_json()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pysolotools.core.html#pysolotools.core.Annotation.id"><code class="docutils literal notranslate"><span class="pre">Annotation.id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pysolotools.core.html#pysolotools.core.Annotation.schema"><code class="docutils literal notranslate"><span class="pre">Annotation.schema()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pysolotools.core.html#pysolotools.core.Annotation.sensorId"><code class="docutils literal notranslate"><span class="pre">Annotation.sensorId</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pysolotools.core.html#pysolotools.core.Annotation.to_dict"><code class="docutils literal notranslate"><span class="pre">Annotation.to_dict()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pysolotools.core.html#pysolotools.core.Annotation.to_json"><code class="docutils literal notranslate"><span class="pre">Annotation.to_json()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pysolotools.core.html#pysolotools.core.Annotation.type"><code class="docutils literal notranslate"><span class="pre">Annotation.type</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="pysolotools.core.html#pysolotools.core.AnnotationLabel"><code class="docutils literal notranslate"><span class="pre">AnnotationLabel</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pysolotools.core.html#pysolotools.core.AnnotationLabel.instanceId"><code class="docutils literal notranslate"><span class="pre">AnnotationLabel.instanceId</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pysolotools.core.html#pysolotools.core.AnnotationLabel.labelId"><code class="docutils literal notranslate"><span class="pre">AnnotationLabel.labelId</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="pysolotools.core.html#pysolotools.core.BoundingBox2DAnnotation"><code class="docutils literal notranslate"><span class="pre">BoundingBox2DAnnotation</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pysolotools.core.html#pysolotools.core.BoundingBox2DAnnotation.values"><code class="docutils literal notranslate"><span class="pre">BoundingBox2DAnnotation.values</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="pysolotools.core.html#pysolotools.core.BoundingBox2DAnnotationDefinition"><code class="docutils literal notranslate"><span class="pre">BoundingBox2DAnnotationDefinition</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pysolotools.core.html#pysolotools.core.BoundingBox2DAnnotationDefinition.spec"><code class="docutils literal notranslate"><span class="pre">BoundingBox2DAnnotationDefinition.spec</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="pysolotools.core.html#pysolotools.core.BoundingBox3DAnnotation"><code class="docutils literal notranslate"><span class="pre">BoundingBox3DAnnotation</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pysolotools.core.html#pysolotools.core.BoundingBox3DAnnotation.values"><code class="docutils literal notranslate"><span class="pre">BoundingBox3DAnnotation.values</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="pysolotools.core.html#pysolotools.core.Capture"><code class="docutils literal notranslate"><span class="pre">Capture</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pysolotools.core.html#pysolotools.core.Capture.annotations"><code class="docutils literal notranslate"><span class="pre">Capture.annotations</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pysolotools.core.html#pysolotools.core.Capture.description"><code class="docutils literal notranslate"><span class="pre">Capture.description</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pysolotools.core.html#pysolotools.core.Capture.from_dict"><code class="docutils literal notranslate"><span class="pre">Capture.from_dict()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pysolotools.core.html#pysolotools.core.Capture.from_json"><code class="docutils literal notranslate"><span class="pre">Capture.from_json()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pysolotools.core.html#pysolotools.core.Capture.get_annotations_df"><code class="docutils literal notranslate"><span class="pre">Capture.get_annotations_df()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pysolotools.core.html#pysolotools.core.Capture.id"><code class="docutils literal notranslate"><span class="pre">Capture.id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pysolotools.core.html#pysolotools.core.Capture.position"><code class="docutils literal notranslate"><span class="pre">Capture.position</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pysolotools.core.html#pysolotools.core.Capture.rotation"><code class="docutils literal notranslate"><span class="pre">Capture.rotation</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pysolotools.core.html#pysolotools.core.Capture.schema"><code class="docutils literal notranslate"><span class="pre">Capture.schema()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pysolotools.core.html#pysolotools.core.Capture.to_dict"><code class="docutils literal notranslate"><span class="pre">Capture.to_dict()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pysolotools.core.html#pysolotools.core.Capture.to_json"><code class="docutils literal notranslate"><span class="pre">Capture.to_json()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pysolotools.core.html#pysolotools.core.Capture.type"><code class="docutils literal notranslate"><span class="pre">Capture.type</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="pysolotools.core.html#pysolotools.core.DatasetMetadata"><code class="docutils literal notranslate"><span class="pre">DatasetMetadata</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pysolotools.core.html#pysolotools.core.DatasetMetadata.annotators"><code class="docutils literal notranslate"><span class="pre">DatasetMetadata.annotators</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pysolotools.core.html#pysolotools.core.DatasetMetadata.from_dict"><code class="docutils literal notranslate"><span class="pre">DatasetMetadata.from_dict()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pysolotools.core.html#pysolotools.core.DatasetMetadata.from_json"><code class="docutils literal notranslate"><span class="pre">DatasetMetadata.from_json()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pysolotools.core.html#pysolotools.core.DatasetMetadata.metricCollectors"><code class="docutils literal notranslate"><span class="pre">DatasetMetadata.metricCollectors</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pysolotools.core.html#pysolotools.core.DatasetMetadata.perceptionVersion"><code class="docutils literal notranslate"><span class="pre">DatasetMetadata.perceptionVersion</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pysolotools.core.html#pysolotools.core.DatasetMetadata.renderPipeline"><code class="docutils literal notranslate"><span class="pre">DatasetMetadata.renderPipeline</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pysolotools.core.html#pysolotools.core.DatasetMetadata.scenarioActiveRandomizers"><code class="docutils literal notranslate"><span class="pre">DatasetMetadata.scenarioActiveRandomizers</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pysolotools.core.html#pysolotools.core.DatasetMetadata.scenarioRandomSeed"><code class="docutils literal notranslate"><span class="pre">DatasetMetadata.scenarioRandomSeed</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pysolotools.core.html#pysolotools.core.DatasetMetadata.schema"><code class="docutils literal notranslate"><span class="pre">DatasetMetadata.schema()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pysolotools.core.html#pysolotools.core.DatasetMetadata.sensors"><code class="docutils literal notranslate"><span class="pre">DatasetMetadata.sensors</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pysolotools.core.html#pysolotools.core.DatasetMetadata.simulationEndTime"><code class="docutils literal notranslate"><span class="pre">DatasetMetadata.simulationEndTime</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pysolotools.core.html#pysolotools.core.DatasetMetadata.simulationStartTime"><code class="docutils literal notranslate"><span class="pre">DatasetMetadata.simulationStartTime</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pysolotools.core.html#pysolotools.core.DatasetMetadata.to_dict"><code class="docutils literal notranslate"><span class="pre">DatasetMetadata.to_dict()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pysolotools.core.html#pysolotools.core.DatasetMetadata.to_json"><code class="docutils literal notranslate"><span class="pre">DatasetMetadata.to_json()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pysolotools.core.html#pysolotools.core.DatasetMetadata.totalFrames"><code class="docutils literal notranslate"><span class="pre">DatasetMetadata.totalFrames</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pysolotools.core.html#pysolotools.core.DatasetMetadata.totalSequences"><code class="docutils literal notranslate"><span class="pre">DatasetMetadata.totalSequences</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pysolotools.core.html#pysolotools.core.DatasetMetadata.unityVersion"><code class="docutils literal notranslate"><span class="pre">DatasetMetadata.unityVersion</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="pysolotools.core.html#pysolotools.core.Frame"><code class="docutils literal notranslate"><span class="pre">Frame</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pysolotools.core.html#pysolotools.core.Frame.captures"><code class="docutils literal notranslate"><span class="pre">Frame.captures</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pysolotools.core.html#pysolotools.core.Frame.filter_captures"><code class="docutils literal notranslate"><span class="pre">Frame.filter_captures()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pysolotools.core.html#pysolotools.core.Frame.frame"><code class="docutils literal notranslate"><span class="pre">Frame.frame</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pysolotools.core.html#pysolotools.core.Frame.from_dict"><code class="docutils literal notranslate"><span class="pre">Frame.from_dict()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pysolotools.core.html#pysolotools.core.Frame.from_json"><code class="docutils literal notranslate"><span class="pre">Frame.from_json()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pysolotools.core.html#pysolotools.core.Frame.get_captures_df"><code class="docutils literal notranslate"><span class="pre">Frame.get_captures_df()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pysolotools.core.html#pysolotools.core.Frame.get_file_path"><code class="docutils literal notranslate"><span class="pre">Frame.get_file_path()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pysolotools.core.html#pysolotools.core.Frame.get_metrics_df"><code class="docutils literal notranslate"><span class="pre">Frame.get_metrics_df()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pysolotools.core.html#pysolotools.core.Frame.metrics"><code class="docutils literal notranslate"><span class="pre">Frame.metrics</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pysolotools.core.html#pysolotools.core.Frame.schema"><code class="docutils literal notranslate"><span class="pre">Frame.schema()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pysolotools.core.html#pysolotools.core.Frame.sequence"><code class="docutils literal notranslate"><span class="pre">Frame.sequence</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pysolotools.core.html#pysolotools.core.Frame.step"><code class="docutils literal notranslate"><span class="pre">Frame.step</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pysolotools.core.html#pysolotools.core.Frame.to_dict"><code class="docutils literal notranslate"><span class="pre">Frame.to_dict()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pysolotools.core.html#pysolotools.core.Frame.to_json"><code class="docutils literal notranslate"><span class="pre">Frame.to_json()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="pysolotools.core.html#pysolotools.core.InstanceSegmentationAnnotation"><code class="docutils literal notranslate"><span class="pre">InstanceSegmentationAnnotation</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pysolotools.core.html#pysolotools.core.InstanceSegmentationAnnotation.dimension"><code class="docutils literal notranslate"><span class="pre">InstanceSegmentationAnnotation.dimension</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pysolotools.core.html#pysolotools.core.InstanceSegmentationAnnotation.filename"><code class="docutils literal notranslate"><span class="pre">InstanceSegmentationAnnotation.filename</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pysolotools.core.html#pysolotools.core.InstanceSegmentationAnnotation.imageFormat"><code class="docutils literal notranslate"><span class="pre">InstanceSegmentationAnnotation.imageFormat</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pysolotools.core.html#pysolotools.core.InstanceSegmentationAnnotation.instances"><code class="docutils literal notranslate"><span class="pre">InstanceSegmentationAnnotation.instances</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="pysolotools.core.html#pysolotools.core.Keypoint"><code class="docutils literal notranslate"><span class="pre">Keypoint</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pysolotools.core.html#pysolotools.core.Keypoint.cameraCartesianLocation"><code class="docutils literal notranslate"><span class="pre">Keypoint.cameraCartesianLocation</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pysolotools.core.html#pysolotools.core.Keypoint.index"><code class="docutils literal notranslate"><span class="pre">Keypoint.index</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pysolotools.core.html#pysolotools.core.Keypoint.location"><code class="docutils literal notranslate"><span class="pre">Keypoint.location</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pysolotools.core.html#pysolotools.core.Keypoint.state"><code class="docutils literal notranslate"><span class="pre">Keypoint.state</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="pysolotools.core.html#pysolotools.core.KeypointAnnotation"><code class="docutils literal notranslate"><span class="pre">KeypointAnnotation</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pysolotools.core.html#pysolotools.core.KeypointAnnotation.templateId"><code class="docutils literal notranslate"><span class="pre">KeypointAnnotation.templateId</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pysolotools.core.html#pysolotools.core.KeypointAnnotation.values"><code class="docutils literal notranslate"><span class="pre">KeypointAnnotation.values</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="pysolotools.core.html#pysolotools.core.KeypointAnnotationDefinition"><code class="docutils literal notranslate"><span class="pre">KeypointAnnotationDefinition</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pysolotools.core.html#pysolotools.core.KeypointAnnotationDefinition.template"><code class="docutils literal notranslate"><span class="pre">KeypointAnnotationDefinition.template</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="pysolotools.core.html#pysolotools.core.RGBCameraCapture"><code class="docutils literal notranslate"><span class="pre">RGBCameraCapture</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pysolotools.core.html#pysolotools.core.RGBCameraCapture.acceleration"><code class="docutils literal notranslate"><span class="pre">RGBCameraCapture.acceleration</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pysolotools.core.html#pysolotools.core.RGBCameraCapture.dimension"><code class="docutils literal notranslate"><span class="pre">RGBCameraCapture.dimension</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pysolotools.core.html#pysolotools.core.RGBCameraCapture.filename"><code class="docutils literal notranslate"><span class="pre">RGBCameraCapture.filename</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pysolotools.core.html#pysolotools.core.RGBCameraCapture.imageFormat"><code class="docutils literal notranslate"><span class="pre">RGBCameraCapture.imageFormat</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pysolotools.core.html#pysolotools.core.RGBCameraCapture.matrix"><code class="docutils literal notranslate"><span class="pre">RGBCameraCapture.matrix</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pysolotools.core.html#pysolotools.core.RGBCameraCapture.projection"><code class="docutils literal notranslate"><span class="pre">RGBCameraCapture.projection</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pysolotools.core.html#pysolotools.core.RGBCameraCapture.rotation"><code class="docutils literal notranslate"><span class="pre">RGBCameraCapture.rotation</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pysolotools.core.html#pysolotools.core.RGBCameraCapture.velocity"><code class="docutils literal notranslate"><span class="pre">RGBCameraCapture.velocity</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="pysolotools.core.html#pysolotools.core.SemanticSegmentationAnnotation"><code class="docutils literal notranslate"><span class="pre">SemanticSegmentationAnnotation</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pysolotools.core.html#pysolotools.core.SemanticSegmentationAnnotation.dimension"><code class="docutils literal notranslate"><span class="pre">SemanticSegmentationAnnotation.dimension</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pysolotools.core.html#pysolotools.core.SemanticSegmentationAnnotation.filename"><code class="docutils literal notranslate"><span class="pre">SemanticSegmentationAnnotation.filename</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pysolotools.core.html#pysolotools.core.SemanticSegmentationAnnotation.imageFormat"><code class="docutils literal notranslate"><span class="pre">SemanticSegmentationAnnotation.imageFormat</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pysolotools.core.html#pysolotools.core.SemanticSegmentationAnnotation.instances"><code class="docutils literal notranslate"><span class="pre">SemanticSegmentationAnnotation.instances</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="pysolotools.converters.html">pysolotools.converters package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="pysolotools.converters.html#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pysolotools.converters.html#module-pysolotools.converters.solo2coco">pysolotools.converters.solo2coco module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pysolotools.converters.html#module-pysolotools.converters">Module contents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pysolotools.converters.html#module-pysolotools.converters.solo2coco">pysolotools.converters.solo2coco module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pysolotools.converters.html#pysolotools.converters.solo2coco.SOLO2COCOConverter"><code class="docutils literal notranslate"><span class="pre">SOLO2COCOConverter</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pysolotools.converters.html#pysolotools.converters.solo2coco.SOLO2COCOConverter.callback"><code class="docutils literal notranslate"><span class="pre">SOLO2COCOConverter.callback()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pysolotools.converters.html#pysolotools.converters.solo2coco.SOLO2COCOConverter.convert"><code class="docutils literal notranslate"><span class="pre">SOLO2COCOConverter.convert()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pysolotools.converters.html#pysolotools.converters.solo2coco.SOLO2COCOConverter.get_id"><code class="docutils literal notranslate"><span class="pre">SOLO2COCOConverter.get_id()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pysolotools.converters.html#module-pysolotools.converters">Module contents</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pysolotools.converters.html#pysolotools.converters.SOLO2COCOConverter"><code class="docutils literal notranslate"><span class="pre">SOLO2COCOConverter</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pysolotools.converters.html#pysolotools.converters.SOLO2COCOConverter.callback"><code class="docutils literal notranslate"><span class="pre">SOLO2COCOConverter.callback()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pysolotools.converters.html#pysolotools.converters.SOLO2COCOConverter.convert"><code class="docutils literal notranslate"><span class="pre">SOLO2COCOConverter.convert()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pysolotools.converters.html#pysolotools.converters.SOLO2COCOConverter.get_id"><code class="docutils literal notranslate"><span class="pre">SOLO2COCOConverter.get_id()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
