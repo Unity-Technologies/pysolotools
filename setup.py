@@ -8,7 +8,7 @@ import json
 import os
 from os.path import dirname, realpath
 
-from setuptools import setup
+from setuptools import find_packages, setup
 
 # Package meta-data.
 NAME = "pysolotools"
@@ -73,12 +73,5 @@ setup(
         "Programming Language :: Python :: 3",
         "Programming Language :: Python :: 3.8",
     ],
-    packages=[
-        "pysolotools",
-        "pysolotools.core",
-        "pysolotools.core.models",
-        "pysolotools.core.iterators",
-        "pysolotools.consumers",
-        "pysolotools.clients",
-    ],
+    packages=find_packages(include=["pysolotools", "pysolotools.*"]),
 )
