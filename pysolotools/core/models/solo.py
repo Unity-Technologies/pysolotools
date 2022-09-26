@@ -83,6 +83,27 @@ class KeypointAnnotation(Annotation):
 
 
 @dataclass
+class DepthAnnotation(Annotation):
+    imageFormat: str
+    dimension: List[int]
+    filename: str
+
+
+@dataclass
+class PixelPositionAnnotation(Annotation):
+    imageFormat: str
+    dimension: List[int]
+    filename: str
+
+
+@dataclass
+class NormalAnnotation(Annotation):
+    imageFormat: str
+    dimension: List[int]
+    filename: str
+
+
+@dataclass
 class BoundingBox2DAnnotation(Annotation):
     values: List[BoundingBox2DLabel] = field(default_factory=list)
 
@@ -226,6 +247,21 @@ class KeypointAnnotationDefinition(AnnotationDefinition):
 
 
 @dataclass
+class DepthAnnotationDefinition(AnnotationDefinition):
+    pass  # no additional fields
+
+
+@dataclass
+class PixelPositionAnnotationDefinition(AnnotationDefinition):
+    pass  # no additional fields
+
+
+@dataclass
+class NormalAnnotationDefinition(AnnotationDefinition):
+    pass  # no additional fields
+
+
+@dataclass
 class LabelNameSpec:
     label_id: int
     label_name: str
@@ -312,6 +348,9 @@ class DataFactory:
         "type.unity.com/unity.solo.BoundingBox3DAnnotation": BoundingBox3DAnnotation,
         "type.unity.com/unity.solo.InstanceSegmentationAnnotation": InstanceSegmentationAnnotation,
         "type.unity.com/unity.solo.SemanticSegmentationAnnotation": SemanticSegmentationAnnotation,
+        "type.unity.com/unity.solo.DepthAnnotation": DepthAnnotation,
+        "type.unity.com/unity.solo.PixelPositionAnnotation": PixelPositionAnnotation,
+        "type.unity.com/unity.solo.NormalAnnotation": NormalAnnotation,
     }
 
     @classmethod
@@ -339,6 +378,9 @@ class DefinitionFactory:
         "type.unity.com/unity.solo.BoundingBox3DAnnotation": BoundingBox3DAnnotationDefinition,
         "type.unity.com/unity.solo.SemanticSegmentationAnnotation": SemanticSegmentationAnnotationDefinition,
         "type.unity.com/unity.solo.InstanceSegmentationAnnotation": InstanceSegmentationAnnotationDefinition,
+        "type.unity.com/unity.solo.DepthAnnotation": DepthAnnotationDefinition,
+        "type.unity.com/unity.solo.PixelPositionAnnotation": PixelPositionAnnotationDefinition,
+        "type.unity.com/unity.solo.NormalAnnotation": NormalAnnotationDefinition,
     }
 
     @classmethod

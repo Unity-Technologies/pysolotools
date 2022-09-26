@@ -39,15 +39,15 @@ def test_frame_get_file_path_raises_exception():
     f_path = os.path.join(
         Path(__file__).parents[1], "data", "solo", "sequence.0", "step0.frame_data.json"
     )
-    temp_f = tempfile.NamedTemporaryFile()
+    temp_f = tempfile.TemporaryFile(mode="w+")
 
     with open(f_path, "r") as f:
         data = json.load(f)
         data["captures"] = []
-        with open(temp_f.name, "w+") as tf:
-            json.dump(data, tf)
+        temp_f.write(json.dumps(data))
 
     with pytest.raises(MissingCaptureException):
+        temp_f.seek(0)
         frame = Frame.from_json(temp_f.read())
         frame.get_file_path(capture=RGBCameraCapture)
 
@@ -142,7 +142,7 @@ def test_solo_read_unknown_ann_def():
 
 def test_solo_read_unknown_annotation():
     expected_annotation_types = [
-        "type.unity.com/unity.solo.DepthAnnotation",
+        "type.unity.com/unity.solo.PixelValueAnnotation",
         "type.unity.com/unity.solo.BoundingBox2DAnnotation",
         "type.unity.com/unity.solo.ExtraAnnotation",
     ]

@@ -14,6 +14,8 @@ from .solo import (
     DatasetAnnotations,
     DatasetMetadata,
     DefinitionFactory,
+    DepthAnnotation,
+    DepthAnnotationDefinition,
     Frame,
     InstanceSegmentationAnnotation,
     InstanceSegmentationAnnotationDefinition,
@@ -22,12 +24,15 @@ from .solo import (
     KeypointAnnotation,
     KeypointAnnotationDefinition,
     KeypointLabel,
+    NormalAnnotation,
+    NormalAnnotationDefinition,
+    PixelPositionAnnotation,
+    PixelPositionAnnotationDefinition,
     RGBCameraCapture,
     SemanticSegmentationAnnotation,
     SemanticSegmentationAnnotationDefinition,
     SemanticSegmentationLabel,
 )
-from .ucvd import UCVDArchive, UCVDAttachment, UCVDDataset
 
 __all__ = [
     "Frame",
@@ -42,8 +47,14 @@ __all__ = [
     "AnnotationDefinition",
     "BoundingBox2DLabel",
     "BoundingBox3DLabel",
+    "DepthAnnotation",
+    "DepthAnnotationDefinition",
     "KeypointLabel",
     "InstanceSegmentationLabel",
+    "NormalAnnotation",
+    "NormalAnnotationDefinition",
+    "PixelPositionAnnotation",
+    "PixelPositionAnnotationDefinition",
     "SemanticSegmentationLabel",
     "BoundingBox2DAnnotation",
     "BoundingBox3DAnnotation",
@@ -57,7 +68,4 @@ __all__ = [
     "KeypointAnnotationDefinition",
     "SemanticSegmentationAnnotationDefinition",
     "InstanceSegmentationAnnotationDefinition",
-    "UCVDArchive",
-    "UCVDAttachment",
-    "UCVDDataset",
 ]
