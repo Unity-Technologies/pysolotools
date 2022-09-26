@@ -7,6 +7,7 @@ import pywt
 from PIL import Image
 from scipy import ndimage
 
+from pysolotools.consumers import Solo
 from pysolotools.core.models.solo import (
     BoundingBox2DAnnotation,
     BoundingBox2DLabel,
@@ -17,6 +18,9 @@ from pysolotools.stats.analyzers.base import StatsAnalyzer
 
 
 class PowerSpectrumStatsAnalyzer(StatsAnalyzer):
+    def __init__(self, solo: Solo):
+        self._solo = solo
+
     @staticmethod
     def _load_img(img_path: str):
         img = Image.open(img_path)
@@ -48,7 +52,7 @@ class PowerSpectrumStatsAnalyzer(StatsAnalyzer):
         return psd_1d
 
     def analyze(self, frame: Frame = None, **kwargs: Any) -> object:
-        solo_data_path = kwargs.get("solo_data_path")
+        solo_data_path = self._solo.data_path
         file_path = os.path.join(solo_data_path, frame.get_file_path(RGBCameraCapture))
         img = self._load_img(file_path)
 
@@ -66,8 +70,11 @@ class PowerSpectrumStatsAnalyzer(StatsAnalyzer):
 
 
 class WaveletTransformStatsAnalyzer(StatsAnalyzer):
+    def __init__(self, solo: Solo):
+        self._solo = solo
+
     def analyze(self, frame: Frame = None, **kwargs: Any) -> object:
-        solo_data_path = kwargs.get("solo_data_path")
+        solo_data_path = self._solo.data_path
         file_path = os.path.join(solo_data_path, frame.get_file_path(RGBCameraCapture))
         im = Image.open(file_path).convert("L")
         _, (cH, cV, cD) = pywt.dwt2(im, "haar", mode="periodization")
@@ -85,6 +92,9 @@ class WaveletTransformStatsAnalyzer(StatsAnalyzer):
 
 
 class LaplacianStatsAnalyzer(StatsAnalyzer):
+    def __init__(self, solo: Solo):
+        self._solo = solo
+
     @staticmethod
     def _laplacian_img(img_path: str) -> np.ndarray:
         image = cv2.imread(img_path)
@@ -130,7 +140,7 @@ class LaplacianStatsAnalyzer(StatsAnalyzer):
         return bbox_var_lap, img_var_laplacian
 
     def analyze(self, frame: Frame = None, **kwargs: Any) -> object:
-        solo_data_path = kwargs.get("solo_data_path")
+        solo_data_path = self._solo.data_path
         file_path = os.path.join(solo_data_path, frame.get_file_path(RGBCameraCapture))
         laplacian = self._laplacian_img(file_path)
         for capture in filter(
