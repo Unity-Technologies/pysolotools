@@ -30,9 +30,6 @@ class StatsAnalyzer(ABC):
         Args:
             frame_result (object):  result of one frame.
 
-        Returns:
-            aggregated stats values.
-
         """
         pass
 
