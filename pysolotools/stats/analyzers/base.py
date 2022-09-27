@@ -24,15 +24,21 @@ class StatsAnalyzer(ABC):
         pass
 
     @abstractmethod
-    def merge(self, agg_result: Any, frame_result: Any, **kwargs: Any) -> Any:
+    def merge(self, frame_result: Any, **kwargs: Any):
         """
         Merge computed stats values.
         Args:
-            agg_result (object): aggregated results.
             frame_result (object):  result of one frame.
 
         Returns:
             aggregated stats values.
 
+        """
+        pass
+
+    @abstractmethod
+    def get_result(self) -> Any:
+        """
+        Returns results stored in the instance at any given point
         """
         pass

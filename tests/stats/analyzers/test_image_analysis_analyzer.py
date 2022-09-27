@@ -43,21 +43,15 @@ class TestPowerSpectrumAnalyzer:
         )
         mock_get_psd2d.assert_called_once_with(mock_load_img.return_value)
         mock_get_psd1d.assert_called_once_with(mock_get_psd2d.return_value)
-        assert result == [mock_get_psd1d.return_value]
+        assert result == mock_get_psd1d.return_value
 
-    @pytest.mark.parametrize(
-        "agg_result, expected_result",
-        [
-            (None, ["some-frame"]),
-            ([], ["some-frame"]),
-            (["some-result"], ["some-result", "some-frame"]),
-        ],
-    )
-    def test_merge(self, agg_result, expected_result):
+    def test_merge(self):
+        frame_results = [np.ndarray([1]), np.ndarray([2])]
         analyzer = PowerSpectrumStatsAnalyzer(solo_instance)
-        result = analyzer.merge(agg_result=agg_result, frame_result=["some-frame"])
+        for fr in frame_results:
+            analyzer.merge(frame_result=fr)
 
-        assert result == expected_result
+        assert len(analyzer.get_result()) == 2
 
     @pytest.mark.parametrize(
         "input_array, expected_result",
@@ -128,17 +122,20 @@ class TestWaveletTransformAnalyzer:
         mock_dwt2.assert_called_once_with(
             mock_image.convert.return_value, "haar", mode="periodization"
         )
-        assert result == [[1], [2], [3]]
+        assert result == (1, 2, 3)
 
-    @pytest.mark.parametrize(
-        "agg_result, expected_result",
-        [(None, [[1], [2], [3]]), ([[4], [5], [6]], [[4, 1], [5, 2], [6, 3]])],
-    )
-    def test_merge(self, agg_result, expected_result):
+    def test_merge(self):
+        frame_results = [(1, 2, 3), (4, 5, 6)]
+        expected_merge_result = {
+            "horizontal": [1, 4],
+            "vertical": [2, 5],
+            "diagonal": [3, 6],
+        }
         analyzer = WaveletTransformStatsAnalyzer(solo_instance)
-        result = analyzer.merge(agg_result=agg_result, frame_result=[[1], [2], [3]])
+        for fr in frame_results:
+            analyzer.merge(frame_result=fr)
 
-        assert result == expected_result
+        assert analyzer.get_result() == expected_merge_result
 
 
 class TestLaplacianAnalyzer:
@@ -165,21 +162,16 @@ class TestLaplacianAnalyzer:
         mock_bbox_laplacian.assert_called_once_with(
             mock_laplacian_img.return_value, rgb_camera_capture.annotations[0].values
         )
-        assert result == ["bbox_var_laps", ["img_var_lap"]]
+        assert result == ("bbox_var_laps", "img_var_lap")
 
-    @pytest.mark.parametrize(
-        "agg_result, expected_result",
-        [
-            (None, [[1], [2]]),
-            ([], [[1], [2]]),
-            ([[3], [4]], [[3, 1], [4, 2]]),
-        ],
-    )
-    def test_merge(self, agg_result, expected_result):
+    def test_merge(self):
+        frame_results = [([1, 2, 3], 55), ([4, 5, 6], 65)]
+        expected_result = {"bbox_var": [1, 2, 3, 4, 5, 6], "img_var": [55, 65]}
         analyzer = LaplacianStatsAnalyzer(solo_instance)
-        result = analyzer.merge(agg_result=agg_result, frame_result=[[1], [2]])
+        for fr in frame_results:
+            analyzer.merge(frame_result=fr)
 
-        assert result == expected_result
+        assert analyzer.get_result() == expected_result
 
     @patch("pysolotools.stats.analyzers.image_analysis_analyzer.cv2", autospec=True)
     def test_laplacian_img(self, mock_cv2):
