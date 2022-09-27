@@ -18,8 +18,9 @@ It helps to perform following tasks:
 
 - Parse SOLO datasets generated with Unity Perception.
 - Dataset iterables.
-- Clients to access remote GCS datasets
+- Clients to access remote GCS datasets.
 - Convert SOLO to [COCO format](https://cocodataset.org/#format-data).
+- Compute stats on the SOLO dataset.
 
 You can read more about SOLO schema [here](https://github.com/Unity-Technologies/perception/blob/main/com.unity.perception/com.unity.perception/Documentation~/SoloSchema/Solo_Schema.md).
 
@@ -61,26 +62,20 @@ solo = Solo("src_data_path")
 dataset = SOLO2COCOConverter(solo)
 dataset.convert(output_path="output_path")
 ```
+##### Stats computation
+Supports bbox, keypoints and image analysis on SOLO dataset.
 
+```python
+from pysolotools.consumers import Solo
+from pysolotools.stats.analyzers.bbox_analyzer import BBoxHeatMapStatsAnalyzer, BBoxSizeStatsAnalyzer
+from pysolotools.stats.handler import StatsHandler
 
-## Sphinx Docs
-
-[Github Pages](https://effective-train-86190335.pages.github.io/)
-
-To generate docs locally:
-
-1. `cd docs/`
-2. `make html`
-
-If you want to rebuild the rst files, please run: `make apidoc`. This will generate the rst files based off docstring comments. (Note: This does not update existing rst files).
-
-
-## Additional Resources
-
-### Blog Posts and Talks
-
-- Data-centric AI with Unity Computer Vision Datasets [blogpost](https://blog.unity.com/technology/data-centric-ai-with-unity-computer-vision-datasets)
-- Workshop notebook [Notebook](https://colab.research.google.com/drive/1yoR-47aGi9L0_3f0ULq9Udk0cC64V-0-?usp=sharing)
+bbheat=BBoxHeatMapStatsAnalyzer()
+bbsize=BBoxSizeStatsAnalyzer()
+solo = Solo("data_path")
+bbh= StatsHandler(solo=solo)
+bbh.handle(analyzers=[bbheat,bbsize],cat_ids=[])
+```
 
 
 ## Community and Feedback
