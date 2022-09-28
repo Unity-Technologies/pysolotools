@@ -114,6 +114,32 @@ class BoundingBox3DAnnotation(Annotation):
 
 
 @dataclass
+class HumanMetadataLabel:
+    instanceId: int
+    age: str
+    height: str
+    weight: str
+    sex: str
+    ethnicity: str
+    bodyMeshTag: str
+    hairMeshTag: str
+    primaryBlendVatTag: str
+    secondaryBlendVatTag: str
+    bodyMaterialTag: str
+    faceMaterialTag: str
+    eyeMaterialTag: str
+    hairMaterialTag: str
+    templateSkeleton: str
+    clothingTags: List[str]
+    clothingMaterialTags: List[str]
+
+
+@dataclass
+class HumanMetadataAnnotation(Annotation):
+    metadata: List[HumanMetadataLabel] = field(default_factory=list)
+
+
+@dataclass
 class InstanceSegmentationAnnotation(Annotation):
     imageFormat: str
     dimension: List[int]
@@ -351,6 +377,7 @@ class DataFactory:
         "type.unity.com/unity.solo.DepthAnnotation": DepthAnnotation,
         "type.unity.com/unity.solo.PixelPositionAnnotation": PixelPositionAnnotation,
         "type.unity.com/unity.solo.NormalAnnotation": NormalAnnotation,
+        "type.unity.com/unity.solo.HumanMetadataAnnotation": HumanMetadataAnnotation,
     }
 
     @classmethod

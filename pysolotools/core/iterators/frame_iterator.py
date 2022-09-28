@@ -10,6 +10,7 @@ from pysolotools.core.models import (
     InstanceSegmentationAnnotation,
     SemanticSegmentationAnnotation,
 )
+from pysolotools.core.models.solo import HumanMetadataAnnotation
 
 
 class FramesIterator:
@@ -21,6 +22,7 @@ class FramesIterator:
                 BoundingBox3DAnnotation,
                 InstanceSegmentationAnnotation,
                 SemanticSegmentationAnnotation,
+                HumanMetadataAnnotation,
             ],
         }
     ]
