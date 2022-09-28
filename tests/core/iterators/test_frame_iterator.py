@@ -1,8 +1,9 @@
-import os
-import unittest
-from pathlib import Path
+from dataclasses import dataclass
 from unittest.mock import MagicMock
 
+import pytest
+
+from pysolotools.consumers import Solo
 from pysolotools.core import (
     BoundingBox2DAnnotation,
     BoundingBox3DAnnotation,
@@ -16,30 +17,48 @@ from pysolotools.core.iterators import FramesIterator
 from pysolotools.core.models import DatasetAnnotations, DatasetMetadata
 
 
-class TestFramesIterator(unittest.TestCase):
+@dataclass
+class FrameIteratorTest:
+    solo: Solo
+    frame: Frame
+    frames_iterator: FramesIterator
+
+
+@pytest.fixture
+def setup_frame_iterator(solo_instance) -> FrameIteratorTest:
     mocked_d_metadata = MagicMock(DatasetMetadata)
     mocked_anno_def = MagicMock(DatasetAnnotations)
-    data_path = os.path.join(Path(__file__).parents[2], "data", "solo")
-    f_iter = FramesIterator(data_path, mocked_d_metadata(), mocked_anno_def())
-    test_frame_path = f"{data_path}/sequence.0/step0.frame_data.json"
-    test_frame = f_iter.parse_frame(test_frame_path)
+    frame_iterator = FramesIterator(
+        solo_instance.data_path, mocked_d_metadata(), mocked_anno_def()
+    )
+    return FrameIteratorTest(
+        solo=solo_instance,
+        frames_iterator=frame_iterator,
+        frame=frame_iterator.parse_frame(
+            f"{solo_instance.data_path}/sequence.0/step0.frame_data.json"
+        ),
+    )
 
-    def test_iter_type(self):
-        self.assertIsInstance(self.f_iter, FramesIterator)
 
-    def test_parse_frame(self):
+class TestFramesIterator:
+    def test_iter_type(self, setup_frame_iterator: FrameIteratorTest):
+        assert isinstance(setup_frame_iterator.frames_iterator, FramesIterator)
 
-        self.assertIsInstance(self.test_frame, Frame)
+    def test_parse_frame(self, setup_frame_iterator: FrameIteratorTest):
+
+        assert isinstance(setup_frame_iterator.frame, Frame)
         rgb_captures = filter(
-            lambda k: isinstance(k, RGBCameraCapture), self.test_frame.captures
+            lambda k: isinstance(k, RGBCameraCapture),
+            setup_frame_iterator.frame.captures,
         )
         print(f"\n \n Testing with {len(list(rgb_captures))} RGBCameraCapture \n \n ")
         for capture in rgb_captures:
-            self.assertIsInstance(capture, RGBCameraCapture)
+            assert isinstance(capture, RGBCameraCapture)
 
-    def test_annotations(self):
+    def test_annotations(self, setup_frame_iterator: FrameIteratorTest):
         rgb_captures = filter(
-            lambda k: isinstance(k, RGBCameraCapture), self.test_frame.captures
+            lambda k: isinstance(k, RGBCameraCapture),
+            setup_frame_iterator.frame.captures,
         )
         for rgb_capture in rgb_captures:
             annotations = rgb_capture.annotations
@@ -51,7 +70,7 @@ class TestFramesIterator(unittest.TestCase):
                 f"\n \n Testing with {len(list(bbox2dannotations))} BoundingBox2DAnnotation \n \n "
             )
             for bbox2d in bbox2dannotations:
-                self.assertIsInstance(bbox2d, BoundingBox2DAnnotation)
+                assert isinstance(bbox2d, BoundingBox2DAnnotation)
 
             bbox3dannotations = filter(
                 lambda c: isinstance(c, BoundingBox3DAnnotation), annotations
@@ -60,7 +79,7 @@ class TestFramesIterator(unittest.TestCase):
                 f"\n \n Testing with {len(list(bbox3dannotations))} BoundingBox3DAnnotation \n \n "
             )
             for bbox3d in bbox3dannotations:
-                self.assertIsInstance(bbox3d, BoundingBox3DAnnotation)
+                assert isinstance(bbox3d, BoundingBox3DAnnotation)
 
             instance_segmentation_annotations = filter(
                 lambda c: isinstance(c, InstanceSegmentationAnnotation), annotations
@@ -70,7 +89,7 @@ class TestFramesIterator(unittest.TestCase):
                 f"InstanceSegmentationAnnotation \n \n "
             )
             for instance_segmentation_annotation in instance_segmentation_annotations:
-                self.assertIsInstance(
+                assert isinstance(
                     instance_segmentation_annotation, InstanceSegmentationAnnotation
                 )
 
@@ -82,7 +101,7 @@ class TestFramesIterator(unittest.TestCase):
                 f"SemanticSegmentationAnnotation \n \n "
             )
             for semantic_segmentation_annotation in semantic_segmentation_annotations:
-                self.assertIsInstance(
+                assert isinstance(
                     semantic_segmentation_annotation, SemanticSegmentationAnnotation
                 )
 
@@ -94,4 +113,4 @@ class TestFramesIterator(unittest.TestCase):
                 f"SemanticSegmentationAnnotation \n \n "
             )
             for keypoint_annotation in keypoint_annotations:
-                self.assertIsInstance(keypoint_annotation, KeypointAnnotation)
+                assert isinstance(keypoint_annotation, KeypointAnnotation)

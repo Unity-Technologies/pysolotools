@@ -1,21 +1,12 @@
 from unittest.mock import Mock, patch
 
 import numpy as np
-import pytest
 
-from pysolotools.consumers.solo import Solo
 from pysolotools.core.models import BoundingBox2DAnnotation, BoundingBox2DLabel
 from pysolotools.stats.analyzers.bbox_analyzer import (
     BBoxHeatMapStatsAnalyzer,
     BBoxSizeStatsAnalyzer,
 )
-
-
-@pytest.fixture
-def solo_instance():
-    input_data_path = "tests/data/solo"
-    solo = Solo(data_path=input_data_path)
-    return solo
 
 
 class TestBBoxStatsAnalyzer:

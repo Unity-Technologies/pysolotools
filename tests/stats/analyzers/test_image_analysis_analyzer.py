@@ -20,7 +20,7 @@ from pysolotools.stats.analyzers import (
 
 
 @pytest.fixture
-def solo_instance():
+def mock_solo_instance():
     with patch("pysolotools.consumers.solo.Solo") as mock_solo:
         mock_solo.data_path = "base-solo-path"
         return mock_solo
@@ -31,11 +31,11 @@ class TestPowerSpectrumAnalyzer:
     @patch.object(PowerSpectrumStatsAnalyzer, "_get_psd2d", autospec=True)
     @patch.object(PowerSpectrumStatsAnalyzer, "_load_img", autospec=True)
     def test_analyze(
-        self, mock_load_img, mock_get_psd2d, mock_get_psd1d, solo_instance
+        self, mock_load_img, mock_get_psd2d, mock_get_psd1d, mock_solo_instance
     ):
         mock_frame = create_autospec(spec=Frame, spec_set=True)
         mock_frame.get_file_path.return_value = "some-path"
-        analyzer = PowerSpectrumStatsAnalyzer(solo_instance)
+        analyzer = PowerSpectrumStatsAnalyzer(mock_solo_instance)
         result = analyzer.analyze(frame=mock_frame)
 
         mock_load_img.assert_called_once_with(
@@ -47,7 +47,7 @@ class TestPowerSpectrumAnalyzer:
 
     def test_merge(self):
         frame_results = [np.ndarray([1]), np.ndarray([2])]
-        analyzer = PowerSpectrumStatsAnalyzer(solo_instance)
+        analyzer = PowerSpectrumStatsAnalyzer(mock_solo_instance)
         for fr in frame_results:
             analyzer.merge(frame_result=fr)
 
@@ -61,7 +61,7 @@ class TestPowerSpectrumAnalyzer:
         ],
     )
     def test_get_psd1d(self, input_array, expected_result):
-        analyzer = PowerSpectrumStatsAnalyzer(solo_instance)
+        analyzer = PowerSpectrumStatsAnalyzer(mock_solo_instance)
         result = analyzer._get_psd1d(psd_2d=input_array)
 
         np.testing.assert_array_equal(result, expected_result)
@@ -76,7 +76,7 @@ class TestPowerSpectrumAnalyzer:
         ],
     )
     def test_get_psd2d(self, input_array, expected_result):
-        analyzer = PowerSpectrumStatsAnalyzer(solo_instance)
+        analyzer = PowerSpectrumStatsAnalyzer(mock_solo_instance)
         result = analyzer._get_psd2d(image=input_array)
         np.testing.assert_allclose(result, expected_result)
 
@@ -88,7 +88,7 @@ class TestPowerSpectrumAnalyzer:
         mock_image = create_autospec(spec=Image)
         mock_image_open.return_value = mock_image
 
-        analyzer = PowerSpectrumStatsAnalyzer(solo_instance)
+        analyzer = PowerSpectrumStatsAnalyzer(mock_solo_instance)
         result = analyzer._load_img(img_path="some-path")
 
         mock_image_open.assert_called_once_with("some-path")
@@ -106,13 +106,13 @@ class TestWaveletTransformAnalyzer:
     @patch(
         "pysolotools.stats.analyzers.image_analysis_analyzer.Image.open", autospec=True
     )
-    def test_analyze(self, mock_image_open, mock_dwt2, solo_instance):
+    def test_analyze(self, mock_image_open, mock_dwt2, mock_solo_instance):
         mock_frame = create_autospec(spec=Frame, spec_set=True)
         mock_frame.get_file_path.return_value = "some-path"
         mock_image = create_autospec(spec=Image)
         mock_image_open.return_value = mock_image
         mock_dwt2.return_value = ("foo", (1, 2, 3))
-        analyzer = WaveletTransformStatsAnalyzer(solo_instance)
+        analyzer = WaveletTransformStatsAnalyzer(mock_solo_instance)
         result = analyzer.analyze(frame=mock_frame)
 
         mock_image_open.assert_called_once_with(
@@ -131,7 +131,7 @@ class TestWaveletTransformAnalyzer:
             "vertical": [2, 5],
             "diagonal": [3, 6],
         }
-        analyzer = WaveletTransformStatsAnalyzer(solo_instance)
+        analyzer = WaveletTransformStatsAnalyzer(mock_solo_instance)
         for fr in frame_results:
             analyzer.merge(frame_result=fr)
 
@@ -143,7 +143,9 @@ class TestLaplacianAnalyzer:
         LaplacianStatsAnalyzer, "_get_bbox_fg_bg_var_laplacian", autospec=True
     )
     @patch.object(LaplacianStatsAnalyzer, "_laplacian_img", autospec=True)
-    def test_analyzer(self, mock_laplacian_img, mock_bbox_laplacian, solo_instance):
+    def test_analyzer(
+        self, mock_laplacian_img, mock_bbox_laplacian, mock_solo_instance
+    ):
         mock_bbox_laplacian.return_value = ("bbox_var_laps", "img_var_lap")
         mock_frame = create_autospec(spec=Frame(1, 2, 3))
         mock_frame.get_file_path.return_value = "some-path"
@@ -153,7 +155,7 @@ class TestLaplacianAnalyzer:
             self._create_semantic_segmentation_annotation(),
         ]
 
-        analyzer = LaplacianStatsAnalyzer(solo_instance)
+        analyzer = LaplacianStatsAnalyzer(mock_solo_instance)
         result = analyzer.analyze(frame=mock_frame)
 
         mock_laplacian_img.assert_called_once_with(
@@ -167,7 +169,7 @@ class TestLaplacianAnalyzer:
     def test_merge(self):
         frame_results = [([1, 2, 3], 55), ([4, 5, 6], 65)]
         expected_result = {"bbox_var": [1, 2, 3, 4, 5, 6], "img_var": [55, 65]}
-        analyzer = LaplacianStatsAnalyzer(solo_instance)
+        analyzer = LaplacianStatsAnalyzer(mock_solo_instance)
         for fr in frame_results:
             analyzer.merge(frame_result=fr)
 
@@ -175,7 +177,7 @@ class TestLaplacianAnalyzer:
 
     @patch("pysolotools.stats.analyzers.image_analysis_analyzer.cv2", autospec=True)
     def test_laplacian_img(self, mock_cv2):
-        analyzer = LaplacianStatsAnalyzer(solo_instance)
+        analyzer = LaplacianStatsAnalyzer(mock_solo_instance)
         result = analyzer._laplacian_img(img_path="some-path")
 
         mock_cv2.imread.assert_called_once_with("some-path")
@@ -203,7 +205,7 @@ class TestLaplacianAnalyzer:
     def test_get_bbox_var_laplacian(
         self, input_laplacian, input_coordinates, expected_result
     ):
-        analyzer = LaplacianStatsAnalyzer(solo_instance)
+        analyzer = LaplacianStatsAnalyzer(mock_solo_instance)
         result = analyzer._get_bbox_var_laplacian(
             laplacian=input_laplacian, **input_coordinates
         )
@@ -222,7 +224,7 @@ class TestLaplacianAnalyzer:
                 labelId=2,
             )
         ]
-        analyzer = LaplacianStatsAnalyzer(solo_instance)
+        analyzer = LaplacianStatsAnalyzer(mock_solo_instance)
         result = analyzer._get_bbox_fg_bg_var_laplacian(
             laplacian=input_laplacian, annotations=input_annotations
         )

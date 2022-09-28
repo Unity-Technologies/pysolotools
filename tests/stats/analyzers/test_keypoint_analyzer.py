@@ -1,9 +1,7 @@
 from unittest.mock import patch
 
 import numpy as np
-import pytest
 
-from pysolotools.consumers import Solo
 from pysolotools.core import KeypointAnnotation
 from pysolotools.stats.analyzers.keypoint_analyzer import (
     AvgKPPerKPCat,
@@ -55,13 +53,6 @@ LABEL_INDEX_MAP = {
     "right_ear": 16,
     "left_ear": 17,
 }
-
-
-@pytest.fixture
-def solo_instance():
-    input_data_path = "tests/data/solo"
-    solo = Solo(data_path=input_data_path)
-    return solo
 
 
 @patch("pysolotools.stats.analyzers.keypoint_analyzer._translate_and_scale_xy")

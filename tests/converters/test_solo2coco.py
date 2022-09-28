@@ -1,15 +1,11 @@
-import os
 import tempfile
 from pathlib import Path
 
-from pysolotools.consumers.solo import Solo
 from pysolotools.converters import SOLO2COCOConverter
 
 
-def test_solo2coco_create_files():
-    input_data_path = os.path.join(Path(__file__).parents[1], "data", "solo")
-    solo = Solo(data_path=input_data_path)
-    converter = SOLO2COCOConverter(solo)
+def test_solo2coco_create_files(solo_instance):
+    converter = SOLO2COCOConverter(solo_instance)
 
     with tempfile.TemporaryDirectory() as tmp_dir:
         converter.convert(output_path=tmp_dir)
