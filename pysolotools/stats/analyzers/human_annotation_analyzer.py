@@ -12,16 +12,15 @@ from pysolotools.stats.analyzers.base import StatsAnalyzer
 class AggregateObject:
     sum: float = None
     count: int = 0
-    max: float = None
-    min: float = None
+    values: List[float] = field(default_factory=list)
 
     def add(self, value: Union[str, int, float]) -> "AggregateObject":
         self.count += 1
         if isinstance(value, str):
             return self
         self.sum = value if not self.sum else self.sum + value
-        self.max = value if not self.max else max(self.max, value)
-        self.min = value if not self.min else min(self.min, value)
+        if isinstance(value, float):
+            self.values.append(value)
         return self
 
 
