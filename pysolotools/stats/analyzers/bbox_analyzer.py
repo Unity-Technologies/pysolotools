@@ -7,11 +7,14 @@ from pysolotools.stats.analyzers.base import StatsAnalyzer
 
 
 class BBoxSizeStatsAnalyzer(StatsAnalyzer):
-    def analyze(self, frame: Frame = None, cat_ids: list = None, **kwargs: Any) -> List:
+    def __init__(self, cat_ids: List = None):
+        self._cat_ids = cat_ids
+        self._res = []
+
+    def analyze(self, frame: Frame = None, **kwargs: Any) -> List:
         """
         Args:
             frame (Frame): metadata of one frame
-            cat_ids (list): list of category ids.
         Returns:
             bbox_relative_size_list (list): List of all bbox
              sizes relative to its image size
@@ -22,37 +25,39 @@ class BBoxSizeStatsAnalyzer(StatsAnalyzer):
         res = []
         for box in bounding_boxes:
             for v in box.values:
-                if cat_ids and v.labelId not in cat_ids:
+                if self._cat_ids and v.labelId not in self._cat_ids:
                     continue
                 box_area = v.dimension[0] * v.dimension[1]
                 relative_size = np.sqrt(box_area / img_area)
                 res.append(relative_size)
         return res
 
-    def merge(self, agg_result: List, frame_result: List, **kwargs) -> List:
+    def merge(self, frame_result: List, **kwargs):
         """
         Merge computed stats values.
         Args:
-            agg_result (list): aggregated results.
             frame_result (list):  result of one frame.
 
         Returns:
             aggregated stats values.
 
         """
-        agg_result.extend(frame_result)
-        return agg_result
+        self._res.extend(frame_result)
+
+    def get_result(self):
+        return self._res
 
 
 class BBoxHeatMapStatsAnalyzer(StatsAnalyzer):
-    def analyze(
-        self, frame: Frame = None, cat_ids: list = None, **kwargs: Any
-    ) -> np.ndarray:
+    def __init__(self, cat_ids: List = None):
+        self._cat_ids = cat_ids
+        self._res = None
+
+    def analyze(self, frame: Frame = None, **kwargs: Any) -> np.ndarray:
 
         """
         Args:
             frame (Frame): metadata of one frame
-            cat_ids (list): list of category ids.
         Returns:
             bbox_heatmap (np.ndarray): numpy array of size of
             the image in the dataset with values describing
@@ -62,7 +67,7 @@ class BBoxHeatMapStatsAnalyzer(StatsAnalyzer):
         bbox_heatmap = np.zeros([img_dim[1], img_dim[0], 1])
         for box in bounding_boxes:
             for v in box.values:
-                if cat_ids and v.labelId not in cat_ids:
+                if self._cat_ids and v.labelId not in self._cat_ids:
                     continue
                 bbox = [
                     int(v.origin[0]),
@@ -75,21 +80,23 @@ class BBoxHeatMapStatsAnalyzer(StatsAnalyzer):
                 ] += 1
         return bbox_heatmap
 
-    def merge(
-        self, agg_result: np.ndarray, frame_result: np.ndarray, **kwargs
-    ) -> np.ndarray:
+    def merge(self, frame_result: np.ndarray, **kwargs):
         """
         Merge computed stats values.
         Args:
-            agg_result (np.ndarray): aggregated results.
             frame_result (np.ndarray):  result of one frame.
 
         Returns:
             aggregated stats values.
 
         """
-        agg_result += frame_result
-        return agg_result
+        if isinstance(self._res, np.ndarray):
+            self._res += frame_result
+        else:
+            self._res = frame_result
+
+    def get_result(self):
+        return self._res
 
 
 def _frame_bbox_dim(frame):

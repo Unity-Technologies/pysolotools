@@ -2,20 +2,18 @@ import json
 import os
 import tempfile
 from dataclasses import fields
-from pathlib import Path
 
 import pytest
 
-from pysolotools.consumers.solo import Solo
 from pysolotools.core import DatasetMetadata
 from pysolotools.core.exceptions import MissingCaptureException
 from pysolotools.core.models import Frame, RGBCameraCapture
 
 
-def test_frame_get_file_path():
+def test_frame_get_file_path(solo_instance):
     expected_path = "sequence.0/step0.camera.png"
     f_path = os.path.join(
-        Path(__file__).parents[1], "data", "solo", "sequence.0", "step0.frame_data.json"
+        solo_instance.data_path, "sequence.0", "step0.frame_data.json"
     )
     with open(f_path, "r") as f:
         frame = Frame.from_json(f.read())
@@ -23,9 +21,9 @@ def test_frame_get_file_path():
         assert rgb_img_path == expected_path
 
 
-def test_frame_with_unknown_annotation():
+def test_frame_with_unknown_annotation(solo_instance):
     f_path = os.path.join(
-        Path(__file__).parents[1], "data", "solo", "sequence.1", "step0.frame_data.json"
+        solo_instance.data_path, "sequence.1", "step0.frame_data.json"
     )
     with open(f_path, "r") as f:
         frame = Frame.from_json(f.read())
@@ -35,9 +33,9 @@ def test_frame_with_unknown_annotation():
         assert len(annotations) == 3
 
 
-def test_frame_get_file_path_raises_exception():
+def test_frame_get_file_path_raises_exception(solo_instance):
     f_path = os.path.join(
-        Path(__file__).parents[1], "data", "solo", "sequence.0", "step0.frame_data.json"
+        solo_instance.data_path, "sequence.0", "step0.frame_data.json"
     )
     temp_f = tempfile.TemporaryFile(mode="w+")
 
@@ -54,9 +52,9 @@ def test_frame_get_file_path_raises_exception():
     temp_f.close()
 
 
-def test_annotation_label_without_metadata():
+def test_annotation_label_without_metadata(solo_instance):
     f_path = os.path.join(
-        Path(__file__).parents[1], "data", "solo", "sequence.0", "step0.frame_data.json"
+        solo_instance.data_path, "sequence.0", "step0.frame_data.json"
     )
     with open(f_path, "r") as f:
         frame = Frame.from_json(f.read())
@@ -132,22 +130,23 @@ def test_dataset_metadata_serialization(test_input, expected):
     assert actual == expected
 
 
-def test_solo_read_unknown_ann_def():
+def test_solo_read_unknown_ann_def(solo_instance):
     undefined_ann_def_id = "Extra Annotation"
-    solo = Solo(data_path=os.path.join(Path(__file__).parents[1], "data", "solo"))
-    annotation_definitions = solo.get_annotation_definitions().annotationDefinitions
+    annotation_definitions = (
+        solo_instance.get_annotation_definitions().annotationDefinitions
+    )
     ann_def_ids = [ann_def.id for ann_def in annotation_definitions]
     assert undefined_ann_def_id in ann_def_ids
 
 
-def test_solo_read_unknown_annotation():
+def test_solo_read_unknown_annotation(solo_instance):
     expected_annotation_types = [
         "type.unity.com/unity.solo.PixelValueAnnotation",
         "type.unity.com/unity.solo.BoundingBox2DAnnotation",
         "type.unity.com/unity.solo.ExtraAnnotation",
     ]
     f_path = os.path.join(
-        Path(__file__).parents[1], "data", "solo", "sequence.1", "step0.frame_data.json"
+        solo_instance.data_path, "sequence.1", "step0.frame_data.json"
     )
     with open(f_path, "r") as f:
         frame = Frame.from_json(f.read())

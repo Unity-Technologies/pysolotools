@@ -1,4 +1,3 @@
-import os
 import tempfile
 from pathlib import Path
 from unittest.mock import MagicMock, patch
@@ -6,18 +5,13 @@ from unittest.mock import MagicMock, patch
 import numpy as np
 import pytest
 
-from pysolotools.consumers import Solo
 from pysolotools.converters import SOLO2COCOConverter
 from pysolotools.core.models import RGBCameraCapture
 
-parent_dir = Path(__file__).parent.parent.absolute()
-solo_sample_data = os.path.join(parent_dir, "data", "solo")
-
 
 @pytest.fixture
-def solo2coco_instance():
-    solo = Solo(solo_sample_data)
-    mock_solo2coco = SOLO2COCOConverter(solo)
+def solo2coco_instance(solo_instance):
+    mock_solo2coco = SOLO2COCOConverter(solo_instance)
     return mock_solo2coco
 
 
@@ -114,9 +108,6 @@ def test_process_annotations(
 
 
 def test_categories(solo2coco_instance):
-
-    solo = Solo(data_path=solo_sample_data)
-    solo2coco_instance._solo = solo
     return_value = solo2coco_instance._categories()
 
     expected = [
@@ -188,12 +179,7 @@ def test_process_instances(mock_process_rgb_image, mock_process_annotations):
     mock_process_annotations.assert_called_once()
 
 
-def test_get_solo_kp_map(
-    solo2coco_instance,
-):
-    solo = Solo(data_path=solo_sample_data)
-    solo2coco_instance._solo = solo
-
+def test_get_solo_kp_map(solo2coco_instance):
     resturn_value = solo2coco_instance._get_solo_kp_map()
 
     expected = {

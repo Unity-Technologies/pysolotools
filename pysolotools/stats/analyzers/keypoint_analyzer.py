@@ -3,8 +3,9 @@ from typing import Any, List, Tuple
 
 import numpy as np
 
+from pysolotools.consumers.solo import Solo
 from pysolotools.core import KeypointAnnotation, KeypointAnnotationDefinition
-from pysolotools.core.models import DatasetAnnotations, Frame
+from pysolotools.core.models import Frame
 from pysolotools.stats.analyzers.base import StatsAnalyzer
 
 RIGHT_SHOULDER = "right_shoulder"
@@ -14,13 +15,18 @@ LEFT_HIP = "left_hip"
 
 
 class KPPoseDict(StatsAnalyzer):
-    def __init__(self, anno_def: DatasetAnnotations, **kwargs: Any):
-        self.kp_lbl_map = _kp_label_dict(anno_def)
+    def __init__(
+        self,
+        solo: Solo,
+    ):
+        ann_def = solo.annotation_definitions
+        self.kp_lbl_map = _kp_label_dict(ann_def)
         self.label_idx_map = _reverse_map(self.kp_lbl_map)
+        self._res = {
+            self.kp_lbl_map[kp]: {"x": [], "y": []} for kp in self.kp_lbl_map.keys()
+        }
 
-    def analyze(
-        self, frame: Frame = None, cat_ids: list = None, **kwargs: Any
-    ) -> object:
+    def analyze(self, frame: Frame = None, **kwargs: Any) -> object:
         """
         Computes keypoints position stats.
         Args:
@@ -56,23 +62,23 @@ class KPPoseDict(StatsAnalyzer):
 
         return {self.kp_lbl_map[key]: kp_pose_dict[key] for key in kp_pose_dict.keys()}
 
-    def merge(self, results: dict, result: dict) -> object:
+    def merge(self, frame_result: Any, **kwargs: Any):
         """
         Merge computed stats values.
         Args:
-            results (dict): aggregated results.
-            result (dict):  result of one frame.
+            frame_result (dict):  result of one frame.
             Example: {'nose': {'x': [], 'y': []}
 
         Returns:
             aggregated stats values.
 
         """
-        for k in result:
-            for co_ord in result[k]:
-                results[k][co_ord].extend(result[k][co_ord])
+        for key_point in frame_result:
+            for co_ord in frame_result[key_point]:
+                self._res[key_point][co_ord].extend(frame_result[key_point][co_ord])
 
-        return results
+    def get_result(self):
+        return self._res
 
 
 def _frame_keypoints(frame):
@@ -162,50 +168,55 @@ class AvgKPPerKPCat(StatsAnalyzer):
     Computes average of per category of keypoints.
     """
 
-    def __init__(self, anno_def: DatasetAnnotations, **kwargs: Any):
-        self.kp_lbl_map = _kp_label_dict(anno_def)
-        self.kp_anno_count = 0
-        self.prev_anno_count = 0
+    def __init__(self, solo: Solo, vis_state=None):
+        self._vis_state = vis_state if vis_state else [1, 2]
+        ann_def = solo.annotation_definitions
+        self.kp_ann_count = 0
+        self.kp_lbl_map = _kp_label_dict(ann_def)
+        self._res = {self.kp_lbl_map[kp]: 0 for kp in self.kp_lbl_map.keys()}
 
-    def analyze(
-        self, frame: Frame = None, cat_ids: list = None, **kwargs: Any
-    ) -> object:
+    def analyze(self, frame: Frame = None, **kwargs: Any) -> object:
         """
         Computes keypoints count.
         Args:
             frame (Frame): metadata of one frame
-            cat_ids (list): list of category ids.
         Returns:
             keypoints_count(dict): Dictionary of key points count
         """
         kp_dict_count = {kp: 0 for kp in self.kp_lbl_map.keys()}
         annotations = _frame_keypoints(frame)
-        self.prev_anno_count = self.kp_anno_count
+        kp_ann_count = 0
         for ann in annotations:
             for kp_ann in ann.values:
-                self.kp_anno_count += 1
+                kp_ann_count += 1
                 for kp in kp_ann.keypoints:
-                    kp_dict_count[kp.index] += 1
+                    if kp.state in self._vis_state:
+                        kp_dict_count[kp.index] += 1
 
         return {
             self.kp_lbl_map[key]: kp_dict_count[key] for key in kp_dict_count.keys()
-        }
+        }, kp_ann_count
 
-    def merge(self, results: dict, result: dict) -> object:
+    def merge(self, frame_result: Any, **kwargs: Any) -> Any:
         """
         Merge computed stats values.
         Args:
-            results (dict): aggregated results.
-            result (dict):  result of one frame.
+            frame_result (dict):  result of one frame.
 
         Returns:
             aggregated stats dictionary.
 
         """
-        for k in result:
-            if self.prev_anno_count:
-                results[k] *= self.prev_anno_count
-            results[k] += result[k]
-            results[k] /= self.kp_anno_count
+        kp_dict, frame_kp_ann_count = frame_result[0], frame_result[1]
+        for k in kp_dict:
+            if self.kp_ann_count == 0:
+                self._res[k] = kp_dict[k] / frame_kp_ann_count
+            else:
+                old_kp_count = self._res[k] * self.kp_ann_count
+                new_kp_count = old_kp_count + kp_dict[k]
+                self._res[k] = new_kp_count / (self.kp_ann_count + frame_kp_ann_count)
 
-        return results
+        self.kp_ann_count += frame_kp_ann_count
+
+    def get_result(self):
+        return self._res

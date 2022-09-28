@@ -1,9 +1,7 @@
-from unittest.mock import MagicMock, patch
+from unittest.mock import patch
 
 import numpy as np
-import pytest
 
-from pysolotools.consumers import Solo
 from pysolotools.core import KeypointAnnotation
 from pysolotools.stats.analyzers.keypoint_analyzer import (
     AvgKPPerKPCat,
@@ -57,20 +55,13 @@ LABEL_INDEX_MAP = {
 }
 
 
-@pytest.fixture
-def solo_instance():
-    input_data_path = "tests/data/solo"
-    solo = Solo(data_path=input_data_path)
-    return solo
-
-
 @patch("pysolotools.stats.analyzers.keypoint_analyzer._translate_and_scale_xy")
 @patch("pysolotools.stats.analyzers.keypoint_analyzer._is_torso_visible_or_labeled")
 def test_kp_position_analyze(mock_torso, mock_scale, solo_instance):
     mock_torso.return_value = True
     mock_scale.return_value = [0], [0]
     frames = solo_instance.frames()
-    kp_pose = KPPoseDict(anno_def=solo_instance.annotation_definitions)
+    kp_pose = KPPoseDict(solo_instance)
     actual = kp_pose.analyze(next(frames))
     expected = {
         "nose": {"x": [], "y": []},
@@ -97,32 +88,37 @@ def test_kp_position_analyze(mock_torso, mock_scale, solo_instance):
     mock_scale.assert_called_once()
 
 
-@patch("pysolotools.stats.analyzers.keypoint_analyzer._reverse_map")
-@patch("pysolotools.stats.analyzers.keypoint_analyzer._kp_label_dict")
-def test_kp_position_merge(mock_kp_label_dict, mock_reverse_map):
-    kp_pose = KPPoseDict(anno_def=MagicMock())
-    results = {"nose": {"x": [0], "y": [0]}}
-    result = {"nose": {"x": [0], "y": [0]}}
-    actual = kp_pose.merge(results, result)
-    expected = {"nose": {"x": [0, 0], "y": [0, 0]}}
-    assert actual == expected
-    mock_kp_label_dict.assert_called_once()
-    mock_reverse_map.assert_called_once()
+def test_kp_position_merge(solo_instance):
+
+    kp_pose = KPPoseDict(solo_instance)
+    result_1 = {"nose": {"x": [0], "y": [0]}}
+    result_2 = {"nose": {"x": [0], "y": [1]}}
+    for res in [result_1, result_2]:
+        kp_pose.merge(frame_result=res)
+    actual = kp_pose.get_result()
+    assert actual["nose"]["x"] == [0, 0]
+    assert actual["nose"]["y"] == [0, 1]
 
 
 def test_avg_kp_analyze(solo_instance):
     frames = solo_instance.frames()
-    kp_avg = AvgKPPerKPCat(anno_def=solo_instance.annotation_definitions)
-    actual = kp_avg.analyze(next(frames))
-    assert actual == MOCK_DATA
+    kp_avg = AvgKPPerKPCat(solo_instance, vis_state=[0, 1, 2])
+    actual_kp_dict, actual_frame_ann_count = kp_avg.analyze(next(frames))
+    assert actual_kp_dict == MOCK_DATA
 
 
 @patch("pysolotools.stats.analyzers.keypoint_analyzer._kp_label_dict")
-def test_avg_kp_merge(mock_kp_label_dict):
-    kp_avg = AvgKPPerKPCat(anno_def=MagicMock())
-    kp_avg.kp_anno_count = 2
-    actual = kp_avg.merge(MOCK_DATA, MOCK_DATA)
-    assert actual == MOCK_DATA
+def test_avg_kp_merge(mock_kp_label_dict, solo_instance):
+    mock_kp_label_dict.return_value = {0: "nose", 1: "neck"}
+    kp_avg = AvgKPPerKPCat(solo_instance)
+    result_1 = ({"nose": 1, "neck": 1}, 1)
+    result_2 = ({"nose": 1, "neck": 3}, 3)
+    expected_res = {"nose": 0.5, "neck": 1}
+
+    for res in [result_1, result_2]:
+        kp_avg.merge(frame_result=res)
+
+    assert kp_avg.get_result() == expected_res
     mock_kp_label_dict.assert_called_once()
 
 

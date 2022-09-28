@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import Any, List
+from typing import Any
 
 from pysolotools.core.models import Frame
 
@@ -10,12 +10,11 @@ class StatsAnalyzer(ABC):
     """
 
     @abstractmethod
-    def analyze(self, frame: Frame = None, cat_ids: List = None, **kwargs: Any) -> Any:
+    def analyze(self, frame: Frame = None, **kwargs: Any) -> Any:
         """
         Returns computed stats values.
         Args:
             frame (object): frame object.
-            cat_ids(list): list of categories
 
         Returns:
             computed stats values.
@@ -24,15 +23,18 @@ class StatsAnalyzer(ABC):
         pass
 
     @abstractmethod
-    def merge(self, agg_result: Any, frame_result: Any, **kwargs: Any) -> Any:
+    def merge(self, frame_result: Any, **kwargs: Any):
         """
         Merge computed stats values.
         Args:
-            agg_result (object): aggregated results.
             frame_result (object):  result of one frame.
 
-        Returns:
-            aggregated stats values.
+        """
+        pass
 
+    @abstractmethod
+    def get_result(self) -> Any:
+        """
+        Returns results stored in the instance at any given point
         """
         pass

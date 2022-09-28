@@ -20,6 +20,7 @@ from pysolotools.stats.analyzers.base import StatsAnalyzer
 class PowerSpectrumStatsAnalyzer(StatsAnalyzer):
     def __init__(self, solo: Solo):
         self._solo = solo
+        self._res = []
 
     @staticmethod
     def _load_img(img_path: str):
@@ -59,19 +60,19 @@ class PowerSpectrumStatsAnalyzer(StatsAnalyzer):
         psd_2d = self._get_psd2d(img)
         psd_1d = self._get_psd1d(psd_2d)
 
-        return [psd_1d]
+        return psd_1d
 
-    def merge(self, agg_result: Any, frame_result: List, **kwargs: Any) -> List:
-        if not agg_result:
-            return frame_result
+    def merge(self, frame_result: np.ndarray, **kwargs: Any):
+        self._res.append(frame_result)
 
-        agg_result += frame_result
-        return agg_result
+    def get_result(self):
+        return self._res
 
 
 class WaveletTransformStatsAnalyzer(StatsAnalyzer):
     def __init__(self, solo: Solo):
         self._solo = solo
+        self._res = {"horizontal": [], "vertical": [], "diagonal": []}
 
     def analyze(self, frame: Frame = None, **kwargs: Any) -> object:
         solo_data_path = self._solo.data_path
@@ -79,21 +80,21 @@ class WaveletTransformStatsAnalyzer(StatsAnalyzer):
         im = Image.open(file_path).convert("L")
         _, (cH, cV, cD) = pywt.dwt2(im, "haar", mode="periodization")
 
-        return [[cH], [cV], [cD]]
+        return cH, cV, cD
 
-    def merge(self, agg_result: Any, frame_result: Any, **kwargs: Any) -> List:
-        if not agg_result:
-            return frame_result
-        agg_result[0] += frame_result[0]
-        agg_result[1] += frame_result[1]
-        agg_result[2] += frame_result[2]
+    def merge(self, frame_result: Tuple, **kwargs: Any):
+        self._res["horizontal"].append(frame_result[0])
+        self._res["vertical"].append(frame_result[1])
+        self._res["diagonal"].append(frame_result[2])
 
-        return agg_result
+    def get_result(self):
+        return self._res
 
 
 class LaplacianStatsAnalyzer(StatsAnalyzer):
     def __init__(self, solo: Solo):
         self._solo = solo
+        self._res = {"bbox_var": [], "img_var": []}
 
     @staticmethod
     def _laplacian_img(img_path: str) -> np.ndarray:
@@ -131,7 +132,6 @@ class LaplacianStatsAnalyzer(StatsAnalyzer):
                 bbox_var = LaplacianStatsAnalyzer._get_bbox_var_laplacian(
                     img_laplacian, int(x), int(y), int(w), int(h)
                 )
-                print(x, y, h, w)
                 img_laplacian[int(y) : int(y + h), int(x) : int(x + w)] = np.nan
                 bbox_var_lap.append(bbox_var)
 
@@ -157,13 +157,12 @@ class LaplacianStatsAnalyzer(StatsAnalyzer):
                 laplacian, bbox_anns
             )
 
-            return [bbox_var_laps, [img_var_lap]]
+            return bbox_var_laps, img_var_lap
 
-    def merge(self, agg_result: List, frame_result: List, **kwargs: Any) -> Any:
-        if not agg_result:
-            return frame_result
+    def merge(self, frame_result: Tuple, **kwargs: Any):
 
-        agg_result[0] += frame_result[0]
-        agg_result[1] += frame_result[1]
+        self._res["bbox_var"] += frame_result[0]
+        self._res["img_var"].append(frame_result[1])
 
-        return agg_result
+    def get_result(self):
+        return self._res

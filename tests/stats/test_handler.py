@@ -10,23 +10,31 @@ from pysolotools.stats.serializers.base import Serializer
 
 
 class FakeAnalyzer1(StatsAnalyzer):
-    def analyze(
-        self, frame: object = None, cat_ids: list = None, **kwargs: Any
-    ) -> object:
-        return f"analyze-return-1-{frame}"
+    def __init__(self):
+        self._res = []
 
-    def merge(self, agg_result: Any, frame_result: Any, **kwargs: Any) -> Any:
-        return f"merge-return-1-{frame_result}"
+    def analyze(self, frame: object = None, **kwargs: Any) -> object:
+        return 3
+
+    def merge(self, frame_result: Any, **kwargs: Any) -> Any:
+        self._res.append(frame_result)
+
+    def get_result(self) -> Any:
+        return self._res
 
 
 class FakeAnalyzer2(StatsAnalyzer):
-    def analyze(
-        self, frame: object = None, cat_ids: list = None, **kwargs: Any
-    ) -> object:
-        return f"analyze-return-2-{frame}"
+    def __init__(self):
+        self._res = {"count": 0}
 
-    def merge(self, agg_result: Any, frame_result: Any, **kwargs: Any) -> Any:
-        return f"merge-return-2-{frame_result}"
+    def analyze(self, frame: object = None, **kwargs: Any) -> object:
+        return {"count": 3}
+
+    def merge(self, frame_result: Any, **kwargs: Any) -> Any:
+        self._res["count"] += frame_result["count"]
+
+    def get_result(self) -> Any:
+        return self._res
 
 
 @pytest.mark.parametrize(
@@ -36,35 +44,41 @@ class FakeAnalyzer2(StatsAnalyzer):
             "1 analyzer, 1 frame, no serializer",
             None,
             [FakeAnalyzer1()],
-            ["some-frame-data"],
-            {"FakeAnalyzer1": "analyze-return-1-some-frame-data"},
+            [Mock()],
+            {"FakeAnalyzer1": [3]},
         ),
         (
             "1 analyzer, 1 frame, with serializer",
             create_autospec(spec=Serializer, spec_set=True),
             [FakeAnalyzer1()],
-            ["some-frame-data"],
-            {"FakeAnalyzer1": "analyze-return-1-some-frame-data"},
+            [Mock()],
+            {"FakeAnalyzer1": [3]},
         ),
         (
             "1 analyzer, 2 frames, no serializer",
             None,
             [FakeAnalyzer1()],
-            ["some-frame-data", "some-other-frame-data"],
-            {"FakeAnalyzer1": "merge-return-1-analyze-return-1-some-other-frame-data"},
+            [Mock(), Mock()],
+            {"FakeAnalyzer1": [3, 3]},
         ),
         (
             "2 analyzer, 1  frame, no serializer",
             None,
             [FakeAnalyzer1(), FakeAnalyzer2()],
-            ["some-frame-data", "some-other-frame-data"],
+            [Mock(), Mock()],
             {
-                "FakeAnalyzer1": "merge-return-1-analyze-return-1-some-other-frame-data",
-                "FakeAnalyzer2": "merge-return-2-analyze-return-2-some-other-frame-data",
+                "FakeAnalyzer1": [3, 3],
+                "FakeAnalyzer2": {"count": 6},
             },
         ),
         ("0 analyzer, 0 frame, no serializer", None, [], [], {}),
-        ("1 analyzer, 0 frame, no serializer", None, [FakeAnalyzer1()], [], {}),
+        (
+            "1 analyzer, 0 frame, no serializer",
+            None,
+            [FakeAnalyzer1()],
+            [],
+            {"FakeAnalyzer1": []},
+        ),
     ],
 )
 def test_stats_handler(
