@@ -1,3 +1,4 @@
+import dataclasses
 from collections import defaultdict
 from dataclasses import dataclass, field
 from typing import Any, Dict, List, Union
@@ -29,6 +30,12 @@ class HumanMetadataAnnotationAggregate:
     statistics: Dict[str, AggregateObject] = field(
         default_factory=lambda: defaultdict(dict)
     )
+
+    def to_dict(self) -> dict:
+        result = {}
+        for k, v in self.statistics.items():
+            result[k] = dataclasses.asdict(v)
+        return result
 
 
 class HumanMetadataAnnotationAnalyzer(StatsAnalyzer):
@@ -87,5 +94,5 @@ class HumanMetadataAnnotationAnalyzer(StatsAnalyzer):
         """
         pass
 
-    def get_result(self):
-        return self._res
+    def get_result(self) -> dict:
+        return self._res.to_dict()
