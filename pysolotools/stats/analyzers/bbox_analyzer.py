@@ -90,7 +90,7 @@ class BBoxHeatMapStatsAnalyzer(StatsAnalyzer):
             aggregated stats values.
 
         """
-        if self._res:
+        if isinstance(self._res, np.ndarray):
             self._res += frame_result
         else:
             self._res = frame_result
