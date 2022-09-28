@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import Any, List
+from typing import Any
 
 from pysolotools.core.models import Frame
 
@@ -10,7 +10,7 @@ class StatsAnalyzer(ABC):
     """
 
     @abstractmethod
-    def analyze(self, frame: Frame = None, cat_ids: List = None, **kwargs: Any) -> Any:
+    def analyze(self, frame: Frame = None, **kwargs: Any) -> Any:
         """
         Returns computed stats values.
         Args:
