@@ -8,7 +8,7 @@ from pysolotools.stats.analyzers.base import StatsAnalyzer
 
 class BBoxSizeStatsAnalyzer(StatsAnalyzer):
     def __init__(self, cat_ids: List = None):
-        self._cat_ids = [] if not cat_ids else cat_ids
+        self._cat_ids = cat_ids
         self._res = []
 
     def analyze(self, frame: Frame = None, **kwargs: Any) -> List:
@@ -25,7 +25,7 @@ class BBoxSizeStatsAnalyzer(StatsAnalyzer):
         res = []
         for box in bounding_boxes:
             for v in box.values:
-                if v.labelId not in self._cat_ids:
+                if self._cat_ids and v.labelId not in self._cat_ids:
                     continue
                 box_area = v.dimension[0] * v.dimension[1]
                 relative_size = np.sqrt(box_area / img_area)
@@ -50,7 +50,7 @@ class BBoxSizeStatsAnalyzer(StatsAnalyzer):
 
 class BBoxHeatMapStatsAnalyzer(StatsAnalyzer):
     def __init__(self, cat_ids: List = None):
-        self._cat_ids = [] if not cat_ids else cat_ids
+        self._cat_ids = cat_ids
         self._res = None
 
     def analyze(self, frame: Frame = None, **kwargs: Any) -> np.ndarray:
@@ -67,7 +67,7 @@ class BBoxHeatMapStatsAnalyzer(StatsAnalyzer):
         bbox_heatmap = np.zeros([img_dim[1], img_dim[0], 1])
         for box in bounding_boxes:
             for v in box.values:
-                if v.labelId not in self._cat_ids:
+                if self._cat_ids and v.labelId not in self._cat_ids:
                     continue
                 bbox = [
                     int(v.origin[0]),
