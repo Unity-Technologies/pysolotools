@@ -1,9 +1,3 @@
-GCS_BASE_STR = "gs://"
-HTTP_URL_BASE_STR = "http://"
-HTTPS_URL_BASE_STR = "https://"
-LOCAL_FILE_BASE_STR = "file://"
-REMOTE_PATTERN = r"://"
-
 COCO_KEYPOINTS = [
     "nose",
     "left_eye",
