@@ -73,10 +73,26 @@ class HumanMetadataAnnotationAnalyzer(StatsAnalyzer):
             for person in metadata.metadata:
                 self._add_statistic(key="human", value=1)
                 self._add_statistic(key=person.age, value=person.age)
-                self._add_statistic(key="height", value=float(person.height))
-                self._add_statistic(key="weight", value=float(person.weight))
+                self._add_statistic(
+                    key=f"height-{person.age}", value=float(person.height)
+                )
+                self._add_statistic(
+                    key=f"weight-{person.age}", value=float(person.weight)
+                )
                 self._add_statistic(key=person.sex, value=person.sex)
+                self._add_statistic(
+                    key=f"height-{person.sex}", value=float(person.height)
+                )
+                self._add_statistic(
+                    key=f"weight-{person.sex}", value=float(person.weight)
+                )
                 self._add_statistic(key=person.ethnicity, value=person.ethnicity)
+                self._add_statistic(
+                    key=f"height-{person.ethnicity}", value=float(person.height)
+                )
+                self._add_statistic(
+                    key=f"weight-{person.ethnicity}", value=float(person.weight)
+                )
 
         return self._res
 
