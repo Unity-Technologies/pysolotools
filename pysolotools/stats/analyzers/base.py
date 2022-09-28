@@ -15,7 +15,6 @@ class StatsAnalyzer(ABC):
         Returns computed stats values.
         Args:
             frame (object): frame object.
-            cat_ids(list): list of categories
 
         Returns:
             computed stats values.
