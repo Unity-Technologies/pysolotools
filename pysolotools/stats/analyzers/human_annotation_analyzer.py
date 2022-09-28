@@ -56,9 +56,7 @@ class HumanMetadataAnnotationAnalyzer(StatsAnalyzer):
         return results
 
     def _add_statistic(self, key: str, value: Union[str, int, float]):
-        self._res.statistics.setdefault(key, AggregateObject().add(value=value)).add(
-            value=value
-        )
+        self._res.statistics.setdefault(key, AggregateObject()).add(value=value)
 
     def analyze(
         self, frame: Frame = None, **kwargs: Any
