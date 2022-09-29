@@ -18,7 +18,6 @@ It helps to perform following tasks:
 
 - Parse SOLO datasets generated with Unity Perception.
 - Dataset iterables.
-- Clients to access remote GCS datasets.
 - Convert SOLO to [COCO format](https://cocodataset.org/#format-data).
 - Compute stats on the SOLO dataset.
 
