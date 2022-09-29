@@ -7,10 +7,10 @@ from pysolotools.core.models import (
     BoundingBox3DAnnotation,
     DatasetMetadata,
     Frame,
+    HumanMetadataAnnotation,
     InstanceSegmentationAnnotation,
     SemanticSegmentationAnnotation,
 )
-from pysolotools.core.models.solo import HumanMetadataAnnotation
 
 
 class FramesIterator:

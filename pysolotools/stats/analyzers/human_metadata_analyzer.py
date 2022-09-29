@@ -10,17 +10,17 @@ from pysolotools.stats.analyzers.base import StatsAnalyzer
 
 @dataclass
 class AggregateObject:
-    sum: float = None
+    key: str
+    value: Union[str, int, float, None] = None
+    sum: Union[None, float] = None
     count: int = 0
-    values: List[float] = field(default_factory=list)
 
     def add(self, value: Union[str, int, float]) -> "AggregateObject":
+        self.value = None
         self.count += 1
         if isinstance(value, str):
             return self
         self.sum = value if not self.sum else self.sum + value
-        if isinstance(value, float):
-            self.values.append(value)
         return self
 
 
@@ -54,12 +54,7 @@ class HumanMetadataAnnotationAnalyzer(StatsAnalyzer):
             )
         return results
 
-    def _add_statistic(self, key: str, value: Union[str, int, float]):
-        self._res.statistics.setdefault(key, AggregateObject()).add(value=value)
-
-    def analyze(
-        self, frame: Frame = None, **kwargs: Any
-    ) -> HumanMetadataAnnotationAggregate:
+    def analyze(self, frame: Frame = None, **kwargs: Any) -> List[AggregateObject]:
         """
         Args:
             frame (Frame): metadata of one frame
@@ -67,45 +62,28 @@ class HumanMetadataAnnotationAnalyzer(StatsAnalyzer):
 
         """
         human_metadata = HumanMetadataAnnotationAnalyzer._filter(frame=frame)
+        human_metadata_stats = []
         for metadata in human_metadata:
             person: HumanMetadataLabel
             for person in metadata.metadata:
-                self._add_statistic(key="human", value=1)
-                self._add_statistic(key=person.age, value=person.age)
-                self._add_statistic(
-                    key=f"height-{person.age}", value=float(person.height)
-                )
-                self._add_statistic(
-                    key=f"weight-{person.age}", value=float(person.weight)
-                )
-                self._add_statistic(key=person.sex, value=person.sex)
-                self._add_statistic(
-                    key=f"height-{person.sex}", value=float(person.height)
-                )
-                self._add_statistic(
-                    key=f"weight-{person.sex}", value=float(person.weight)
-                )
-                self._add_statistic(key=person.ethnicity, value=person.ethnicity)
-                self._add_statistic(
-                    key=f"height-{person.ethnicity}", value=float(person.height)
-                )
-                self._add_statistic(
-                    key=f"weight-{person.ethnicity}", value=float(person.weight)
-                )
+                human_metadata_stats.append(AggregateObject(key="human"))
+                human_metadata_stats.append(AggregateObject(key=person.age))
+                human_metadata_stats.append(AggregateObject(key=person.sex))
+                human_metadata_stats.append(AggregateObject(key=person.ethnicity))
 
-        return self._res
+        return human_metadata_stats
 
-    def merge(self, frame_result: List, **kwargs):
+    def merge(self, frame_result: List[AggregateObject], **kwargs):
         """
         Merge computed stats values.
         Args:
             frame_result (list):  result of one frame.
 
         Returns:
-            aggregated stats values.
 
         """
-        pass
+        for frame in frame_result:
+            self._res.statistics.setdefault(frame.key, frame).add(value=frame.value)
 
     def get_result(self) -> dict:
         return self._res.to_dict()
