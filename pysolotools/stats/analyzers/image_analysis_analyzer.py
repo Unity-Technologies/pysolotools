@@ -80,7 +80,7 @@ class WaveletTransformStatsAnalyzer(StatsAnalyzer):
         im = Image.open(file_path).convert("L")
         _, (cH, cV, cD) = pywt.dwt2(im, "haar", mode="periodization")
 
-        return cH, cV, cD
+        return np.array(cH).var(), np.array(cV).var(), np.array(cD).var()
 
     def merge(self, frame_result: Tuple, **kwargs: Any):
         self._res["horizontal"].append(frame_result[0])

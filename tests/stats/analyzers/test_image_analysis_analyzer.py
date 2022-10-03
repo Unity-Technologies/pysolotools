@@ -122,7 +122,7 @@ class TestWaveletTransformAnalyzer:
         mock_dwt2.assert_called_once_with(
             mock_image.convert.return_value, "haar", mode="periodization"
         )
-        assert result == (1, 2, 3)
+        assert result == (0.0, 0.0, 0.0)
 
     def test_merge(self):
         frame_results = [(1, 2, 3), (4, 5, 6)]
