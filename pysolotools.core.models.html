@@ -566,15 +566,49 @@ type(str):</p>
 <dt class="sig sig-object py" id="pysolotools.core.models.solo.DataFactory">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pysolotools.core.models.solo.</span></span><span class="sig-name descname"><span class="pre">DataFactory</span></span><a class="headerlink" href="#pysolotools.core.models.solo.DataFactory" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<dl class="py method">
-<dt class="sig sig-object py" id="pysolotools.core.models.solo.DataFactory.cast">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">cast</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pysolotools.core.models.solo.DataFactory.cast" title="Permalink to this definition"></a></dt>
+<p>Factory class used to register data types that can be deserialized from a solo dataset.
+Annotation, Capture, and Annotation Definition types must register with the annotation factory
+with the following class decorator:</p>
+<blockquote>
+<div><p>&#64;DataFactory.register(&#64;type string)</p>
+</div></blockquote>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pysolotools.core.models.solo.DataFactory.annotation_switcher">
+<span class="sig-name descname"><span class="pre">annotation_switcher</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'type.unity.com/unity.solo.BoundingBox2DAnnotation':</span> <span class="pre">&lt;class</span> <span class="pre">'pysolotools.core.models.solo.BoundingBox2DAnnotation'&gt;,</span> <span class="pre">'type.unity.com/unity.solo.BoundingBox3DAnnotation':</span> <span class="pre">&lt;class</span> <span class="pre">'pysolotools.core.models.solo.BoundingBox3DAnnotation'&gt;,</span> <span class="pre">'type.unity.com/unity.solo.DepthAnnotation':</span> <span class="pre">&lt;class</span> <span class="pre">'pysolotools.core.models.solo.DepthAnnotation'&gt;,</span> <span class="pre">'type.unity.com/unity.solo.InstanceSegmentationAnnotation':</span> <span class="pre">&lt;class</span> <span class="pre">'pysolotools.core.models.solo.InstanceSegmentationAnnotation'&gt;,</span> <span class="pre">'type.unity.com/unity.solo.KeypointAnnotation':</span> <span class="pre">&lt;class</span> <span class="pre">'pysolotools.core.models.solo.KeypointAnnotation'&gt;,</span> <span class="pre">'type.unity.com/unity.solo.NormalAnnotation':</span> <span class="pre">&lt;class</span> <span class="pre">'pysolotools.core.models.solo.NormalAnnotation'&gt;,</span> <span class="pre">'type.unity.com/unity.solo.PixelPositionAnnotation':</span> <span class="pre">&lt;class</span> <span class="pre">'pysolotools.core.models.solo.PixelPositionAnnotation'&gt;,</span> <span class="pre">'type.unity.com/unity.solo.SemanticSegmentationAnnotation':</span> <span class="pre">&lt;class</span> <span class="pre">'pysolotools.core.models.solo.SemanticSegmentationAnnotation'&gt;}</span></em><a class="headerlink" href="#pysolotools.core.models.solo.DataFactory.annotation_switcher" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="pysolotools.core.models.solo.DataFactory.switcher">
-<span class="sig-name descname"><span class="pre">switcher</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'type.unity.com/unity.solo.BoundingBox2DAnnotation':</span> <span class="pre">&lt;class</span> <span class="pre">'pysolotools.core.models.solo.BoundingBox2DAnnotation'&gt;,</span> <span class="pre">'type.unity.com/unity.solo.BoundingBox3DAnnotation':</span> <span class="pre">&lt;class</span> <span class="pre">'pysolotools.core.models.solo.BoundingBox3DAnnotation'&gt;,</span> <span class="pre">'type.unity.com/unity.solo.DepthAnnotation':</span> <span class="pre">&lt;class</span> <span class="pre">'pysolotools.core.models.solo.DepthAnnotation'&gt;,</span> <span class="pre">'type.unity.com/unity.solo.InstanceSegmentationAnnotation':</span> <span class="pre">&lt;class</span> <span class="pre">'pysolotools.core.models.solo.InstanceSegmentationAnnotation'&gt;,</span> <span class="pre">'type.unity.com/unity.solo.KeypointAnnotation':</span> <span class="pre">&lt;class</span> <span class="pre">'pysolotools.core.models.solo.KeypointAnnotation'&gt;,</span> <span class="pre">'type.unity.com/unity.solo.NormalAnnotation':</span> <span class="pre">&lt;class</span> <span class="pre">'pysolotools.core.models.solo.NormalAnnotation'&gt;,</span> <span class="pre">'type.unity.com/unity.solo.PixelPositionAnnotation':</span> <span class="pre">&lt;class</span> <span class="pre">'pysolotools.core.models.solo.PixelPositionAnnotation'&gt;,</span> <span class="pre">'type.unity.com/unity.solo.RGBCamera':</span> <span class="pre">&lt;class</span> <span class="pre">'pysolotools.core.models.solo.RGBCameraCapture'&gt;,</span> <span class="pre">'type.unity.com/unity.solo.SemanticSegmentationAnnotation':</span> <span class="pre">&lt;class</span> <span class="pre">'pysolotools.core.models.solo.SemanticSegmentationAnnotation'&gt;}</span></em><a class="headerlink" href="#pysolotools.core.models.solo.DataFactory.switcher" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="pysolotools.core.models.solo.DataFactory.capture_switcher">
+<span class="sig-name descname"><span class="pre">capture_switcher</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'type.unity.com/unity.solo.RGBCamera':</span> <span class="pre">&lt;class</span> <span class="pre">'pysolotools.core.models.solo.RGBCameraCapture'&gt;}</span></em><a class="headerlink" href="#pysolotools.core.models.solo.DataFactory.capture_switcher" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysolotools.core.models.solo.DataFactory.cast_annotation">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">cast_annotation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pysolotools.core.models.solo.DataFactory.cast_annotation" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysolotools.core.models.solo.DataFactory.cast_capture">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">cast_capture</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pysolotools.core.models.solo.DataFactory.cast_capture" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysolotools.core.models.solo.DataFactory.cast_definition">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">cast_definition</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pysolotools.core.models.solo.DataFactory.cast_definition" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pysolotools.core.models.solo.DataFactory.definition_switcher">
+<span class="sig-name descname"><span class="pre">definition_switcher</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'type.unity.com/unity.solo.BoundingBox2DAnnotation':</span> <span class="pre">&lt;class</span> <span class="pre">'pysolotools.core.models.solo.BoundingBox2DAnnotationDefinition'&gt;,</span> <span class="pre">'type.unity.com/unity.solo.BoundingBox3DAnnotation':</span> <span class="pre">&lt;class</span> <span class="pre">'pysolotools.core.models.solo.BoundingBox3DAnnotationDefinition'&gt;,</span> <span class="pre">'type.unity.com/unity.solo.DepthAnnotation':</span> <span class="pre">&lt;class</span> <span class="pre">'pysolotools.core.models.solo.DepthAnnotationDefinition'&gt;,</span> <span class="pre">'type.unity.com/unity.solo.InstanceSegmentationAnnotation':</span> <span class="pre">&lt;class</span> <span class="pre">'pysolotools.core.models.solo.InstanceSegmentationAnnotationDefinition'&gt;,</span> <span class="pre">'type.unity.com/unity.solo.KeypointAnnotation':</span> <span class="pre">&lt;class</span> <span class="pre">'pysolotools.core.models.solo.KeypointAnnotationDefinition'&gt;,</span> <span class="pre">'type.unity.com/unity.solo.NormalAnnotation':</span> <span class="pre">&lt;class</span> <span class="pre">'pysolotools.core.models.solo.NormalAnnotationDefinition'&gt;,</span> <span class="pre">'type.unity.com/unity.solo.PixelPositionAnnotation':</span> <span class="pre">&lt;class</span> <span class="pre">'pysolotools.core.models.solo.PixelPositionAnnotationDefinition'&gt;,</span> <span class="pre">'type.unity.com/unity.solo.SemanticSegmentationAnnotation':</span> <span class="pre">&lt;class</span> <span class="pre">'pysolotools.core.models.solo.SemanticSegmentationAnnotationDefinition'&gt;}</span></em><a class="headerlink" href="#pysolotools.core.models.solo.DataFactory.definition_switcher" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysolotools.core.models.solo.DataFactory.register">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">register</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Callable</span></span></span><a class="headerlink" href="#pysolotools.core.models.solo.DataFactory.register" title="Permalink to this definition"></a></dt>
+<dd><p>Registers a new annotation type.
+:param name: Type string for the annotation type
+:type name: str</p>
+</dd></dl>
 
 </dd></dl>
 
@@ -701,22 +735,6 @@ type(str):</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="pysolotools.core.models.solo.DatasetMetadata.unityVersion">
 <span class="sig-name descname"><span class="pre">unityVersion</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#pysolotools.core.models.solo.DatasetMetadata.unityVersion" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="pysolotools.core.models.solo.DefinitionFactory">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pysolotools.core.models.solo.</span></span><span class="sig-name descname"><span class="pre">DefinitionFactory</span></span><a class="headerlink" href="#pysolotools.core.models.solo.DefinitionFactory" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<dl class="py method">
-<dt class="sig sig-object py" id="pysolotools.core.models.solo.DefinitionFactory.cast">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">cast</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pysolotools.core.models.solo.DefinitionFactory.cast" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="pysolotools.core.models.solo.DefinitionFactory.switcher">
-<span class="sig-name descname"><span class="pre">switcher</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'type.unity.com/unity.solo.BoundingBox2DAnnotation':</span> <span class="pre">&lt;class</span> <span class="pre">'pysolotools.core.models.solo.BoundingBox2DAnnotationDefinition'&gt;,</span> <span class="pre">'type.unity.com/unity.solo.BoundingBox3DAnnotation':</span> <span class="pre">&lt;class</span> <span class="pre">'pysolotools.core.models.solo.BoundingBox3DAnnotationDefinition'&gt;,</span> <span class="pre">'type.unity.com/unity.solo.DepthAnnotation':</span> <span class="pre">&lt;class</span> <span class="pre">'pysolotools.core.models.solo.DepthAnnotationDefinition'&gt;,</span> <span class="pre">'type.unity.com/unity.solo.InstanceSegmentationAnnotation':</span> <span class="pre">&lt;class</span> <span class="pre">'pysolotools.core.models.solo.InstanceSegmentationAnnotationDefinition'&gt;,</span> <span class="pre">'type.unity.com/unity.solo.KeypointAnnotation':</span> <span class="pre">&lt;class</span> <span class="pre">'pysolotools.core.models.solo.KeypointAnnotationDefinition'&gt;,</span> <span class="pre">'type.unity.com/unity.solo.NormalAnnotation':</span> <span class="pre">&lt;class</span> <span class="pre">'pysolotools.core.models.solo.NormalAnnotationDefinition'&gt;,</span> <span class="pre">'type.unity.com/unity.solo.PixelPositionAnnotation':</span> <span class="pre">&lt;class</span> <span class="pre">'pysolotools.core.models.solo.PixelPositionAnnotationDefinition'&gt;,</span> <span class="pre">'type.unity.com/unity.solo.SemanticSegmentationAnnotation':</span> <span class="pre">&lt;class</span> <span class="pre">'pysolotools.core.models.solo.SemanticSegmentationAnnotationDefinition'&gt;}</span></em><a class="headerlink" href="#pysolotools.core.models.solo.DefinitionFactory.switcher" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -1862,15 +1880,49 @@ type(str):</p>
 <dt class="sig sig-object py" id="pysolotools.core.models.DataFactory">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pysolotools.core.models.</span></span><span class="sig-name descname"><span class="pre">DataFactory</span></span><a class="headerlink" href="#pysolotools.core.models.DataFactory" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<dl class="py method">
-<dt class="sig sig-object py" id="pysolotools.core.models.DataFactory.cast">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">cast</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pysolotools.core.models.DataFactory.cast" title="Permalink to this definition"></a></dt>
+<p>Factory class used to register data types that can be deserialized from a solo dataset.
+Annotation, Capture, and Annotation Definition types must register with the annotation factory
+with the following class decorator:</p>
+<blockquote>
+<div><p>&#64;DataFactory.register(&#64;type string)</p>
+</div></blockquote>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pysolotools.core.models.DataFactory.annotation_switcher">
+<span class="sig-name descname"><span class="pre">annotation_switcher</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'type.unity.com/unity.solo.BoundingBox2DAnnotation':</span> <span class="pre">&lt;class</span> <span class="pre">'pysolotools.core.models.solo.BoundingBox2DAnnotation'&gt;,</span> <span class="pre">'type.unity.com/unity.solo.BoundingBox3DAnnotation':</span> <span class="pre">&lt;class</span> <span class="pre">'pysolotools.core.models.solo.BoundingBox3DAnnotation'&gt;,</span> <span class="pre">'type.unity.com/unity.solo.DepthAnnotation':</span> <span class="pre">&lt;class</span> <span class="pre">'pysolotools.core.models.solo.DepthAnnotation'&gt;,</span> <span class="pre">'type.unity.com/unity.solo.InstanceSegmentationAnnotation':</span> <span class="pre">&lt;class</span> <span class="pre">'pysolotools.core.models.solo.InstanceSegmentationAnnotation'&gt;,</span> <span class="pre">'type.unity.com/unity.solo.KeypointAnnotation':</span> <span class="pre">&lt;class</span> <span class="pre">'pysolotools.core.models.solo.KeypointAnnotation'&gt;,</span> <span class="pre">'type.unity.com/unity.solo.NormalAnnotation':</span> <span class="pre">&lt;class</span> <span class="pre">'pysolotools.core.models.solo.NormalAnnotation'&gt;,</span> <span class="pre">'type.unity.com/unity.solo.PixelPositionAnnotation':</span> <span class="pre">&lt;class</span> <span class="pre">'pysolotools.core.models.solo.PixelPositionAnnotation'&gt;,</span> <span class="pre">'type.unity.com/unity.solo.SemanticSegmentationAnnotation':</span> <span class="pre">&lt;class</span> <span class="pre">'pysolotools.core.models.solo.SemanticSegmentationAnnotation'&gt;}</span></em><a class="headerlink" href="#pysolotools.core.models.DataFactory.annotation_switcher" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="pysolotools.core.models.DataFactory.switcher">
-<span class="sig-name descname"><span class="pre">switcher</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'type.unity.com/unity.solo.BoundingBox2DAnnotation':</span> <span class="pre">&lt;class</span> <span class="pre">'pysolotools.core.models.solo.BoundingBox2DAnnotation'&gt;,</span> <span class="pre">'type.unity.com/unity.solo.BoundingBox3DAnnotation':</span> <span class="pre">&lt;class</span> <span class="pre">'pysolotools.core.models.solo.BoundingBox3DAnnotation'&gt;,</span> <span class="pre">'type.unity.com/unity.solo.DepthAnnotation':</span> <span class="pre">&lt;class</span> <span class="pre">'pysolotools.core.models.solo.DepthAnnotation'&gt;,</span> <span class="pre">'type.unity.com/unity.solo.InstanceSegmentationAnnotation':</span> <span class="pre">&lt;class</span> <span class="pre">'pysolotools.core.models.solo.InstanceSegmentationAnnotation'&gt;,</span> <span class="pre">'type.unity.com/unity.solo.KeypointAnnotation':</span> <span class="pre">&lt;class</span> <span class="pre">'pysolotools.core.models.solo.KeypointAnnotation'&gt;,</span> <span class="pre">'type.unity.com/unity.solo.NormalAnnotation':</span> <span class="pre">&lt;class</span> <span class="pre">'pysolotools.core.models.solo.NormalAnnotation'&gt;,</span> <span class="pre">'type.unity.com/unity.solo.PixelPositionAnnotation':</span> <span class="pre">&lt;class</span> <span class="pre">'pysolotools.core.models.solo.PixelPositionAnnotation'&gt;,</span> <span class="pre">'type.unity.com/unity.solo.RGBCamera':</span> <span class="pre">&lt;class</span> <span class="pre">'pysolotools.core.models.solo.RGBCameraCapture'&gt;,</span> <span class="pre">'type.unity.com/unity.solo.SemanticSegmentationAnnotation':</span> <span class="pre">&lt;class</span> <span class="pre">'pysolotools.core.models.solo.SemanticSegmentationAnnotation'&gt;}</span></em><a class="headerlink" href="#pysolotools.core.models.DataFactory.switcher" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="pysolotools.core.models.DataFactory.capture_switcher">
+<span class="sig-name descname"><span class="pre">capture_switcher</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'type.unity.com/unity.solo.RGBCamera':</span> <span class="pre">&lt;class</span> <span class="pre">'pysolotools.core.models.solo.RGBCameraCapture'&gt;}</span></em><a class="headerlink" href="#pysolotools.core.models.DataFactory.capture_switcher" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysolotools.core.models.DataFactory.cast_annotation">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">cast_annotation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pysolotools.core.models.DataFactory.cast_annotation" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysolotools.core.models.DataFactory.cast_capture">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">cast_capture</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pysolotools.core.models.DataFactory.cast_capture" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysolotools.core.models.DataFactory.cast_definition">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">cast_definition</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pysolotools.core.models.DataFactory.cast_definition" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pysolotools.core.models.DataFactory.definition_switcher">
+<span class="sig-name descname"><span class="pre">definition_switcher</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'type.unity.com/unity.solo.BoundingBox2DAnnotation':</span> <span class="pre">&lt;class</span> <span class="pre">'pysolotools.core.models.solo.BoundingBox2DAnnotationDefinition'&gt;,</span> <span class="pre">'type.unity.com/unity.solo.BoundingBox3DAnnotation':</span> <span class="pre">&lt;class</span> <span class="pre">'pysolotools.core.models.solo.BoundingBox3DAnnotationDefinition'&gt;,</span> <span class="pre">'type.unity.com/unity.solo.DepthAnnotation':</span> <span class="pre">&lt;class</span> <span class="pre">'pysolotools.core.models.solo.DepthAnnotationDefinition'&gt;,</span> <span class="pre">'type.unity.com/unity.solo.InstanceSegmentationAnnotation':</span> <span class="pre">&lt;class</span> <span class="pre">'pysolotools.core.models.solo.InstanceSegmentationAnnotationDefinition'&gt;,</span> <span class="pre">'type.unity.com/unity.solo.KeypointAnnotation':</span> <span class="pre">&lt;class</span> <span class="pre">'pysolotools.core.models.solo.KeypointAnnotationDefinition'&gt;,</span> <span class="pre">'type.unity.com/unity.solo.NormalAnnotation':</span> <span class="pre">&lt;class</span> <span class="pre">'pysolotools.core.models.solo.NormalAnnotationDefinition'&gt;,</span> <span class="pre">'type.unity.com/unity.solo.PixelPositionAnnotation':</span> <span class="pre">&lt;class</span> <span class="pre">'pysolotools.core.models.solo.PixelPositionAnnotationDefinition'&gt;,</span> <span class="pre">'type.unity.com/unity.solo.SemanticSegmentationAnnotation':</span> <span class="pre">&lt;class</span> <span class="pre">'pysolotools.core.models.solo.SemanticSegmentationAnnotationDefinition'&gt;}</span></em><a class="headerlink" href="#pysolotools.core.models.DataFactory.definition_switcher" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pysolotools.core.models.DataFactory.register">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">register</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Callable</span></span></span><a class="headerlink" href="#pysolotools.core.models.DataFactory.register" title="Permalink to this definition"></a></dt>
+<dd><p>Registers a new annotation type.
+:param name: Type string for the annotation type
+:type name: str</p>
+</dd></dl>
 
 </dd></dl>
 
@@ -1997,22 +2049,6 @@ type(str):</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="pysolotools.core.models.DatasetMetadata.unityVersion">
 <span class="sig-name descname"><span class="pre">unityVersion</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#pysolotools.core.models.DatasetMetadata.unityVersion" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="pysolotools.core.models.DefinitionFactory">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pysolotools.core.models.</span></span><span class="sig-name descname"><span class="pre">DefinitionFactory</span></span><a class="headerlink" href="#pysolotools.core.models.DefinitionFactory" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<dl class="py method">
-<dt class="sig sig-object py" id="pysolotools.core.models.DefinitionFactory.cast">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">cast</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pysolotools.core.models.DefinitionFactory.cast" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="pysolotools.core.models.DefinitionFactory.switcher">
-<span class="sig-name descname"><span class="pre">switcher</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'type.unity.com/unity.solo.BoundingBox2DAnnotation':</span> <span class="pre">&lt;class</span> <span class="pre">'pysolotools.core.models.solo.BoundingBox2DAnnotationDefinition'&gt;,</span> <span class="pre">'type.unity.com/unity.solo.BoundingBox3DAnnotation':</span> <span class="pre">&lt;class</span> <span class="pre">'pysolotools.core.models.solo.BoundingBox3DAnnotationDefinition'&gt;,</span> <span class="pre">'type.unity.com/unity.solo.DepthAnnotation':</span> <span class="pre">&lt;class</span> <span class="pre">'pysolotools.core.models.solo.DepthAnnotationDefinition'&gt;,</span> <span class="pre">'type.unity.com/unity.solo.InstanceSegmentationAnnotation':</span> <span class="pre">&lt;class</span> <span class="pre">'pysolotools.core.models.solo.InstanceSegmentationAnnotationDefinition'&gt;,</span> <span class="pre">'type.unity.com/unity.solo.KeypointAnnotation':</span> <span class="pre">&lt;class</span> <span class="pre">'pysolotools.core.models.solo.KeypointAnnotationDefinition'&gt;,</span> <span class="pre">'type.unity.com/unity.solo.NormalAnnotation':</span> <span class="pre">&lt;class</span> <span class="pre">'pysolotools.core.models.solo.NormalAnnotationDefinition'&gt;,</span> <span class="pre">'type.unity.com/unity.solo.PixelPositionAnnotation':</span> <span class="pre">&lt;class</span> <span class="pre">'pysolotools.core.models.solo.PixelPositionAnnotationDefinition'&gt;,</span> <span class="pre">'type.unity.com/unity.solo.SemanticSegmentationAnnotation':</span> <span class="pre">&lt;class</span> <span class="pre">'pysolotools.core.models.solo.SemanticSegmentationAnnotationDefinition'&gt;}</span></em><a class="headerlink" href="#pysolotools.core.models.DefinitionFactory.switcher" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 </dd></dl>
