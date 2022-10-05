@@ -13,7 +13,6 @@ from .solo import (
     DataFactory,
     DatasetAnnotations,
     DatasetMetadata,
-    DefinitionFactory,
     DepthAnnotation,
     DepthAnnotationDefinition,
     Frame,
