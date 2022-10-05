@@ -1,11 +1,7 @@
 import pytest
 
 from pysolotools.core.iterators import FramesIterator
-from pysolotools.core.models import (
-    AnnotationDefinition,
-    DatasetMetadata,
-    DefinitionFactory,
-)
+from pysolotools.core.models import AnnotationDefinition, DataFactory, DatasetMetadata
 
 
 class TestSolo:
@@ -14,7 +10,7 @@ class TestSolo:
         assert isinstance(metadata, DatasetMetadata)
 
     def test_get_annotation_definitions(self, solo_instance):
-        annotation_def_types = list(DefinitionFactory.switcher.values())
+        annotation_def_types = list(DataFactory.definition_switcher.values())
         annotation_def_types.append(AnnotationDefinition)
         annotation_definition = solo_instance.get_annotation_definitions()
         for ann_def in annotation_definition.annotationDefinitions:

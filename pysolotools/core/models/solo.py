@@ -1,6 +1,6 @@
 import logging
 from dataclasses import dataclass, field
-from typing import List
+from typing import Callable, List
 
 import pandas as pd
 from dataclasses_json import CatchAll, Undefined, config, dataclass_json
@@ -8,6 +8,159 @@ from dataclasses_json import CatchAll, Undefined, config, dataclass_json
 from pysolotools.core.exceptions import MissingCaptureException
 
 logger = logging.getLogger(__name__)
+
+
+@dataclass_json
+@dataclass
+class Capture:
+    """
+    id (str): Id
+    type(str):
+    """
+
+    id: str
+    type: str = field(metadata=config(field_name="@type"))
+    description: str
+    position: List[float]
+    rotation: List[float]
+    annotations: List[dataclass]
+
+    def get_annotations_df(self) -> pd.DataFrame:
+        """
+        Returns:
+                pd.DataFrame: Captures List fo
+        """
+        return pd.DataFrame(self.annotations)
+
+    def __post_init__(self):
+        self.annotations = [
+            DataFactory.cast_annotation(anno)
+            for anno in self.annotations
+            if DataFactory.cast_annotation(anno)
+        ]
+
+    def __eq__(self, other):
+        if other == self.id:
+            return True
+        return False
+
+
+@dataclass_json(undefined=Undefined.INCLUDE)
+@dataclass
+class AnnotationDefinition:
+    id: str
+    description: str
+    extra_data: CatchAll
+
+
+@dataclass_json(undefined=Undefined.INCLUDE)
+@dataclass
+class Annotation:
+    type: str = field(metadata=config(field_name="@type"))
+    id: str
+    sensorId: str
+    description: str
+    extra_data: CatchAll
+
+
+class DataFactory:
+    """
+    Factory class used to register data types that can be deserialized from a solo dataset.
+    Annotation, Capture, and Annotation Definition types must register with the annotation factory
+    with the following class decorator:
+        @DataFactory.register(@type string)
+    """
+
+    annotation_switcher = {}
+    capture_switcher = {}
+    definition_switcher = {}
+
+    @classmethod
+    def register(cls, name: str) -> Callable:
+        """
+        Registers a new annotation type.
+        Args:
+            name (str): Type string for the annotation type
+        """
+
+        def wrapper(wrapped) -> Callable:
+            if isinstance(wrapped, Annotation) or issubclass(wrapped, Annotation):
+                if name in cls.annotation_switcher:
+                    logger.warning(f"Annotation {name} has already been registered")
+                cls.annotation_switcher[name] = wrapped
+                return wrapped
+            elif isinstance(wrapped, Capture) or issubclass(wrapped, Capture):
+                if name in cls.capture_switcher:
+                    logger.warning(f"Capture {name} has already been registered")
+                cls.capture_switcher[name] = wrapped
+                return wrapped
+            elif isinstance(wrapped, AnnotationDefinition) or issubclass(
+                wrapped, AnnotationDefinition
+            ):
+                if name in cls.definition_switcher:
+                    logger.warning(
+                        f"Annotation definition {name} has already been registered"
+                    )
+                cls.definition_switcher[name] = wrapped
+                return wrapped
+            else:
+                raise TypeError(
+                    "Only can register annotations, captures, or annotation definitions"
+                )
+
+        return wrapper
+
+    @classmethod
+    def cast_annotation(cls, data):
+        if isinstance(data, Annotation):
+            return data
+
+        if "@type" not in data.keys():
+            raise Exception("No type provided in annotation")
+
+        dtype = data["@type"]
+        if dtype not in cls.annotation_switcher.keys():
+            logger.info(
+                f"Unknown data type: {dtype}. Treating it as generic Annotation type."
+            )
+            return Annotation.from_dict(data)
+        klass = cls.annotation_switcher[dtype]
+        return klass.from_dict(data)
+
+    @classmethod
+    def cast_capture(cls, data):
+        if isinstance(data, Capture):
+            return data
+
+        if "@type" not in data.keys():
+            raise Exception("No type provided in annotation")
+
+        dtype = data["@type"]
+        if dtype not in cls.capture_switcher.keys():
+            logger.info(
+                f"Unknown data type: {dtype}. Treating it as generic Capture type."
+            )
+            return Capture.from_dict(data)
+        klass = cls.capture_switcher[dtype]
+        return klass.from_dict(data)
+
+    @classmethod
+    def cast_definition(cls, data):
+
+        if isinstance(data, AnnotationDefinition):
+            return data
+
+        if "@type" not in data.keys():
+            raise Exception("No type provided in annotation")
+
+        dtype = data["@type"]
+        if dtype not in cls.definition_switcher.keys():
+            logger.info(
+                f"Unknown data type: {dtype}. Treating it as generic AnnotationDefinition type."
+            )
+            return AnnotationDefinition.from_dict(data)
+        klass = cls.definition_switcher[dtype]
+        return klass.from_dict(data)
 
 
 @dataclass
@@ -19,16 +172,6 @@ class _BaseMeta:
 class AnnotationLabel(_BaseMeta):
     instanceId: int
     labelId: int
-
-
-@dataclass_json(undefined=Undefined.INCLUDE)
-@dataclass
-class Annotation:
-    type: str = field(metadata=config(field_name="@type"))
-    id: str
-    sensorId: str
-    description: str
-    extra_data: CatchAll
 
 
 @dataclass_json
@@ -76,12 +219,14 @@ class SemanticSegmentationLabel(_BaseMeta):
     pixelValue: List[int]
 
 
+@DataFactory.register("type.unity.com/unity.solo.KeypointAnnotation")
 @dataclass
 class KeypointAnnotation(Annotation):
     templateId: str
     values: List[KeypointLabel]
 
 
+@DataFactory.register("type.unity.com/unity.solo.DepthAnnotation")
 @dataclass
 class DepthAnnotation(Annotation):
     imageFormat: str
@@ -89,6 +234,7 @@ class DepthAnnotation(Annotation):
     filename: str
 
 
+@DataFactory.register("type.unity.com/unity.solo.PixelPositionAnnotation")
 @dataclass
 class PixelPositionAnnotation(Annotation):
     imageFormat: str
@@ -96,6 +242,7 @@ class PixelPositionAnnotation(Annotation):
     filename: str
 
 
+@DataFactory.register("type.unity.com/unity.solo.NormalAnnotation")
 @dataclass
 class NormalAnnotation(Annotation):
     imageFormat: str
@@ -103,16 +250,19 @@ class NormalAnnotation(Annotation):
     filename: str
 
 
+@DataFactory.register("type.unity.com/unity.solo.BoundingBox2DAnnotation")
 @dataclass
 class BoundingBox2DAnnotation(Annotation):
     values: List[BoundingBox2DLabel] = field(default_factory=list)
 
 
+@DataFactory.register("type.unity.com/unity.solo.BoundingBox3DAnnotation")
 @dataclass
 class BoundingBox3DAnnotation(Annotation):
     values: List[BoundingBox3DLabel]
 
 
+@DataFactory.register("type.unity.com/unity.solo.InstanceSegmentationAnnotation")
 @dataclass
 class InstanceSegmentationAnnotation(Annotation):
     imageFormat: str
@@ -121,47 +271,13 @@ class InstanceSegmentationAnnotation(Annotation):
     instances: List[InstanceSegmentationLabel] = field(default_factory=list)
 
 
+@DataFactory.register("type.unity.com/unity.solo.SemanticSegmentationAnnotation")
 @dataclass
 class SemanticSegmentationAnnotation(Annotation):
     imageFormat: str
     dimension: List[int]
     filename: str
     instances: List[SemanticSegmentationLabel]
-
-
-@dataclass_json
-@dataclass
-class Capture:
-    """
-    id (str): Id
-    type(str):
-    """
-
-    id: str
-    type: str = field(metadata=config(field_name="@type"))
-    description: str
-    position: List[float]
-    rotation: List[float]
-    annotations: List[dataclass]
-
-    def get_annotations_df(self) -> pd.DataFrame:
-        """
-        Returns:
-                pd.DataFrame: Captures List fo
-        """
-        return pd.DataFrame(self.annotations)
-
-    def __post_init__(self):
-        self.annotations = [
-            DataFactory.cast(anno)
-            for anno in self.annotations
-            if DataFactory.cast(anno)
-        ]
-
-    def __eq__(self, other):
-        if other == self.id:
-            return True
-        return False
 
 
 @dataclass_json
@@ -174,7 +290,7 @@ class Frame:
     captures: List[dataclass] = field(default_factory=list)
 
     def __post_init__(self):
-        self.captures = [DataFactory.cast(capture) for capture in self.captures]
+        self.captures = [DataFactory.cast_capture(capture) for capture in self.captures]
 
     def get_file_path(self, capture: Capture) -> str:
         """
@@ -207,6 +323,7 @@ class Frame:
         return list(res)
 
 
+@DataFactory.register("type.unity.com/unity.solo.RGBCamera")
 @dataclass
 class RGBCameraCapture(Capture):
     rotation: List[float]
@@ -217,14 +334,6 @@ class RGBCameraCapture(Capture):
     dimension: List[float]
     projection: str
     matrix: List[float]
-
-
-@dataclass_json(undefined=Undefined.INCLUDE)
-@dataclass
-class AnnotationDefinition:
-    id: str
-    description: str
-    extra_data: CatchAll
 
 
 @dataclass
@@ -241,21 +350,25 @@ class KeypointTemplateDefinition:
     keypoints: List[KeypointDefinition]
 
 
+@DataFactory.register("type.unity.com/unity.solo.KeypointAnnotation")
 @dataclass
 class KeypointAnnotationDefinition(AnnotationDefinition):
     template: KeypointTemplateDefinition
 
 
+@DataFactory.register("type.unity.com/unity.solo.DepthAnnotation")
 @dataclass
 class DepthAnnotationDefinition(AnnotationDefinition):
     pass  # no additional fields
 
 
+@DataFactory.register("type.unity.com/unity.solo.PixelPositionAnnotation")
 @dataclass
 class PixelPositionAnnotationDefinition(AnnotationDefinition):
     pass  # no additional fields
 
 
+@DataFactory.register("type.unity.com/unity.solo.NormalAnnotation")
 @dataclass
 class NormalAnnotationDefinition(AnnotationDefinition):
     pass  # no additional fields
@@ -267,21 +380,25 @@ class LabelNameSpec:
     label_name: str
 
 
+@DataFactory.register("type.unity.com/unity.solo.BoundingBox2DAnnotation")
 @dataclass
 class BoundingBox2DAnnotationDefinition(AnnotationDefinition):
     spec: List[LabelNameSpec]
 
 
+@DataFactory.register("type.unity.com/unity.solo.SemanticSegmentationAnnotation")
 @dataclass
 class SemanticSegmentationAnnotationDefinition(AnnotationDefinition):
     pass  # Adds not additional fields
 
 
+@DataFactory.register("type.unity.com/unity.solo.BoundingBox3DAnnotation")
 @dataclass
 class BoundingBox3DAnnotationDefinition(AnnotationDefinition):
     spec: List[LabelNameSpec]
 
 
+@DataFactory.register("type.unity.com/unity.solo.InstanceSegmentationAnnotation")
 @dataclass
 class InstanceSegmentationAnnotationDefinition(AnnotationDefinition):
     spec: List[LabelNameSpec]
@@ -336,66 +453,5 @@ class DatasetAnnotations(object):
 
     def __post_init__(self):
         self.annotationDefinitions = [
-            DefinitionFactory.cast(anno) for anno in self.annotationDefinitions
+            DataFactory.cast_definition(anno) for anno in self.annotationDefinitions
         ]
-
-
-class DataFactory:
-    switcher = {
-        "type.unity.com/unity.solo.RGBCamera": RGBCameraCapture,
-        "type.unity.com/unity.solo.KeypointAnnotation": KeypointAnnotation,
-        "type.unity.com/unity.solo.BoundingBox2DAnnotation": BoundingBox2DAnnotation,
-        "type.unity.com/unity.solo.BoundingBox3DAnnotation": BoundingBox3DAnnotation,
-        "type.unity.com/unity.solo.InstanceSegmentationAnnotation": InstanceSegmentationAnnotation,
-        "type.unity.com/unity.solo.SemanticSegmentationAnnotation": SemanticSegmentationAnnotation,
-        "type.unity.com/unity.solo.DepthAnnotation": DepthAnnotation,
-        "type.unity.com/unity.solo.PixelPositionAnnotation": PixelPositionAnnotation,
-        "type.unity.com/unity.solo.NormalAnnotation": NormalAnnotation,
-    }
-
-    @classmethod
-    def cast(cls, data):
-        if isinstance(data, (Annotation, Capture)):
-            return data
-
-        if "@type" not in data.keys():
-            raise Exception("No type provided in annotation")
-
-        dtype = data["@type"]
-        if dtype not in cls.switcher.keys():
-            logger.info(
-                f"Unknown data type: {dtype}. Treating it as generic Annotation type."
-            )
-            return Annotation.from_dict(data)
-        klass = cls.switcher[dtype]
-        return klass.from_dict(data)
-
-
-class DefinitionFactory:
-    switcher = {
-        "type.unity.com/unity.solo.KeypointAnnotation": KeypointAnnotationDefinition,
-        "type.unity.com/unity.solo.BoundingBox2DAnnotation": BoundingBox2DAnnotationDefinition,
-        "type.unity.com/unity.solo.BoundingBox3DAnnotation": BoundingBox3DAnnotationDefinition,
-        "type.unity.com/unity.solo.SemanticSegmentationAnnotation": SemanticSegmentationAnnotationDefinition,
-        "type.unity.com/unity.solo.InstanceSegmentationAnnotation": InstanceSegmentationAnnotationDefinition,
-        "type.unity.com/unity.solo.DepthAnnotation": DepthAnnotationDefinition,
-        "type.unity.com/unity.solo.PixelPositionAnnotation": PixelPositionAnnotationDefinition,
-        "type.unity.com/unity.solo.NormalAnnotation": NormalAnnotationDefinition,
-    }
-
-    @classmethod
-    def cast(cls, data):
-
-        if isinstance(data, AnnotationDefinition):
-            return data
-
-        if "@type" not in data.keys():
-            raise Exception("No type provided in annotation")
-        dtype = data["@type"]
-        if dtype not in cls.switcher.keys():
-            logger.info(
-                f"Unknown data type: {dtype}. Treating it as generic AnnotationDefinition type."
-            )
-            return AnnotationDefinition.from_dict(data)
-        klass = cls.switcher[dtype]
-        return klass.from_dict(data)
