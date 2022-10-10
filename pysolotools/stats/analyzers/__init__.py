@@ -1,4 +1,9 @@
-from .bbox_analyzer import BBoxHeatMapStatsAnalyzer, BBoxSizeStatsAnalyzer
+from .bbox_analyzer import (
+    BBoxCountStats,
+    BBoxCountStatsAnalyzer,
+    BBoxHeatMapStatsAnalyzer,
+    BBoxSizeStatsAnalyzer,
+)
 from .image_analysis_analyzer import (
     LaplacianStatsAnalyzer,
     PowerSpectrumStatsAnalyzer,
@@ -6,6 +11,8 @@ from .image_analysis_analyzer import (
 )
 
 __all__ = [
+    "BBoxCountStatsAnalyzer",
+    "BBoxCountStats",
     "BBoxHeatMapStatsAnalyzer",
     "BBoxSizeStatsAnalyzer",
     "PowerSpectrumStatsAnalyzer",
