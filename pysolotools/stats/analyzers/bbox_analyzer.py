@@ -86,10 +86,8 @@ class BBoxCountStatsAnalyzer(StatsAnalyzer):
                     for v in annotation.values:
                         if self._cat_ids and v.labelId not in self._cat_ids:
                             continue
-                        if v.labelId not in frame_counts:
-                            frame_counts[v.labelId] = 1
-                        else:
-                            frame_counts[v.labelId] += 1
+
+                        frame_counts[v.labelId] = frame_counts.get(v.labelId, 0) + 1
 
         return frame.frame, frame_counts
 

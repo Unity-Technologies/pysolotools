@@ -26,3 +26,12 @@ class TestSolo:
 
     def test_len(self, solo_instance):
         assert len(solo_instance.frames()) == 2
+
+    def test_categories(self, solo_instance):
+        cats = solo_instance.categories()
+        assert len(cats) == 5
+        assert cats[1] == "Crate"
+        assert cats[2] == "Cube"
+        assert cats[3] == "Box"
+        assert cats[4] == "Terrain"
+        assert cats[5] == "Character"
