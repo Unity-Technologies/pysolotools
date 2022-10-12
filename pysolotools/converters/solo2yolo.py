@@ -52,7 +52,6 @@ class Solo2YoloConverter:
     @staticmethod
     def _process_annotations(image_id, rgb_capture, output):
         width, height = rgb_capture.dimension
-        print(f"w: {width}, h: {height}")
         filename = f"camera_{image_id}.txt"
         file_to = output / filename
 
@@ -74,7 +73,6 @@ class Solo2YoloConverter:
 
     @staticmethod
     def _process_instances(frame: Frame, idx, images_output, labels_output, data_root):
-        print(f"Processing frame number: {idx}", flush=True)
         image_id = idx
         sequence_num = frame.sequence
 
@@ -88,14 +86,8 @@ class Solo2YoloConverter:
         )
         Solo2YoloConverter._process_annotations(image_id, rgb_capture, labels_output)
 
-    @staticmethod
-    def _print_this(idx):
-        print("Hi", flush=True)
-        return idx * 3
-
-    def convert(self, output_path: str, dataset_name: str = "yolo"):
-        print(f"in convert")
-        base_path = Path(output_path) / dataset_name
+    def convert(self, output_path: str):
+        base_path = Path(output_path)
         images_output = base_path / "images"
         labels_output = base_path / "labels"
         images_output.mkdir(parents=True, exist_ok=True)
@@ -104,11 +96,6 @@ class Solo2YoloConverter:
         data_path = Path(self._solo.data_path)
 
         for idx, frame in enumerate(self._solo.frames()):
-            print(f"processing frame {idx}")
-
-            # res = self._pool.apply_async(self._print_this, (idx,))
-            # print(f"returned frame {res.get()}")
-
             self._pool.apply_async(
                 self._process_instances,
                 args=(frame, idx, images_output, labels_output, data_path),
@@ -125,15 +112,16 @@ def cli():
         epilog="\n",
     )
 
-    parser.add_argument("solo")
+    parser.add_argument("solo_path")
+    parser.add_argument("yolo_path")
 
     args = parser.parse_args(sys.argv[1:])
 
-    solo = Solo(args.solo)
+    solo = Solo(args.solo_path)
 
     converter = Solo2YoloConverter(solo)
 
-    converter.convert("D:/PerceptionOutput/Tutorial")
+    converter.convert(args.yolo_path)
 
 
 if __name__ == "__main__":
