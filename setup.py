@@ -74,4 +74,7 @@ setup(
         "Programming Language :: Python :: 3.8",
     ],
     packages=find_packages(include=["pysolotools", "pysolotools.*"]),
+    entry_points={
+        "console_scripts": ["solo2yolo=pysolotools.converters.solo2yolo:cli"]
+    },
 )
