@@ -4,9 +4,80 @@ import numpy as np
 
 from pysolotools.core.models import BoundingBox2DAnnotation, BoundingBox2DLabel
 from pysolotools.stats.analyzers.bbox_analyzer import (
+    BBoxCountStats,
+    BBoxCountStatsAnalyzer,
     BBoxHeatMapStatsAnalyzer,
     BBoxSizeStatsAnalyzer,
 )
+
+
+class TestBBoxCountStatsAnalyzer:
+    def test_analyze(self, solo_instance):
+        analyzer = BBoxCountStatsAnalyzer(solo_instance)
+        frame = next(solo_instance.frames())
+        res = analyzer.analyze(frame)
+        assert len(res[1].keys()) == 2
+        assert res[1][1] == 2
+        assert res[1][5] == 1
+
+    def test_merge(self, solo_instance):
+        analyzer = BBoxCountStatsAnalyzer(solo_instance)
+        analyzer.merge((2, {1: 2, 5: 1}))
+        analyzer.merge((3, {1: 3, 5: 2, 4: 1}))
+        assert analyzer.get_result().get_total_count() == 9
+
+
+class TestBBoxCountStats:
+    def test_get_ids(self, solo_instance):
+        stats = BBoxCountStats(solo_instance)
+        assert len(stats.get_ids()) == 5
+
+    def test_get_labels(self, solo_instance):
+        stats = BBoxCountStats(solo_instance)
+        assert len(stats.get_labels()) == 5
+        assert "Crate" in stats.get_labels()
+
+    def test_add_counts(self, solo_instance):
+        stats = BBoxCountStats(solo_instance)
+        stats.add_counts((2, {1: 2, 5: 1}))
+        stats.add_counts((3, {1: 3, 5: 2, 4: 1}))
+        assert stats.get_total_count() == 9
+
+    def test_get_count(self, solo_instance):
+        stats = BBoxCountStats(solo_instance)
+        stats.add_counts((2, {1: 2, 5: 1}))
+        stats.add_counts((3, {1: 3, 5: 2, 4: 1}))
+        assert stats.get_count([1]) == 5
+        assert stats.get_count([5]) == 3
+        assert stats.get_count([4]) == 1
+        assert stats.get_count([99]) == 0
+        assert stats.get_count([1, 5]) == 8
+
+    def test_get_count_by_label(self, solo_instance):
+        stats = BBoxCountStats(solo_instance)
+        stats.add_counts((2, {1: 2, 5: 1}))
+        stats.add_counts((3, {1: 3, 5: 2, 4: 1}))
+        assert stats.get_count_by_label(["Crate"]) == 5
+        assert stats.get_count_by_label(["Character"]) == 3
+        assert stats.get_count_by_label(["Terrain"]) == 1
+        assert stats.get_count_by_label(["DNE"]) == 0
+        assert stats.get_count_by_label(["Crate", "Character"]) == 8
+
+    def test_get_count_per_frame(self, solo_instance):
+        stats = BBoxCountStats(solo_instance)
+        stats.add_counts((2, {1: 2, 5: 1}))
+        stats.add_counts((3, {1: 3, 5: 2, 4: 1}))
+        assert stats.get_count_per_frame([2])[2] == 3
+        assert stats.get_count_per_frame([3])[3] == 6
+        assert stats.get_count_per_frame([2], [1])[2] == 2
+        assert stats.get_count_per_frame([3], [4])[3] == 1
+
+    def test_get_count_per_frame_by_label(self, solo_instance):
+        stats = BBoxCountStats(solo_instance)
+        stats.add_counts((2, {1: 2, 5: 1}))
+        stats.add_counts((3, {1: 3, 5: 2, 4: 1}))
+        assert stats.get_count_per_frame_by_label([2], ["Crate"])[2] == 2
+        assert stats.get_count_per_frame_by_label([3], ["Terrain"])[3] == 1
 
 
 class TestBBoxStatsAnalyzer:

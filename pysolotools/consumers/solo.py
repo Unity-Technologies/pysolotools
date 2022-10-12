@@ -1,9 +1,14 @@
 import glob
 import logging
+from typing import Dict
 
-from pysolotools.core import DatasetMetadata
+from pysolotools.core import BoundingBox2DAnnotationDefinition, DatasetMetadata
 from pysolotools.core.iterators import FramesIterator
-from pysolotools.core.models import DatasetAnnotations
+from pysolotools.core.models import (
+    BoundingBox3DAnnotationDefinition,
+    DatasetAnnotations,
+    InstanceSegmentationAnnotationDefinition,
+)
 
 """
 Example:
@@ -68,6 +73,26 @@ class Solo:
             self.start,
             self.end,
         )
+
+    def categories(self) -> Dict[int, str]:
+        categories = {}
+        for d in self.annotation_definitions.annotationDefinitions:
+            if isinstance(d, BoundingBox2DAnnotationDefinition):
+                for s in d.spec:
+                    categories[s.label_id] = s.label_name
+                return categories
+            elif isinstance(d, BoundingBox3DAnnotationDefinition):
+                for s in d.spec:
+                    categories[s.label_id] = s.label_name
+                return categories
+            elif isinstance(d, InstanceSegmentationAnnotationDefinition):
+                for s in d.spec:
+                    categories[s.label_id] = s.label_name
+                return categories
+        return None
+
+    def frame_ids(self):
+        return list(map(lambda f: f.frame, self.frames()))
 
     def get_metadata(self) -> DatasetMetadata:
         """
