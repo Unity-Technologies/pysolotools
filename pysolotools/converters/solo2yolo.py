@@ -1,5 +1,4 @@
 import argparse
-import logging
 import multiprocessing
 import shutil
 import sys
@@ -8,9 +7,6 @@ from pathlib import Path
 from pysolotools.consumers import Solo
 from pysolotools.core import BoundingBox2DAnnotation, RGBCameraCapture
 from pysolotools.core.models import Frame
-
-logger = logging.getLogger()
-logger.setLevel(logging.INFO)
 
 
 class Solo2YoloConverter:
