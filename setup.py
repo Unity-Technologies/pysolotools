@@ -75,6 +75,9 @@ setup(
     ],
     packages=find_packages(include=["pysolotools", "pysolotools.*"]),
     entry_points={
-        "console_scripts": ["solo2yolo=pysolotools.converters.solo2yolo:cli"]
+        "console_scripts": [
+            "solo2yolo=pysolotools.converters.solo2yolo:cli",
+            "solo2coco=pysolotools.converters.solo2coco:cli",
+        ]
     },
 )

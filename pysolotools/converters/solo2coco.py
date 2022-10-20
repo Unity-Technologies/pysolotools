@@ -1,8 +1,10 @@
+import argparse
 import json
 import logging
 import multiprocessing
 import os
 import shutil
+import sys
 from datetime import datetime
 from pathlib import Path
 from typing import Dict, List, Tuple
@@ -448,3 +450,29 @@ class SOLO2COCOConverter:
         self._pool.join()
 
         self._write_out_annotations(output)
+
+
+def cli():
+    parser = argparse.ArgumentParser(
+        prog="solo2coco",
+        description=("Converts SOLO datasets into COCO datasets",),
+        epilog="\n",
+    )
+
+    parser.add_argument("solo_path")
+    parser.add_argument("coco_path")
+    parser.add_argument(
+        "-n", "--name", default="coco", help="The name of the coco dataset"
+    )
+
+    args = parser.parse_args(sys.argv[1:])
+
+    solo = Solo(args.solo_path)
+
+    converter = SOLO2COCOConverter(solo)
+
+    converter.convert(output_path=args.coco_path, dataset_name=args.name)
+
+
+if __name__ == "__main__":
+    cli()
