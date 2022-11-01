@@ -44,7 +44,7 @@ jobs:
         run: |
           tag=${{ steps.changelog.outputs.tag }}
           echo "tag $tag"
-          echo "::set-output name=version_tag::${tag}"
+          echo "version_tag=${tag}" >> $GITHUB_OUTPUT
 
   build_and_deploy_docker_image_stg:
     needs: [ changelog ]

@@ -38,11 +38,11 @@ jobs:
           if [[ ! -z "$GITHUB_HEAD_REF" ]]
           then
             sha="${{ github.event.pull_request.head.sha }}"
-            echo "::set-output name=ref_name::$(echo ${GITHUB_HEAD_REF##*/})"
-            echo "::set-output name=head_sha::$sha"
+            echo "ref_name=$(echo ${GITHUB_HEAD_REF##*/})" >> $GITHUB_OUTPUT
+            echo "head_sha=$sha" >> $GITHUB_OUTPUT
           else
-            echo "::set-output name=ref_name::$(echo ${GITHUB_REF##*/})"
-            echo "::set-output name=head_sha::$GITHUB_SHA"
+            echo "ref_name=$(echo ${GITHUB_REF##*/})" >> $GITHUB_OUTPUT
+            echo "head_sha=$GITHUB_SHA" >> $GITHUB_OUTPUT
           fi
         id: short_names
       - name: Build
