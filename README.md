@@ -2,7 +2,7 @@
 <p align="center">
 
 
-**The open-source tool for using Unity SOLO Datasets**
+**The open-source tool for loading and analyzing Unity SOLO datasets**
 ---
 
 [![PyPI version](https://github.com/pytest-dev/pytest-cov/actions/workflows/test.yml/badge.svg)](https://github.com/Unity-Technologies/pysolotools/actions)
@@ -13,13 +13,13 @@
 
 ## Introduction
 
-pysolotools is a python package for managing the solo dataset.
+pysolotools is a python package for managing SOLO datasets.
 It helps to perform following tasks:
 
-- Parse SOLO datasets generated with Unity Perception.
-- Dataset iterables.
-- Convert SOLO to [COCO format](https://cocodataset.org/#format-data).
-- Compute stats on the SOLO dataset.
+- Parse SOLO datasets generated with Unity Perception
+- Dataset iterables
+- Convert SOLO to [COCO format](https://cocodataset.org/#format-data)
+- Compute common statistics
 
 You can read more about SOLO schema [here](https://github.com/Unity-Technologies/perception/blob/main/com.unity.perception/com.unity.perception/Documentation~/SoloSchema/Solo_Schema.md).
 
