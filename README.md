@@ -2,7 +2,7 @@
 <p align="center">
 
 
-**The open-source tool for loading and analyzing Unity SOLO Datasets**
+**The open-source tool for loading and analyzing Unity SOLO datasets**
 ---
 
 [![PyPI version](https://github.com/pytest-dev/pytest-cov/actions/workflows/test.yml/badge.svg)](https://github.com/Unity-Technologies/pysolotools/actions)
