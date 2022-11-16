@@ -23,19 +23,11 @@ jobs:
           pip install pre-commit
           pre-commit run --all-files
 
-  sonar-scan:
-    runs-on: self-hosted
-    steps:
-      - uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-      - run: echo "SHA_SHORT=$(echo $GITHUB_SHA | cut -c 1-8)" >> $GITHUB_ENV
-      - run: sonar-scanner
-          -Dsonar.host.url=https://sonarqube.internal.unity3d.com
-          -Dsonar.login=${{ secrets.SONARQUBE_TOKEN }}
-          -Dsonar.qualitygate.wait=true
-          -Dsonar.projectVersion=${{ env.SHA_SHORT }}
-          -Dsonar.branch.name=${GITHUB_REF:11}
+  sonarqube:
+    uses: Unity-Technologies/github-actions-workflows/.github/workflows/sonarqube.yml@main
+    with:
+      coverage: false
+      projectBaseDir: pysolotools/
 
   Test-Linux:
     runs-on: ubuntu-latest
