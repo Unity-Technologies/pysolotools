@@ -1,3 +1,4 @@
+import logging
 from dataclasses import dataclass
 from unittest.mock import MagicMock
 
@@ -15,6 +16,8 @@ from pysolotools.core import (
 )
 from pysolotools.core.iterators import FramesIterator
 from pysolotools.core.models import DatasetAnnotations, DatasetMetadata
+
+logger = logging.getLogger(__name__)
 
 
 @dataclass
@@ -51,7 +54,9 @@ class TestFramesIterator:
             lambda k: isinstance(k, RGBCameraCapture),
             setup_frame_iterator.frame.captures,
         )
-        print(f"\n \n Testing with {len(list(rgb_captures))} RGBCameraCapture \n \n ")
+        logger.debug(
+            f"\n \n Testing with {len(list(rgb_captures))} RGBCameraCapture \n \n "
+        )
         for capture in rgb_captures:
             assert isinstance(capture, RGBCameraCapture)
 
@@ -66,7 +71,7 @@ class TestFramesIterator:
             bbox2dannotations = filter(
                 lambda c: isinstance(c, BoundingBox2DAnnotation), annotations
             )
-            print(
+            logger.debug(
                 f"\n \n Testing with {len(list(bbox2dannotations))} BoundingBox2DAnnotation \n \n "
             )
             for bbox2d in bbox2dannotations:
@@ -75,7 +80,7 @@ class TestFramesIterator:
             bbox3dannotations = filter(
                 lambda c: isinstance(c, BoundingBox3DAnnotation), annotations
             )
-            print(
+            logger.debug(
                 f"\n \n Testing with {len(list(bbox3dannotations))} BoundingBox3DAnnotation \n \n "
             )
             for bbox3d in bbox3dannotations:
@@ -84,7 +89,7 @@ class TestFramesIterator:
             instance_segmentation_annotations = filter(
                 lambda c: isinstance(c, InstanceSegmentationAnnotation), annotations
             )
-            print(
+            logger.debug(
                 f"\n \n Testing with {len(list(instance_segmentation_annotations))} "
                 f"InstanceSegmentationAnnotation \n \n "
             )
@@ -96,7 +101,7 @@ class TestFramesIterator:
             semantic_segmentation_annotations = filter(
                 lambda c: isinstance(c, SemanticSegmentationAnnotation), annotations
             )
-            print(
+            logger.debug(
                 f"\n \n Testing with {len(list(semantic_segmentation_annotations))} "
                 f"SemanticSegmentationAnnotation \n \n "
             )
@@ -108,7 +113,7 @@ class TestFramesIterator:
             keypoint_annotations = filter(
                 lambda c: isinstance(c, KeypointAnnotation), annotations
             )
-            print(
+            logger.debug(
                 f"\n \n Testing with {len(list(keypoint_annotations))} "
                 f"SemanticSegmentationAnnotation \n \n "
             )
