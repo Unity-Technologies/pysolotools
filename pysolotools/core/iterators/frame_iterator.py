@@ -1,4 +1,5 @@
 import glob
+import logging
 import os
 import time
 
@@ -10,6 +11,8 @@ from pysolotools.core.models import (
     InstanceSegmentationAnnotation,
     SemanticSegmentationAnnotation,
 )
+
+logger = logging.getLogger(__name__)
 
 
 class FramesIterator:
@@ -49,7 +52,7 @@ class FramesIterator:
         self.frame_idx = start
         pre = time.time()
         self.metadata = metadata
-        print("DONE (t={:0.5f}s)".format(time.time() - pre))
+        logger.info("DONE (t={:0.5f}s)".format(time.time() - pre))
 
         self.total_frames = self.metadata.totalFrames
         self.total_sequences = self.metadata.totalSequences
