@@ -289,6 +289,7 @@
 <li class="toctree-l4"><a class="reference internal" href="pysolotools.core.models.html#pysolotools.core.models.solo.Frame.schema"><code class="docutils literal notranslate"><span class="pre">Frame.schema()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="pysolotools.core.models.html#pysolotools.core.models.solo.Frame.sequence"><code class="docutils literal notranslate"><span class="pre">Frame.sequence</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="pysolotools.core.models.html#pysolotools.core.models.solo.Frame.step"><code class="docutils literal notranslate"><span class="pre">Frame.step</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pysolotools.core.models.html#pysolotools.core.models.solo.Frame.timestamp"><code class="docutils literal notranslate"><span class="pre">Frame.timestamp</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="pysolotools.core.models.html#pysolotools.core.models.solo.Frame.to_dict"><code class="docutils literal notranslate"><span class="pre">Frame.to_dict()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="pysolotools.core.models.html#pysolotools.core.models.solo.Frame.to_json"><code class="docutils literal notranslate"><span class="pre">Frame.to_json()</span></code></a></li>
 </ul>
@@ -614,6 +615,7 @@
 <li class="toctree-l4"><a class="reference internal" href="pysolotools.core.models.html#pysolotools.core.models.Frame.schema"><code class="docutils literal notranslate"><span class="pre">Frame.schema()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="pysolotools.core.models.html#pysolotools.core.models.Frame.sequence"><code class="docutils literal notranslate"><span class="pre">Frame.sequence</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="pysolotools.core.models.html#pysolotools.core.models.Frame.step"><code class="docutils literal notranslate"><span class="pre">Frame.step</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pysolotools.core.models.html#pysolotools.core.models.Frame.timestamp"><code class="docutils literal notranslate"><span class="pre">Frame.timestamp</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="pysolotools.core.models.html#pysolotools.core.models.Frame.to_dict"><code class="docutils literal notranslate"><span class="pre">Frame.to_dict()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="pysolotools.core.models.html#pysolotools.core.models.Frame.to_json"><code class="docutils literal notranslate"><span class="pre">Frame.to_json()</span></code></a></li>
 </ul>
@@ -1117,7 +1119,7 @@ type(str):</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="pysolotools.core.Frame">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pysolotools.core.</span></span><span class="sig-name descname"><span class="pre">Frame</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frame:</span> <span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sequence:</span> <span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">step:</span> <span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metrics:</span> <span class="pre">List[dataclass]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">captures:</span> <span class="pre">List[dataclass]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pysolotools.core.Frame" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pysolotools.core.</span></span><span class="sig-name descname"><span class="pre">Frame</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frame:</span> <span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sequence:</span> <span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">step:</span> <span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timestamp:</span> <span class="pre">float</span> <span class="pre">=</span> <span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metrics:</span> <span class="pre">List[dataclass]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">captures:</span> <span class="pre">List[dataclass]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pysolotools.core.Frame" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="pysolotools.core.Frame.captures">
@@ -1201,6 +1203,11 @@ type(str):</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="pysolotools.core.Frame.step">
 <span class="sig-name descname"><span class="pre">step</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#pysolotools.core.Frame.step" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pysolotools.core.Frame.timestamp">
+<span class="sig-name descname"><span class="pre">timestamp</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0.0</span></em><a class="headerlink" href="#pysolotools.core.Frame.timestamp" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py method">

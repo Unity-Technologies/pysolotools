@@ -783,7 +783,7 @@ with the following class decorator:</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="pysolotools.core.models.solo.Frame">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pysolotools.core.models.solo.</span></span><span class="sig-name descname"><span class="pre">Frame</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frame:</span> <span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sequence:</span> <span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">step:</span> <span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metrics:</span> <span class="pre">List[dataclass]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">captures:</span> <span class="pre">List[dataclass]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pysolotools.core.models.solo.Frame" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pysolotools.core.models.solo.</span></span><span class="sig-name descname"><span class="pre">Frame</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frame:</span> <span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sequence:</span> <span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">step:</span> <span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timestamp:</span> <span class="pre">float</span> <span class="pre">=</span> <span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metrics:</span> <span class="pre">List[dataclass]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">captures:</span> <span class="pre">List[dataclass]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pysolotools.core.models.solo.Frame" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="pysolotools.core.models.solo.Frame.captures">
@@ -867,6 +867,11 @@ with the following class decorator:</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="pysolotools.core.models.solo.Frame.step">
 <span class="sig-name descname"><span class="pre">step</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#pysolotools.core.models.solo.Frame.step" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pysolotools.core.models.solo.Frame.timestamp">
+<span class="sig-name descname"><span class="pre">timestamp</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0.0</span></em><a class="headerlink" href="#pysolotools.core.models.solo.Frame.timestamp" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -2122,7 +2127,7 @@ with the following class decorator:</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="pysolotools.core.models.Frame">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pysolotools.core.models.</span></span><span class="sig-name descname"><span class="pre">Frame</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frame:</span> <span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sequence:</span> <span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">step:</span> <span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metrics:</span> <span class="pre">List[dataclass]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">captures:</span> <span class="pre">List[dataclass]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pysolotools.core.models.Frame" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pysolotools.core.models.</span></span><span class="sig-name descname"><span class="pre">Frame</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frame:</span> <span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sequence:</span> <span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">step:</span> <span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timestamp:</span> <span class="pre">float</span> <span class="pre">=</span> <span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metrics:</span> <span class="pre">List[dataclass]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">captures:</span> <span class="pre">List[dataclass]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pysolotools.core.models.Frame" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="pysolotools.core.models.Frame.captures">
@@ -2206,6 +2211,11 @@ with the following class decorator:</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="pysolotools.core.models.Frame.step">
 <span class="sig-name descname"><span class="pre">step</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#pysolotools.core.models.Frame.step" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pysolotools.core.models.Frame.timestamp">
+<span class="sig-name descname"><span class="pre">timestamp</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0.0</span></em><a class="headerlink" href="#pysolotools.core.models.Frame.timestamp" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
