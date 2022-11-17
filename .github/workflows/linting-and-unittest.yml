@@ -27,7 +27,7 @@ jobs:
     uses: Unity-Technologies/github-actions-workflows/.github/workflows/sonarqube.yml@main
     with:
       coverage: false
-      projectBaseDir: pysolotools/
+      projectBaseDir: .
 
   Test-Linux:
     runs-on: ubuntu-latest
