@@ -45,7 +45,7 @@ jobs:
         run: |
           pytest --cov-report=xml --cov-report=term-missing:skip-covered --cov=pysolotools/
       - name: Override Coverage Source Path for Sonar
-        run: sed -i "s/<source>\/home\/runner\/work\/pysolotools\/pysolotools\/pysolotools<\/source>/<source>\/github\/workspace\/pysolotools\/pysolotools<\/source>/g" /home/runner/work/pysolotools/pysolotools/coverage.xml
+        run: sed -i "s/<source>\/home\/runner\/work\/pysolotools\/pysolotools\/pysolotools<\/source>/<source>\/github\/workspace\/pysolotools<\/source>/g" /home/runner/work/pysolotools/pysolotools/coverage.xml
       - uses: actions/upload-artifact@v3
         with:
           name: code-coverage-data
