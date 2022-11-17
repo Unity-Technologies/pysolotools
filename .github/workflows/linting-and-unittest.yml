@@ -44,7 +44,8 @@ jobs:
       - name: Build coverage file
         run: |
           pytest --cov-report=xml --cov-report=term-missing:skip-covered --cov=pysolotools/
-      - uses: Unity-Technologies/github-actions-workflows/.github/workflows/sonarqube.yml@main
+      - name: Sonarqube
+        uses: Unity-Technologies/github-actions-workflows/.github/workflows/sonarqube.yml@main
         with:
           coverage: true
           projectBaseDir: .
