@@ -286,6 +286,7 @@ class Frame:
     frame: int
     sequence: int
     step: int
+    timestamp: float = 0.0
     metrics: List[dataclass] = field(default_factory=list)
     captures: List[dataclass] = field(default_factory=list)
 
