@@ -44,11 +44,18 @@ jobs:
       - name: Build coverage file
         run: |
           pytest --cov-report=xml --cov-report=term-missing:skip-covered --cov=pysolotools/
-      - name: Sonarqube
-        uses: Unity-Technologies/github-actions-workflows/.github/workflows/sonarqube.yml@main
+      - uses: actions/upload-artifact@v3
         with:
-          coverage: true
-          projectBaseDir: .
+          name: code-coverage-data
+          path: coverage.xml
+          retention-days: 2
+
+  sonarqube:
+    uses: Unity-Technologies/github-actions-workflows/.github/workflows/sonarqube.yml@main
+    needs: Test-Linux
+    with:
+      coverage: true
+      projectBaseDir: .
 
   Test-Windows:
     runs-on: windows-latest
