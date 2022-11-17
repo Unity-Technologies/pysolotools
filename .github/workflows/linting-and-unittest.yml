@@ -53,7 +53,7 @@ jobs:
       - uses: actions/upload-artifact@v3
         with:
           name: code-coverage-data
-          path: pytest-coverage.txt
+          path: pytest.xml
           retention-days: 2
       - name: Test Failure Check
         if: ${{ steps.steps.coverageComment.outputs.failures > 0 || steps.steps.coverageComment.outputs.errors > 0 }}
