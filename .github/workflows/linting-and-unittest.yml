@@ -50,12 +50,24 @@ jobs:
         with:
           pytest-coverage-path: pytest-coverage.txt
           junitxml-path: pytest.xml
+      - uses: actions/upload-artifact@v3
+        with:
+          name: code-coverage-data
+          path: pytest.xml
+          retention-days: 2
       - name: Test Failure Check
         if: ${{ steps.steps.coverageComment.outputs.failures > 0 || steps.steps.coverageComment.outputs.errors > 0 }}
         uses: actions/github-script@v6
         with:
           script: |
             core.setFailed("Tests Failed")
+
+  sonarqube:
+    uses: Unity-Technologies/github-actions-workflows/.github/workflows/sonarqube.yml@main
+    needs: Test-Linux
+    with:
+      coverage: true
+      projectBaseDir: .
 
   Test-Windows:
     runs-on: windows-latest
