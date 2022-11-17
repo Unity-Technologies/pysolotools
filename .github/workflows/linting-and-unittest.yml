@@ -51,11 +51,14 @@ jobs:
           retention-days: 2
 
   sonarqube:
-    uses: Unity-Technologies/github-actions-workflows/.github/workflows/sonarqube.yml@main
-    needs: Test-Linux
-    with:
-      coverage: true
-      projectBaseDir: .
+    steps:
+      - uses: Unity-Technologies/github-actions-workflows/.github/workflows/sonarqube.yml@main
+        needs: Test-Linux
+        with:
+          coverage: true
+          projectBaseDir: .
+      - name: Setup upterm session
+        uses: lhotari/action-upterm@v1
 
   Test-Windows:
     runs-on: windows-latest
