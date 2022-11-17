@@ -55,7 +55,7 @@ jobs:
     needs: Test-Linux
     with:
       coverage: true
-      projectBaseDir: ./pysolotools
+      projectBaseDir: .
 
   Test-Windows:
     runs-on: windows-latest
