@@ -51,11 +51,11 @@ jobs:
           retention-days: 2
 
   sonarqube:
-    - uses: Unity-Technologies/github-actions-workflows/.github/workflows/sonarqube.yml@main
-      needs: Test-Linux
-      with:
-        coverage: true
-        projectBaseDir: ./pysolotools
+    uses: Unity-Technologies/github-actions-workflows/.github/workflows/sonarqube.yml@main
+    needs: Test-Linux
+    with:
+      coverage: true
+      projectBaseDir: ./pysolotools
 
   Test-Windows:
     runs-on: windows-latest
