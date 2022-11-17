@@ -51,7 +51,9 @@ jobs:
           retention-days: 2
 
   sonarqube:
+    runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v2
       - uses: Unity-Technologies/github-actions-workflows/.github/workflows/sonarqube.yml@main
         needs: Test-Linux
         with:
