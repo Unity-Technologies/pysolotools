@@ -3,10 +3,10 @@ name: Tests
 on:
   push:
     branches:
-      - chore/sonarqube-tests
+      - main
   pull_request:
     branches:
-      - chore/sonarqube-tests
+      - main
 
 jobs:
 
