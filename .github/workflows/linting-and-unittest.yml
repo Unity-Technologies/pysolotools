@@ -49,14 +49,10 @@ jobs:
           name: code-coverage-data
           path: coverage.xml
           retention-days: 2
-
-  sonarqube:
-    - uses: actions/checkout@v2
-    - uses: Unity-Technologies/github-actions-workflows/.github/workflows/sonarqube.yml@main
-      needs: Test-Linux
-      with:
-        coverage: true
-        projectBaseDir: .
+      - uses: Unity-Technologies/github-actions-workflows/.github/workflows/sonarqube.yml@main
+        with:
+          coverage: true
+          projectBaseDir: .
 
   Test-Windows:
     runs-on: windows-latest
