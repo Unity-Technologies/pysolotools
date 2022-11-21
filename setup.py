@@ -23,12 +23,6 @@ FALL_BACK_VERSION = "0.3.16"
 here = os.path.abspath(os.path.dirname(__file__))
 
 try:
-    with io.open(os.path.join(here, "README.md"), encoding="utf-8") as f:
-        long_description = "\n" + f.read()
-except FileNotFoundError:
-    long_description = DESCRIPTION
-
-try:
     with io.open(
         os.path.join(here, "github_release_version.json"), encoding="utf-8"
     ) as f:
@@ -52,6 +46,7 @@ setup(
     name=NAME,
     version=VERSION,
     description=DESCRIPTION,
+    long_description=DESCRIPTION,
     author=AUTHOR,
     author_email=EMAIL,
     python_requires=REQUIRES_PYTHON,
