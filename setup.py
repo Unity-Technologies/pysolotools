@@ -4,7 +4,6 @@ Installs pysolotools
 """
 
 import io
-import json
 import os
 from os.path import dirname, realpath
 
@@ -17,18 +16,15 @@ URL = "https://https://github.com/Unity-Technologies/pysolotools"
 EMAIL = "computer-vision@unity3d.com"
 AUTHOR = "Unity Technologies"
 REQUIRES_PYTHON = ">=3.7"
-FALL_BACK_VERSION = "0.3.16"
+FALL_BACK_VERSION = "0.3.17"
 
 
 here = os.path.abspath(os.path.dirname(__file__))
 
-try:
-    with io.open(
-        os.path.join(here, "github_release_version.json"), encoding="utf-8"
-    ) as f:
-        VERSION = json.loads(f.read()).get("version", FALL_BACK_VERSION)
-except FileNotFoundError:
-    VERSION = FALL_BACK_VERSION
+with io.open(os.path.join(here, "README.md"), encoding="utf-8") as f:
+    long_description = "\n" + f.read()
+
+VERSION = FALL_BACK_VERSION
 
 
 def _read_requirements():
@@ -46,7 +42,8 @@ setup(
     name=NAME,
     version=VERSION,
     description=DESCRIPTION,
-    long_description=DESCRIPTION,
+    long_description=long_description,
+    long_description_content_type="text/markdown",
     author=AUTHOR,
     author_email=EMAIL,
     python_requires=REQUIRES_PYTHON,
