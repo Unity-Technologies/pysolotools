@@ -37,10 +37,6 @@ except FileNotFoundError:
     VERSION = FALL_BACK_VERSION
 
 
-with open("README.md", "r", encoding="utf-8") as fh:
-    long_description = fh.read()
-
-
 def _read_requirements():
     requirements = f"{dirname(realpath(__file__))}/requirements/base.txt"
     with open(requirements) as f:
@@ -56,7 +52,6 @@ setup(
     name=NAME,
     version=VERSION,
     description=DESCRIPTION,
-    long_description=long_description,
     author=AUTHOR,
     author_email=EMAIL,
     python_requires=REQUIRES_PYTHON,
