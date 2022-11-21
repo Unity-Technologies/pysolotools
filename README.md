@@ -33,10 +33,6 @@ You can read more about SOLO schema [here](https://github.com/Unity-Technologies
 pip install pysolotools --index-url=https://artifactory.prd.it.unity3d.com/artifactory/api/pypi/pypi/simple
 ```
 
-** The package lives in the internal PyPi repo for now.
-
-
-
 #### SOLO Dataset
 
 
