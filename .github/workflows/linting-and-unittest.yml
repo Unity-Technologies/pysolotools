@@ -6,7 +6,7 @@ on:
       - main
   pull_request:
     branches:
-      - main
+      - chore/stop-using-unity-gha-sonarqube
 
 jobs:
 
@@ -53,11 +53,14 @@ jobs:
           retention-days: 2
 
   sonarqube:
-    uses: Unity-Technologies/github-actions-workflows/.github/workflows/sonarqube.yml@main
-    needs: Test-Linux
-    with:
-      coverage: true
-      projectBaseDir: .
+    - name: SonarQube Scan
+      needs: Test-Linux
+      uses: sonarsource/sonarqube-scan-action@master
+      env:
+        SONAR_TOKEN: ${{ secrets.SONARQUBE_TOKEN }}
+        SONAR_HOST_URL: https://sonarqube.internal.unity3d.com
+      with:
+        projectBaseDir: .
 
   Test-Windows:
     runs-on: windows-latest
