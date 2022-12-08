@@ -53,14 +53,13 @@ jobs:
           retention-days: 2
 
   sonarqube:
-    - name: SonarQube Scan
-      needs: Test-Linux
-      uses: sonarsource/sonarqube-scan-action@master
-      env:
-        SONAR_TOKEN: ${{ secrets.SONARQUBE_TOKEN }}
-        SONAR_HOST_URL: https://sonarqube.internal.unity3d.com
-      with:
-        projectBaseDir: .
+    needs: Test-Linux
+    uses: sonarsource/sonarqube-scan-action@master
+    env:
+      SONAR_TOKEN: ${{ secrets.SONARQUBE_TOKEN }}
+      SONAR_HOST_URL: https://sonarqube.internal.unity3d.com
+    with:
+      projectBaseDir: .
 
   Test-Windows:
     runs-on: windows-latest
