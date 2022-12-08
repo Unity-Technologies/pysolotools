@@ -3,7 +3,7 @@ name: Tests
 on:
   push:
     branches:
-      - main
+      - chore/stop-using-unity-gha-sonarqube
   pull_request:
     branches:
       - chore/stop-using-unity-gha-sonarqube
