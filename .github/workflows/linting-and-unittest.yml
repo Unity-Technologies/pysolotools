@@ -51,15 +51,13 @@ jobs:
           name: code-coverage-data
           path: coverage.xml
           retention-days: 2
-
-  sonarqube:
-    needs: Test-Linux
-    uses: sonarsource/sonarqube-scan-action@master
-    env:
-      SONAR_TOKEN: ${{ secrets.SONARQUBE_TOKEN }}
-      SONAR_HOST_URL: https://sonarqube.internal.unity3d.com
-    with:
-      projectBaseDir: .
+      - name: Sonarqube
+        uses: sonarsource/sonarqube-scan-action@master
+        env:
+          SONAR_TOKEN: ${{ secrets.SONARQUBE_TOKEN }}
+          SONAR_HOST_URL: https://sonarqube.internal.unity3d.com
+        with:
+          projectBaseDir: .
 
   Test-Windows:
     runs-on: windows-latest
