@@ -356,6 +356,8 @@ class KeypointTemplateDefinition:
     templateId: str
     templateName: str
     keypoints: List[KeypointDefinition]
+    # Should this field be optional to preserve backwards compatibility ?
+    # It is not marked as optional in the documentation.
     skeleton: List[SkeletalConnectionDefinition]
 
 

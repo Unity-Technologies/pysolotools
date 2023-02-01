@@ -470,7 +470,7 @@ class SOLO2COCOConverter:
             )
         )
         skeleton = []
-        if kp_ann_def:#  and "skeleton" in kp_ann_def[0].extra_data:
+        if kp_ann_def:#  and kp_ann_def[0].template.skeleton is not None:
             for keypoint_edge_pair in kp_ann_def[0].template.skeleton:
                 skeleton.append([keypoint_edge_pair.joint1, keypoint_edge_pair.joint2])
         return skeleton
