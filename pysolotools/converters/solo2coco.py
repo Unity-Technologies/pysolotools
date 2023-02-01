@@ -13,7 +13,6 @@ import cv2
 import numpy as np
 from pycocotools.mask import encode as mask_to_rle
 
-from pysolotools.constants import COCO_KEYPOINTS
 from pysolotools.consumers import Solo
 from pysolotools.core.models import (
     BoundingBox2DAnnotation,
