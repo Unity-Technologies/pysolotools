@@ -164,7 +164,6 @@ class SOLO2COCOConverter:
             for keypoint_name in solo_kp_map.values():
                 for kpt in ann_kpt.keypoints:
                     label = solo_kp_map[kpt.index]
-                    print(kpt)
                     if label == keypoint_name:
                         keypoints_vals.extend(
                             [
@@ -341,7 +340,7 @@ class SOLO2COCOConverter:
                 "id": label_spec.label_id,
                 "name": label_spec.label_name,
                 "supercategory": "default",
-                # The two lines below will attribute the same keypoint names and skeleton to each class,
+                # The two lines below will use the same keypoint names and skeleton to all the classes,
                 # which will be an issue if there is more than one class.
                 "keypoints": list(self._get_solo_kp_map().values()),
                 "skeleton": self._get_skeleton(),
@@ -471,9 +470,9 @@ class SOLO2COCOConverter:
             )
         )
         skeleton = []
-        if kp_ann_def:
-            for keypoint_edge_pair in kp_ann_def[0].extra_data["skeleton"]:
-                skeleton.append([keypoint_edge_pair["joint1"], keypoint_edge_pair["joint2"]])
+        if kp_ann_def:#  and "skeleton" in kp_ann_def[0].extra_data:
+            for keypoint_edge_pair in kp_ann_def[0].template.skeleton:
+                skeleton.append([keypoint_edge_pair.joint1, keypoint_edge_pair.joint2])
         return skeleton
 
     def callback(self, result):

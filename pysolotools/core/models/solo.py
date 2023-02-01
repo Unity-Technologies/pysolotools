@@ -345,10 +345,18 @@ class KeypointDefinition:
 
 
 @dataclass
+class SkeletalConnectionDefinition:
+    joint1: int
+    joint2: int
+    color: List[int]
+
+
+@dataclass
 class KeypointTemplateDefinition:
     templateId: str
     templateName: str
     keypoints: List[KeypointDefinition]
+    skeleton: List[SkeletalConnectionDefinition]
 
 
 @DataFactory.register("type.unity.com/unity.solo.KeypointAnnotation")
