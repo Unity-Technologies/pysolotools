@@ -161,10 +161,11 @@ class SOLO2COCOConverter:
         keypoint_map = {}
         for ann_kpt in kp_ann.values:
             keypoints_vals, num_keypoints = [], 0
-            for k in COCO_KEYPOINTS:
+            for keypoint_name in solo_kp_map.values():
                 for kpt in ann_kpt.keypoints:
                     label = solo_kp_map[kpt.index]
-                    if label == k:
+                    print(kpt)
+                    if label == keypoint_name:
                         keypoints_vals.extend(
                             [
                                 int(np.floor(kpt.location[0])),
