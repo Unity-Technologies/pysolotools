@@ -341,8 +341,10 @@ class SOLO2COCOConverter:
                 "id": label_spec.label_id,
                 "name": label_spec.label_name,
                 "supercategory": "default",
-                "keypoints": [],
-                "skeleton": [],
+                # The two lines below will attribute the same keypoint names and skeleton to each class,
+                # which will be an issue if there is more than one class.
+                "keypoints": list(self._get_solo_kp_map().values()),
+                "skeleton": self._get_skeleton(),
             }
             categories.append(record)
 
@@ -428,6 +430,51 @@ class SOLO2COCOConverter:
             for kp in kp_ann_def[0].template.keypoints:
                 solo_kp_map[kp.index] = kp.label
         return solo_kp_map
+
+
+    def _get_skeleton(self) -> list[list[int]]:
+        """Get the skeleton from the SOLO template and return it in COCO format.
+
+        Example:
+            From an annotation_definitions.json file with the following content (assumes 3 keypoints):
+            {
+              "@type": "type.unity.com/unity.solo.KeypointAnnotation",
+              "id": "keypoints",
+              "description": "..."
+              "template": {
+                "templateId": "...",
+                "templateName": "...",
+                "keypoints": [...]
+              },
+            "skeleton": [
+              {
+                "joint1": 1,
+                "joint2": 2
+              },
+              {
+                "joint1": 2,
+                "joint2": 3
+              }
+            ]
+          },
+
+          The function will return:
+          [[1, 2], [2, 3]]
+        """
+        kp_ann_def = list(
+            filter(
+                lambda k: isinstance(
+                    k,
+                    KeypointAnnotationDefinition,
+                ),
+                self._solo.annotation_definitions.annotationDefinitions,
+            )
+        )
+        skeleton = []
+        if kp_ann_def:
+            for keypoint_edge_pair in kp_ann_def[0].extra_data["skeleton"]:
+                skeleton.append([keypoint_edge_pair["joint1"], keypoint_edge_pair["joint2"]])
+        return skeleton
 
     def callback(self, result):
         self._images.append(result[0])
