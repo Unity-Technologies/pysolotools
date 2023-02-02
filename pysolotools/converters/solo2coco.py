@@ -335,15 +335,15 @@ class SOLO2COCOConverter:
                 ann_defs,
             )
         )[0]
-        for label_spec in bbox_ann_def.spec:
+        for i, label_spec in enumerate(bbox_ann_def.spec):
             record = {
                 "id": label_spec.label_id,
                 "name": label_spec.label_name,
                 "supercategory": "default",
-                # The two lines below will use the same keypoint names and skeleton to all the classes,
-                # which will be an issue if there is more than one class.
-                "keypoints": list(self._get_solo_kp_map().values()),
-                "skeleton": self._get_skeleton(),
+                # There is no way of associating the keypoints and skeleton to a category,
+                # they are therefore put in the "first" category.
+                "keypoints": list(self._get_solo_kp_map().values()) if not i else [],
+                "skeleton": self._get_skeleton() if not i else [],
             }
             categories.append(record)
 
