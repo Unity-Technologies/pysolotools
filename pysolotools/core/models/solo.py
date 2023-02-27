@@ -358,7 +358,7 @@ class KeypointTemplateDefinition:
     keypoints: List[KeypointDefinition]
     # Should this field be optional to preserve backwards compatibility ?
     # It is not marked as optional in the documentation.
-    skeleton: List[SkeletalConnectionDefinition]
+    skeleton: List[SkeletalConnectionDefinition] = field(default_factory=list)
 
 
 @DataFactory.register("type.unity.com/unity.solo.KeypointAnnotation")
