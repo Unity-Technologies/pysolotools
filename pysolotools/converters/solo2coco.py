@@ -13,7 +13,6 @@ import cv2
 import numpy as np
 from pycocotools.mask import encode as mask_to_rle
 
-from pysolotools.constants import COCO_KEYPOINTS
 from pysolotools.consumers import Solo
 from pysolotools.core.models import (
     BoundingBox2DAnnotation,
@@ -162,10 +161,10 @@ class SOLO2COCOConverter:
         keypoint_map = {}
         for ann_kpt in kp_ann.values:
             keypoints_vals, num_keypoints = [], 0
-            for k in COCO_KEYPOINTS:
+            for keypoint_name in solo_kp_map.values():
                 for kpt in ann_kpt.keypoints:
                     label = solo_kp_map[kpt.index]
-                    if label == k:
+                    if label == keypoint_name:
                         keypoints_vals.extend(
                             [
                                 int(np.floor(kpt.location[0])),
@@ -336,13 +335,15 @@ class SOLO2COCOConverter:
                 ann_defs,
             )
         )[0]
-        for label_spec in bbox_ann_def.spec:
+        for i, label_spec in enumerate(bbox_ann_def.spec):
             record = {
                 "id": label_spec.label_id,
                 "name": label_spec.label_name,
                 "supercategory": "default",
-                "keypoints": [],
-                "skeleton": [],
+                # There is no way of associating the keypoints and skeleton to a category,
+                # they are therefore put in the "first" category.
+                "keypoints": list(self._get_solo_kp_map().values()) if not i else [],
+                "skeleton": self._get_skeleton() if not i else [],
             }
             categories.append(record)
 
@@ -428,6 +429,51 @@ class SOLO2COCOConverter:
             for kp in kp_ann_def[0].template.keypoints:
                 solo_kp_map[kp.index] = kp.label
         return solo_kp_map
+
+
+    def _get_skeleton(self) -> list[list[int]]:
+        """Get the skeleton from the SOLO template and return it in COCO format.
+
+        Example:
+            From an annotation_definitions.json file with the following content (assumes 3 keypoints):
+            {
+              "@type": "type.unity.com/unity.solo.KeypointAnnotation",
+              "id": "keypoints",
+              "description": "..."
+              "template": {
+                "templateId": "...",
+                "templateName": "...",
+                "keypoints": [...]
+              },
+            "skeleton": [
+              {
+                "joint1": 1,
+                "joint2": 2
+              },
+              {
+                "joint1": 2,
+                "joint2": 3
+              }
+            ]
+          },
+
+          The function will return:
+          [[1, 2], [2, 3]]
+        """
+        kp_ann_def = list(
+            filter(
+                lambda k: isinstance(
+                    k,
+                    KeypointAnnotationDefinition,
+                ),
+                self._solo.annotation_definitions.annotationDefinitions,
+            )
+        )
+        skeleton = []
+        if kp_ann_def:#  and kp_ann_def[0].template.skeleton is not None:
+            for keypoint_edge_pair in kp_ann_def[0].template.skeleton:
+                skeleton.append([keypoint_edge_pair.joint1, keypoint_edge_pair.joint2])
+        return skeleton
 
     def callback(self, result):
         self._images.append(result[0])
