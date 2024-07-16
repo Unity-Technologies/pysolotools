@@ -1,4 +1,4 @@
-setuptools>=65.5.1
+setuptools>=70.0.0
 requests>=2.25.1
 requests-toolbelt>=0.9.1
 tqdm>=4.62.3
